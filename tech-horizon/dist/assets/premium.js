@@ -7,7 +7,7 @@ const D=preview?draft:window.TECH_HORIZON,A=D.articles,base=document.body.datase
 const routes=new Set(window.TH_STATIC_ROUTES||[]),ids=new Set(A.map(a=>a.id));
 const articleUrl=a=>routes.has(a.id)?base+'bai-viet/'+a.id+'.html':base+'doc-bai.html?id='+encodeURIComponent(a.id);
 const category=a=>D.categories.find(c=>c.id===a.category)?.short||'Cẩm nang';
-const image=a=>base+'assets/'+a.image+'.svg';
+const image=a=>C.image(a.customImage,250000)||base+'assets/'+a.image+'.svg';
 const rawSaved=C.storage.get('th-saved',[]);
 let saved=Array.isArray(rawSaved)?rawSaved.filter(id=>ids.has(id)):[],progress={};
 try{progress=C.readerBackup({type:'tech-horizon-reader',version:1,saved:[],progress:C.storage.get('th-progress',{})},[...ids]).progress;}catch{}

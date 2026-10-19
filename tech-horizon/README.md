@@ -1,6 +1,18 @@
-# Tech Horizon 2.0
+# Tech Horizon 3.0
 
 Website tiếng Việt của kênh Tech Horizon, dựa trên tên, thông điệp và tông màu trong ảnh chủ kênh cung cấp. Chạy bằng HTML/CSS/JavaScript, không cần cài thư viện, cơ sở dữ liệu hoặc khóa API.
+
+## Nâng cấp 3.0
+
+- Studio công nghệ có bốn công cụ thực hành: ghép mẫu prompt, đổi Mbps/MB/s và tính thời gian tải, tạo URL có UTM, danh sách tự rà soát trước khi đăng.
+- Tìm kiếm tổng hợp trong cẩm nang, thuật ngữ, lộ trình và công cụ; có lọc phạm vi và điều hướng bằng bàn phím.
+- Đổi logo, ảnh bìa trang chủ và ảnh riêng từng cẩm nang bằng tệp PNG/JPEG/WebP. Ảnh được nhúng cùng dữ liệu, không phụ thuộc dịch vụ ảnh ngoài. Giới hạn: logo 150 KB, bìa 400 KB, mỗi ảnh bài 250 KB. Nhiều ảnh lớn có thể chạm giới hạn bộ nhớ trình duyệt; hãy sao lưu JSON và ưu tiên ảnh đã tối ưu.
+- Lịch sử giữ tối đa ba trạng thái biên tập trước đó, trong giới hạn dung lượng. Khôi phục chỉ thay bản nháp trên trình duyệt; bản online cần được xuất và triển khai lại.
+- Prompt là mẫu để bạn mang sang công cụ AI, không phải phản hồi từ mô hình. Bộ tính tải tệp là ước lượng từ số nhập, không đo mạng thật. Công cụ UTM không bật thống kê hoặc tự mở URL. Danh sách rà soát không phải chứng nhận nội dung đúng.
+
+## Chạy từ mã nguồn GitHub
+
+Kho mã giữ các tệp nguồn riêng lẻ; gói tài nguyên lớn dùng để xuất ZIP được dựng tự động khi chạy `npm start`. Không cần `npm install`. Bạn cũng có thể chạy `node scripts/build.mjs` rồi mở `index.html`. Bản ZIP bàn giao đã có sẵn gói tài nguyên này và mở trực tiếp được.
 
 ## Mở ngay
 
@@ -8,7 +20,7 @@ Giải nén toàn bộ thư mục. Mở `index.html` ở thư mục gốc hoặc
 
 Nếu máy có Node.js 20.11 trở lên, chạy `npm start` rồi mở `http://localhost:8080`. Máy chủ đi kèm chỉ lắng nghe trên máy cục bộ. Dừng bằng Ctrl + C.
 
-## Có gì trong phiên bản 2
+## Có gì trong website
 
 - Trang chủ tạp chí công nghệ với nội dung nổi bật, chuyên mục, cẩm nang, lộ trình, cộng đồng, từ điển và câu hỏi thường gặp.
 - **16 cẩm nang**, **4 chuyên mục** có trang riêng, **4 lộ trình đọc** và **20 thuật ngữ** có nguồn để đọc thêm.
@@ -48,7 +60,7 @@ Bàn biên tập là công cụ cục bộ, không phải quản trị có đăn
 
 `site-data.js` chứa nội dung công khai: không nhập mật khẩu, khóa API hoặc thông tin bí mật. Tệp JSON sao lưu thư viện có thể chứa ghi chú riêng; giữ tệp ở nơi riêng tư. Website không tự đồng bộ dữ liệu đọc giữa thiết bị và không tự gửi email hoặc tin nhắn.
 
-localStorage có thể bị chặn, đầy hoặc mất khi xóa dữ liệu trình duyệt. Nếu mở bằng `file:` và việc lưu không nhất quán, dùng `npm start`. Các tài nguyên xuất vẫn tự chứa trong gói.
+localStorage có thể bị chặn, đầy hoặc mất khi xóa dữ liệu trình duyệt. Nếu mở bằng `file:` và việc lưu không nhất quán, dùng `npm start`. Các tài nguyên xuất vẫn tự chứa trong gói. Prompt nháp và dấu chọn Studio cũng được lưu cục bộ. Lịch sử biên tập không được tự đưa vào tệp dữ liệu công khai.
 
 Bản nháp phiên bản 1 được giữ thay đổi đã có và bổ sung nội dung khởi đầu mới khi bàn biên tập phiên bản 2 mở lại. Hãy xuất JSON trước khi nâng cấp hoặc chỉnh sửa tiếp nếu muốn giữ một bản độc lập.
 
@@ -64,7 +76,7 @@ python3 scripts/check-pages.py
 
 `scripts/check-export.mjs` mô phỏng xuất website bằng chính bộ dựng và bộ ghi ZIP dùng ở bàn biên tập. Chương trình nhận đường dẫn ZIP tạm, thêm một bài kiểm tra rồi xuất để kiểm tra độc lập. Không dùng tệp kiểm tra này làm website chính thức.
 
-Bản 2 đã đạt 14 kiểm thử Node; 29 HTML của bản giao được kiểm tra tài nguyên, đường dẫn, mục lục, JSON-LD và SVG. ZIP mô phỏng thêm bài mới đã giải nén và kiểm tra độc lập thành công. Chưa kiểm tra trực quan hoặc thao tác thực tế bằng trình duyệt vì môi trường không có công cụ browser QA được hỗ trợ.
+Bản 3 đã đạt 20 kiểm thử Node; 30 HTML của bản giao được kiểm tra tài nguyên, đường dẫn, mục lục, JSON-LD và SVG. ZIP mô phỏng thêm bài mới đã giải nén và kiểm tra độc lập thành công. Chưa kiểm tra trực quan hoặc thao tác thực tế bằng trình duyệt vì môi trường không có công cụ browser QA được hỗ trợ.
 
 ## Triển khai
 
@@ -82,6 +94,6 @@ Biểu trưng TH và 8 SVG được xây dựng cho website. Ảnh `dist/assets/
 
 ## Cấu trúc chính
 
-`dist/site-data.js` giữ nội dung. `assets/renderer.js` dựng trang dùng chung; `core.js` xử lý tìm kiếm và dữ liệu; `app.js` giữ tương tác nền; `premium.js` bổ sung góc đọc, thư viện và từ điển; `editor.js` là bàn biên tập; `zip.js` ghi ZIP theo chuẩn. `style.css` và `premium.css` giữ thiết kế.
+`dist/site-data.js` giữ nội dung. `assets/renderer.js` dựng trang dùng chung; `core.js` xử lý tìm kiếm và dữ liệu; `app.js` giữ tương tác nền; `premium.js` bổ sung góc đọc, thư viện và từ điển; `editor.js` là bàn biên tập; `zip.js` ghi ZIP theo chuẩn. `style.css`, `premium.css` và `studio.css` giữ thiết kế. `workbench.js` xử lý các công cụ bằng hàm dùng chung để kiểm tra; `studio.js` nối giao diện và tìm kiếm tổng hợp; `studio-markup.js` dựng giao diện Studio.
 
 `assets/package-assets.js` giữ tài nguyên xuất ZIP, chỉ tải trong bàn biên tập. Bộ tài nguyên không chứa bản sao chính nó; khi xuất, công cụ thêm tệp này trở lại để website tải về vẫn sửa và xuất tiếp được. Sau khi sửa mã nguồn, chạy `node scripts/build.mjs` để cập nhật bộ tài nguyên.

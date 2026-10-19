@@ -36,6 +36,7 @@
     const c=data.config;
     if(typeof c.name!=='string' || !c.name.trim() || c.name.length>80) errors.push('Tên kênh cần có 1–80 ký tự.');
     if(typeof c.tagline!=='string' || c.tagline.length>160 || typeof c.description!=='string' || c.description.length>1000) errors.push('Thông điệp hoặc mô tả không hợp lệ.');
+    for(const [key,limit] of [['logoImage',150000],['heroImage',400000]])if(c[key]&&!image(c[key],limit))errors.push('Ảnh logo hoặc ảnh bìa cần là PNG/JPEG/WebP đúng giới hạn dung lượng.');
     if(c.facebookUrl && !url(c.facebookUrl,true)) errors.push('Link Facebook phải là HTTPS trên miền Facebook.');
     if(c.siteUrl && !url(c.siteUrl)) errors.push('Địa chỉ website cần bắt đầu bằng https://.');
     if(c.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.email)) errors.push('Email chưa đúng định dạng.');
@@ -59,6 +60,7 @@
       if(!cats.has(a.category)) errors.push(label+'chuyên mục không tồn tại.');
       if(!/^\d{4}-\d{2}-\d{2}$/.test(a.date || '') || !Number.isFinite(Date.parse(a.date+'T00:00:00Z')) || new Date(a.date+'T00:00:00Z').toISOString().slice(0,10)!==a.date) errors.push(label+'ngày không hợp lệ.');
       if(!Number.isInteger(a.minutes) || a.minutes<1 || a.minutes>120) errors.push(label+'thời gian đọc phải từ 1 đến 120 phút.');
+      if(a.customImage&&!image(a.customImage,250000))errors.push(label+'ảnh tùy chỉnh cần là PNG/JPEG/WebP tối đa 250 KB.');
       if(!images.includes(a.image)) errors.push(label+'ảnh không có trong bộ ảnh.');
       if(!Array.isArray(a.sections) || !a.sections.length || a.sections.length>30) errors.push(label+'cần 1–30 phần nội dung.');
       else a.sections.forEach(s=>{if(!s || typeof s.heading!=='string' || typeof s.text!=='string' || s.heading.length>200 || s.text.length>12000)errors.push(label+'phần nội dung không hợp lệ.');});
@@ -79,6 +81,20 @@
     }
     return [...new Set(errors)];
   }
+function image(value,maxBytes=400000){
+ if(typeof value!=='string'||!value)return '';
+ const match=value.match(/^data:image\/(png|jpeg|webp);base64,([A-Za-z0-9+/]+={0,2})$/);if(!match)return '';
+ if(match[2].length%4||match[2].length*3/4>maxBytes+2)return '';
+ const prefix=match[2].slice(0,16);
+ if(match[1]==='png'&&!prefix.startsWith('iVBORw0KGgo'))return '';
+ if(match[1]==='jpeg'&&!prefix.startsWith('/9j/'))return '';
+ if(match[1]==='webp'){
+  let bytes;try{bytes=typeof atob==='function'?atob(match[2].slice(0,16)):Buffer.from(match[2].slice(0,16),'base64').toString('binary');}catch{return '';}
+  if(bytes.slice(0,4)!=='RIFF'||bytes.slice(8,12)!=='WEBP')return '';
+ }
+ return value;
+}
+
   function readerBackup(data,allowedIds){
     if(!data||data.type!=='tech-horizon-reader'||data.version!==1||!Array.isArray(data.saved)||data.saved.length>1000||!data.progress||typeof data.progress!=='object'||Array.isArray(data.progress))throw Error('Tệp không phải bản sao lưu thư viện Tech Horizon.');
     const allowed=new Set(allowedIds),saved=[...new Set(data.saved.filter(id=>typeof id==='string'&&allowed.has(id)))],progress={};
@@ -89,7 +105,7 @@
     }
     return {saved,progress};
   }
-  const core={escape,normalize,url,storage,filter,validate,readerBackup};
+  const core={escape,normalize,url,storage,filter,validate,readerBackup,image};
   if(typeof module==='object' && module.exports)module.exports=core;
   else root.THCore=core;
 })(typeof window!=='undefined'?window:globalThis);

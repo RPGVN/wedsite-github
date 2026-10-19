@@ -7,11 +7,13 @@
  let D=stored&&C.validate(stored).length===0?stored:clone(original);
  if((D.version||1)<2){const existing=new Set(D.articles.map(a=>a.id));D.articles.push(...original.articles.filter(a=>!existing.has(a.id)));const known=new Set(D.articles.map(a=>a.id));D.glossary=D.glossary||clone(original.glossary||[]);D.journeys=(D.journeys||clone(original.journeys||[])).map(j=>({...j,articles:j.articles.filter(id=>known.has(id))})).filter(j=>j.articles.length);D.version=2;}
  D.socialPosts=D.socialPosts||[];
+ D.version=3;
+ let configImages={logoImage:D.config.logoImage||'',heroImage:D.config.heroImage||''},articleImageData='',historyFailed=false;
  let postsDraft=clone(D.socialPosts),postsDirty=false;
  let currentId='',active='config',configDirty=false,articleDirty=false;
  try{const theme=C.storage.get('th-theme','dark');if(theme==='light')document.documentElement.dataset.theme='light';}catch{}
  function error(messages){const box=$('#editor-error');box.textContent=Array.isArray(messages)?messages.join('\n'):messages;box.hidden=!box.textContent;if(!box.hidden)box.scrollIntoView({behavior:'smooth',block:'center'});}
- function persist(candidate=D){const errors=C.validate(candidate);if(errors.length){error(errors);return false;}if(!C.storage.set('th-draft',candidate)){error('Trình duyệt đang chặn bộ nhớ hoặc đã hết dung lượng. Chưa lưu được bản nháp.');return false;}D=candidate;error('');updateDashboard();return true;}
+ function persist(candidate=D){candidate.version=3;const errors=C.validate(candidate);if(errors.length){error(errors);return false;}const previous=clone(D),changed=JSON.stringify(D)!==JSON.stringify(candidate);if(!C.storage.set('th-draft',candidate)){error('Trình duyệt đang chặn bộ nhớ hoặc đã hết dung lượng. Chưa lưu được bản nháp.');return false;}D=candidate;if(changed){let snapshots=[{id:String(Date.now()),when:new Date().toISOString(),data:previous},...historyItems()].slice(0,3);while(snapshots.length&&JSON.stringify(snapshots).length>700000)snapshots.pop();historyFailed=!C.storage.set('th-editor-history',snapshots);}error('');updateDashboard();renderHistory();return true;}
  function status(message){$('#global-status').textContent=message;}
  function updateDashboard(){
   $('#editor-stat-articles').textContent=D.articles.length;$('#editor-stat-categories').textContent=D.categories.length;$('#editor-stat-terms').textContent=D.glossary?.length||0;$('#editor-stat-posts').textContent=D.socialPosts?.length||0;
@@ -22,11 +24,12 @@
    tab.addEventListener('click',()=>switchTab(tab.dataset.tab));
    tab.addEventListener('keydown',e=>{if(['ArrowRight','ArrowLeft','Home','End'].includes(e.key)){e.preventDefault();const tabs=$$('[data-tab]');const index=tabs.indexOf(tab);const next=e.key==='Home'?0:e.key==='End'?tabs.length-1:(index+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length;switchTab(tabs[next].dataset.tab);tabs[next].focus();}});
  });
- function fillConfig(){const form=$('#config-form');for(const key of ['name','tagline','description','facebookUrl','email','siteUrl','accent','contentNote'])form.elements[key].value=D.config[key]||'';configDirty=false;}
+ function fillConfig(){const form=$('#config-form');for(const key of ['name','tagline','description','facebookUrl','email','siteUrl','accent','contentNote'])form.elements[key].value=D.config[key]||'';configImages={logoImage:D.config.logoImage||'',heroImage:D.config.heroImage||''};renderBrandImages();configDirty=false;}
  $('#config-form').addEventListener('input',()=>{configDirty=true;$('#config-status').textContent='Có thay đổi chưa lưu.';});
  $('#config-form').addEventListener('submit',e=>{
    e.preventDefault();const candidate=clone(D),form=e.currentTarget;
    for(const key of ['name','tagline','description','facebookUrl','email','siteUrl','accent','contentNote'])candidate.config[key]=form.elements[key].value.trim();
+   candidate.config.logoImage=configImages.logoImage;candidate.config.heroImage=configImages.heroImage;
    if(persist(candidate)){configDirty=false;$('#config-status').textContent='Đã lưu bản nháp trên thiết bị.';status('Bản nháp đã sẵn sàng để xem trước hoặc xuất tệp.');}
  });
  function renderList(){
@@ -45,7 +48,7 @@
    $('#delete-article').hidden=!D.articles.some(x=>x.id===a.id);
    $('#article-edit-title').textContent=D.articles.some(x=>x.id===a.id)?'Chỉnh sửa: '+a.title:'Viết cẩm nang mới';
    $('#article-status').textContent='';articleDirty=false;
-   $('#editor-image-preview').src='assets/'+a.image+'.svg';
+   articleImageData=a.customImage||'';$('#editor-image-preview').src=C.image(articleImageData,250000)||'assets/'+a.image+'.svg';
  }
  $('#editor-article-list').addEventListener('click',e=>{
    const duplicate=e.target.closest('[data-duplicate]');
@@ -70,6 +73,7 @@
    const sources=[];for(const line of sourceLines){const divider=line.indexOf('|');if(divider===-1){error('Mỗi nguồn cần có dạng Tên nguồn | https://đường-dẫn.');return;}sources.push({label:line.slice(0,divider).trim(),url:line.slice(divider+1).trim()});}
    const a={};for(const key of ['id','title','category','date','image','excerpt','takeaway'])a[key]=form.elements[key].value.trim();
    a.minutes=Number(form.elements.minutes.value);a.featured=form.elements.featured.value==='true';a.sections=sections;a.sources=sources;
+   if(articleImageData)a.customImage=articleImageData;
    if(candidate.articles.some(x=>x.id===a.id&&x.id!==currentId)){error('Mã đường dẫn đã có ở một bài khác. Hãy chọn mã khác.');return;}
    if(a.featured)candidate.articles.forEach(x=>x.featured=false);
    const index=candidate.articles.findIndex(x=>x.id===currentId);if(index>=0)candidate.articles[index]=a;else candidate.articles.unshift(a);
@@ -114,7 +118,7 @@
  $('#editor-search').addEventListener('input',renderList);
  $('#editor-category-filter').innerHTML='<option value="all">Mọi chuyên mục</option>'+D.categories.map(c=>'<option value="'+C.escape(c.id)+'">'+C.escape(c.name)+'</option>').join('');
  $('#editor-category-filter').addEventListener('change',renderList);
- $('#article-image').addEventListener('change',e=>$('#editor-image-preview').src='assets/'+e.target.value+'.svg');
+ $('#article-image').addEventListener('change',e=>$('#editor-image-preview').src=C.image(articleImageData,250000)||'assets/'+e.target.value+'.svg');
  $('#preview-article').addEventListener('click',()=>{if(!savePending())return;C.storage.set('th-preview',true);window.open('doc-bai.html?id='+encodeURIComponent(currentId)+'&preview=1','_blank','noopener');status('Đã mở bài theo dữ liệu nháp.');});
  function renderPosts(){
    $('#social-editor-list').innerHTML=postsDraft.map((post,i)=>'<div class="post-editor-row" data-post-row="'+i+'"><div class="field"><label for="post-title-'+i+'">Tiêu đề bài / Reels</label><input id="post-title-'+i+'" data-post-field="title" required maxlength="200" value="'+C.escape(post.title)+'"></div><div class="field"><label for="post-url-'+i+'">Đường dẫn Facebook</label><input id="post-url-'+i+'" type="url" data-post-field="url" required value="'+C.escape(post.url)+'" placeholder="https://www.facebook.com/…"></div><div class="field"><label for="post-caption-'+i+'">Giới thiệu ngắn</label><textarea id="post-caption-'+i+'" data-post-field="caption" maxlength="1000" rows="3">'+C.escape(post.caption)+'</textarea></div><button class="text-button" data-remove-post="'+i+'" type="button">Xóa liên kết này</button></div>').join('')||'<p style="font-size:12px;margin-bottom:20px">Chưa thêm liên kết Facebook. Khu bài Facebook được ẩn khỏi trang chủ.</p>';
@@ -136,5 +140,15 @@
    }catch(err){error('Chưa xuất được ZIP: '+err.message);message.textContent='Xuất ZIP chưa hoàn tất.';}finally{button.disabled=false;}
  });
  window.addEventListener('beforeunload',e=>{if(configDirty||articleDirty||postsDirty){e.preventDefault();e.returnValue='';}});
- fillConfig();renderList();fillArticle(D.articles[0]);renderPosts();updateDashboard();status(stored?'Đã mở bản nháp lưu trên trình duyệt.':'Đã mở dữ liệu website phiên bản 2.');
+ function historyItems(){const data=C.storage.get('th-editor-history',[]);return Array.isArray(data)?data.filter(item=>item&&typeof item.id==='string'&&Number.isFinite(Date.parse(item.when))&&item.data&&C.validate(item.data).length===0).slice(0,3):[];}
+ function renderHistory(){const target=$('#editor-history-list');if(!target)return;const items=historyItems();target.innerHTML=(historyFailed?'<p class="editor-history-empty">Bản nháp đã lưu, nhưng trình duyệt chưa giữ thêm được lịch sử. Bạn nên xuất JSON để có bản sao độc lập.</p>':'')+(items.length?items.map(item=>'<div class="editor-history-row"><div><strong>'+C.escape(new Date(item.when).toLocaleString('vi-VN'))+'</strong><small>'+C.escape(item.data.config.name)+' · '+item.data.articles.length+' cẩm nang · '+(item.data.socialPosts?.length||0)+' liên kết Facebook</small></div><button class="button button-outline" data-restore-history="'+C.escape(item.id)+'">Khôi phục bản này</button></div>').join(''):'<p class="editor-history-empty">Chưa có trạng thái trước đó. Khi bạn lưu một thay đổi, bản trước sẽ được giữ tại đây nếu trình duyệt còn dung lượng.</p>');}
+ $('#editor-history-list').addEventListener('click',e=>{const button=e.target.closest('[data-restore-history]');if(!button)return;const item=historyItems().find(row=>row.id===button.dataset.restoreHistory);if(!item)return;if(!confirm('Khôi phục trạng thái đã chọn vào bản nháp? Thay đổi chưa lưu trên các biểu mẫu sẽ được bỏ. Website đang chạy chưa bị thay đổi.'))return;if(persist(clone(item.data))){postsDraft=clone(D.socialPosts||[]);postsDirty=false;renderPosts();fillConfig();renderList();fillArticle(D.articles[0]);status('Đã khôi phục bản nháp. Có thể xem trước hoặc xuất ZIP.');}});
+ function renderBrandImages(){const logo=C.image(configImages.logoImage,150000),hero=C.image(configImages.heroImage,400000);$('#config-logo-preview').innerHTML=logo?'<img src="'+C.escape(logo)+'" width="70" height="70" alt="Logo đang chọn">':'<span>TH</span>';$('#config-hero-preview').innerHTML='<img src="'+C.escape(hero||'assets/horizon-globe.webp')+'" width="1536" height="1024" alt="Ảnh bìa đang chọn">';}
+ async function readImage(file,limit){if(!file)return '';if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>limit)throw Error('Chọn ảnh PNG, JPEG hoặc WebP không quá '+Math.round(limit/1000)+' KB.');const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('Không đọc được ảnh.'));reader.readAsDataURL(file);});if(!C.image(data,limit))throw Error('Tệp chưa có định dạng ảnh được hỗ trợ.');return data;}
+ for(const [input,key,limit] of [['upload-logo','logoImage',150000],['upload-hero','heroImage',400000]])$('#'+input).addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{configImages[key]=await readImage(file,limit);configDirty=true;renderBrandImages();$('#config-status').textContent='Đã chọn ảnh. Nhấn Lưu bản nháp để giữ lại.';error('');}catch(err){error(err.message);}finally{e.target.value='';}});
+ for(const [button,key] of [['clear-logo','logoImage'],['clear-hero','heroImage']])$('#'+button).addEventListener('click',()=>{configImages[key]='';configDirty=true;renderBrandImages();$('#config-status').textContent='Đã chọn ảnh mặc định. Nhấn Lưu bản nháp.';});
+ $('#upload-article-image').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{articleImageData=await readImage(file,250000);articleDirty=true;$('#editor-image-preview').src=articleImageData;$('#article-status').textContent='Đã chọn ảnh riêng. Nhấn Lưu bản nháp.';error('');}catch(err){error(err.message);}finally{e.target.value='';}});
+ $('#clear-article-image').addEventListener('click',()=>{articleImageData='';articleDirty=true;$('#editor-image-preview').src='assets/'+$('#article-image').value+'.svg';$('#article-status').textContent='Đã chọn minh họa có sẵn. Nhấn Lưu bản nháp.';});
+ $$('[data-accent]').forEach(button=>button.addEventListener('click',()=>{$('#config-accent').value=button.dataset.accent;configDirty=true;$('#config-status').textContent='Đã chọn màu nhấn. Nhấn Lưu bản nháp.';}));
+ fillConfig();renderList();fillArticle(D.articles[0]);renderPosts();updateDashboard();renderHistory();status(stored?'Đã mở bản nháp lưu trên trình duyệt.':'Đã mở dữ liệu website phiên bản 3.');
 })();

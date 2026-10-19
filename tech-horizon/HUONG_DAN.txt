@@ -1,8 +1,14 @@
-TECH HORIZON 2.0 — MỞ WEBSITE
+TECH HORIZON 3.0 — MỞ WEBSITE
 
 1. Giải nén toàn bộ thư mục Tech_Horizon, không mở trực tiếp trong tệp ZIP.
 2. Mở index.html hoặc nhấp đúp MO_WEBSITE.bat trên Windows.
 3. Website có 16 cẩm nang, 4 lộ trình, 20 thuật ngữ, thư viện cá nhân và toàn bộ mã nguồn.
+
+STUDIO VÀ BIÊN TẬP
+
+Mở mục Studio để dùng bốn công cụ thực hành.
+Bàn biên tập cho phép đổi logo, ảnh bìa, ảnh bài và khôi phục bản nháp đã lưu.
+Ảnh cần là PNG/JPEG/WebP trong giới hạn ghi trên biểu mẫu.
 
 GẮN ĐÚNG TRANG FACEBOOK
 

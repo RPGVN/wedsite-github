@@ -18,7 +18,7 @@
  const date=a=>new Date(a.date+'T00:00:00Z').toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'UTC'});
  const routes=new Set(window.TH_STATIC_ROUTES||[]);
  function articleUrl(a){return routes.has(a.id)?base+'bai-viet/'+a.id+'.html':base+'doc-bai.html?id='+encodeURIComponent(a.id);}
- const imageUrl=a=>base+'assets/'+(/^(ai|ai-check|chip|shield|storage|network|lock|browser)$/.test(a.image)?a.image:'ai')+'.svg';
+ const imageUrl=a=>C.image(a.customImage,250000)||base+'assets/'+(/^(ai|ai-check|chip|shield|storage|network|lock|browser)$/.test(a.image)?a.image:'ai')+'.svg';
  const tag=a=>'<span class="tag tag-'+E(a.category)+'">'+E(cat(a).short||cat(a).name)+'</span>';
  const meta=a=>'<span>'+date(a)+'</span><span class="meta-dot">·</span><span>'+a.minutes+' phút đọc</span>';
  let toastTimer;
@@ -131,7 +131,7 @@
  });
  $('#clear-local-data')?.addEventListener('click',()=>{
    info('Xóa dữ liệu trên thiết bị','<h3>Xóa dữ liệu Tech Horizon?</h3><p>Thao tác này xóa bài đã lưu, lựa chọn giao diện và bản nháp biên tập trên trình duyệt này. Hãy xuất bản nháp trước nếu bạn muốn giữ lại.</p><button class="button button-outline" id="confirm-clear">Xóa dữ liệu trên trình duyệt này</button>');
-   $('#confirm-clear')?.addEventListener('click',()=>{['th-saved','th-theme','th-draft','th-preview','th-show-saved','th-progress','th-reader-size'].forEach(C.storage.remove);location.reload();});
+   $('#confirm-clear')?.addEventListener('click',()=>{['th-saved','th-theme','th-draft','th-preview','th-show-saved','th-progress','th-reader-size','th-studio-prompt','th-publish-checks','th-editor-history'].forEach(C.storage.remove);location.reload();});
  });
  const backTop=$('.back-top');
  function onScroll(){backTop?.classList.toggle('visible',scrollY>650);const bar=$('#reading-progress');if(bar){const total=document.documentElement.scrollHeight-innerHeight;bar.style.width=(total>0?Math.min(100,scrollY/total*100):0)+'%';}}

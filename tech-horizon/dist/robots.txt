@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /bien-tap.html
+Sitemap: https://tech-horizon-vn.benho26032005.chatgpt.site/sitemap.xml

@@ -1,0 +1,1 @@
+window.TH_STATIC_ROUTES = ["bat-dau-voi-ai","ram-va-bo-nho-luu-tru","nhan-dien-tin-nhan-gia-mao","don-dung-luong-windows","dns-la-gi","mat-khau-va-xac-thuc","kiem-chung-cau-tra-loi-ai","website-tinh-la-gi"];

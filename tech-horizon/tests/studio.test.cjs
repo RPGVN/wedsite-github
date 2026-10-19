@@ -37,7 +37,7 @@ test('Custom images allow embedded raster images and reject SVG, remote URLs and
  const files=Renderer.build(d);assert.ok(files['index.html'].includes('custom-brand'));assert.ok(files['bai-viet/'+d.articles[0].id+'.html'].includes(png));
  d.articles[0].customImage='data:image/svg+xml;base64,PHN2Zz4=';assert.ok(C.validate(d).length);
 });
-test('Studio is exported as a real page with four tools and every extra script is available',()=>{
+test('Studio is exported as a real page with six tools and every extra script is available',()=>{
  const files=Renderer.build(original);assert.ok(files['studio.html'].includes('id="prompt-form"'));assert.ok(files['studio.html'].includes('id="transfer-form"'));assert.ok(files['studio.html'].includes('id="utm-form"'));assert.ok(files['studio.html'].includes('id="publish-count"'));assert.ok(files['sitemap.xml'].includes('/studio.html'));
  for(const name of ['studio.js','studio.css','workbench.js','studio-markup.js'])assert.ok(fs.existsSync(require.resolve('../dist/assets/'+name)));
 });

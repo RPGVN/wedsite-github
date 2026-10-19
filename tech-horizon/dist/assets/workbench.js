@@ -5,7 +5,9 @@ const catalog=[
  {id:'prompt',title:'Xây prompt rõ ràng',description:'Biến chủ đề thành một yêu cầu có ngữ cảnh, định dạng và bước kiểm chứng.',icon:'spark'},
  {id:'transfer',title:'Tính thời gian tải tệp',description:'Đổi Mbps sang MB/s, phân biệt GB và GiB, ước lượng theo tốc độ nhập.',icon:'network'},
  {id:'utm',title:'Tạo liên kết chiến dịch',description:'Gắn tham số UTM đúng cấu trúc cho liên kết bạn muốn chia sẻ.',icon:'arrow'},
- {id:'publish',title:'Rà soát trước khi đăng',description:'Một danh sách thực hành để rà nội dung, nguồn và hình ảnh.',icon:'shield'}
+ {id:'publish',title:'Rà soát trước khi đăng',description:'Một danh sách thực hành để rà nội dung, nguồn và hình ảnh.',icon:'shield'},
+ {id:'media',title:'Chuẩn bị ảnh',description:'Cắt khung, đổi kích thước và giảm dung lượng ảnh ngay trên thiết bị.',icon:'edit'},
+ {id:'script',title:'Tính thời lượng kịch bản',description:'Đếm nội dung và ước tính thời gian đọc theo tốc độ bạn chọn.',icon:'clock'}
 ];
 const checks=[
  {id:'question',group:'Nội dung',text:'Tiêu đề nêu đúng điều bài viết giải thích.'},
@@ -56,7 +58,8 @@ function search(data,query,kind='all'){
   ...data.articles.map(a=>({id:a.id,kind:'article',title:a.title,description:a.excerpt,category:a.category})),
   ...(data.glossary||[]).map(t=>({id:t.id,kind:'term',title:t.term,description:t.definition})),
   ...(data.journeys||[]).map(j=>({id:j.id,kind:'journey',title:j.title,description:j.description})),
-  ...catalog.map(t=>({...t,kind:'tool'}))
+  ...catalog.map(t=>({...t,kind:'tool'})),
+  ...[{id:'dieu-hanh',title:'Trạm điều hành & kế hoạch nội dung',description:'Lập lịch bài viết, bảng tiến độ, xuất lịch ICS và CSV.'},{id:'du-lieu',title:'Dữ liệu & hiển thị',description:'Sao lưu, khôi phục dữ liệu và tùy chọn đọc.'},{id:'gioi-thieu',title:'Giới thiệu & hợp tác',description:'Hồ sơ kênh Tech Horizon và soạn đề xuất liên hệ.'},{id:'huong-dan',title:'Hướng dẫn sử dụng',description:'Thiết lập thương hiệu, biên tập và xuất bản website.'}].map(p=>({...p,kind:'page'}))
  ];
  const clean=s=>C.normalize(s).replace(/[^a-z0-9]+/g,' ');
  const ranked=records.filter(r=>kind==='all'||r.kind===kind).map((r,i)=>{const title=clean(r.title),body=clean(r.description),words=(title+' '+body).split(' ');const match=!q||terms.every(term=>words.some(word=>word.startsWith(term)));return {...r,_match:match,_rank:q?(title===q?1000:title.startsWith(q)?500:title.includes(q)?250:50):0,_index:i};});

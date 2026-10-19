@@ -1,4 +1,4 @@
-TECH HORIZON 3.0 — MỞ WEBSITE
+TECH HORIZON 4.0 — MỞ WEBSITE
 
 1. Giải nén toàn bộ thư mục Tech_Horizon, không mở trực tiếp trong tệp ZIP.
 2. Mở index.html hoặc nhấp đúp MO_WEBSITE.bat trên Windows.
@@ -31,3 +31,12 @@ Bản nháp biên tập và bài đã lưu nằm trên chính trình duyệt c�
 Thư viện có thể sao lưu bài đã lưu, tiến độ và ghi chú ra JSON.
 Nghe bài chỉ hoạt động khi trình duyệt có giọng đọc tiếng Việt.
 Công cụ gợi ý chỉ soạn nội dung; bạn chủ động gửi tin cho kênh.
+
+NÂNG CẤP 4.0
+- Trạm điều hành: dist/dieu-hanh.html — tạo kế hoạch, theo dõi 5 trạng thái, xem lịch tháng, xuất ICS/CSV. Giờ Việt Nam UTC+7, không tự đăng bài Facebook.
+- Studio có 6 công cụ, gồm chuẩn bị ảnh và tính thời lượng kịch bản.
+- Dữ liệu & hiển thị: dist/du-lieu.html — sao lưu/khôi phục 5 nhóm dữ liệu, tăng cỡ chữ giao diện, tương phản và giảm chuyển động.
+- Giới thiệu & hợp tác: dist/gioi-thieu.html — hồ sơ kênh và soạn nội dung liên hệ để bạn tự gửi.
+- Hướng dẫn chi tiết: dist/huong-dan.html.
+- Điền URL Facebook và email công khai chính xác trong Bàn biên tập trước khi xuất bản.
+- ZIP website chứa nội dung công khai. Sao lưu thiết bị JSON có thể chứa ghi chú và kế hoạch riêng, không tải tệp đó lên thư mục web công khai.

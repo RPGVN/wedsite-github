@@ -10,7 +10,7 @@ errors=[]
 class Page(HTMLParser):
     def __init__(self,file):
         super().__init__(convert_charrefs=True)
-        self.file=file; self.ids=set(); self.references=[]; self.h1=0; self.title=0; self.json_ld=False; self.json_parts=[]
+        self.file=file; self.ids=set(); self.references=[]; self.idrefs=[]; self.h1=0; self.title=0; self.json_ld=False; self.json_parts=[]
     def handle_starttag(self,tag,attrs):
         a=dict(attrs)
         if 'id' in a:
@@ -20,6 +20,8 @@ class Page(HTMLParser):
         if tag=='title': self.title+=1
         for attr in ('src','href'):
             if attr in a: self.references.append(a[attr])
+        for attr in ('for','aria-controls','aria-labelledby','aria-describedby'):
+            if attr in a: self.idrefs.extend(a[attr].split())
         if tag=='img' and 'alt' not in a: errors.append(f'{self.file.name}: image missing alt')
         if tag=='a' and a.get('target')=='_blank' and 'noopener' not in a.get('rel',''): errors.append(f'{self.file.name}: unsafe external link')
         if tag=='html' and a.get('lang')!='vi': errors.append(f'{self.file.name}: lang is not Vietnamese')
@@ -38,6 +40,8 @@ for file in ROOT.rglob('*.html'):
     if p.title!=1:errors.append(f'{file.name}: requires one title')
     if p.h1!=1 and file.name!='doc-bai.html':errors.append(f'{file.name}: requires one h1, found {p.h1}')
 for file,p in pages.items():
+    for ref in p.idrefs:
+        if ref not in p.ids: errors.append(f'{file.name}: missing label/control target {ref}')
     for ref in p.references:
         u=urlparse(ref)
         if u.scheme or ref.startswith('//'):continue

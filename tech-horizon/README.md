@@ -1,74 +1,87 @@
-# Tech Horizon
+# Tech Horizon 2.0
 
-Website tiếng Việt dành riêng cho kênh Facebook **Tech Horizon**, dựa trên ảnh tham khảo của chủ kênh. Giao diện xanh công nghệ, có hai chế độ sáng/tối và bố cục cho máy tính, máy tính bảng, điện thoại.
+Website tiếng Việt của kênh Tech Horizon, dựa trên tên, thông điệp và tông màu trong ảnh chủ kênh cung cấp. Chạy bằng HTML/CSS/JavaScript, không cần cài thư viện, cơ sở dữ liệu hoặc khóa API.
 
-## Mở và sử dụng
+## Mở ngay
 
-- Mở `dist/index.html` bằng trình duyệt. Không cần cài thư viện, cơ sở dữ liệu hoặc khóa API.
-- Nếu máy có Node.js 20.11 trở lên: chạy `npm start`, mở `http://localhost:8080`. Máy chủ đi kèm chỉ lắng nghe trên máy cục bộ; dừng bằng Ctrl + C.
-- Nội dung đăng lên dịch vụ lưu trữ web tĩnh nằm toàn bộ trong `dist/`. Các đường dẫn tương đối hỗ trợ triển khai trong một thư mục con.
+Giải nén toàn bộ thư mục. Mở `index.html` ở thư mục gốc hoặc nhấp đúp `MO_WEBSITE.bat` trên Windows. Website thực tế nằm trong `dist/`.
 
-## Thiết lập Facebook — thông tin duy nhất còn thiếu từ ảnh
+Nếu máy có Node.js 20.11 trở lên, chạy `npm start` rồi mở `http://localhost:8080`. Máy chủ đi kèm chỉ lắng nghe trên máy cục bộ. Dừng bằng Ctrl + C.
 
-Ảnh không chứa địa chỉ hoặc ID Facebook chính thức. Không có URL giả được tự gán.
+## Có gì trong phiên bản 2
 
-1. Mở `dist/bien-tap.html`.
-2. Dán link trang Facebook chính thức vào **Thông tin kênh**, bổ sung email công khai nếu muốn.
-3. Nhấn **Lưu bản nháp**, rồi **Xem trước bản nháp** để kiểm tra.
-4. Nhấn **Tải site-data.js**, thay tệp `dist/site-data.js`.
-5. Với tên miền, tên kênh hoặc nội dung thay đổi, chạy `node scripts/build.mjs` để cập nhật HTML, mô tả chia sẻ và sitemap. Tải toàn bộ `dist/` lên nơi lưu trữ.
+- Trang chủ tạp chí công nghệ với nội dung nổi bật, chuyên mục, cẩm nang, lộ trình, cộng đồng, từ điển và câu hỏi thường gặp.
+- **16 cẩm nang**, **4 chuyên mục** có trang riêng, **4 lộ trình đọc** và **20 thuật ngữ** có nguồn để đọc thêm.
+- Tìm kiếm tiếng Việt có dấu/không dấu, lọc chuyên mục, sắp xếp, xem thêm và lưu bài.
+- Góc đọc: chỉnh cỡ chữ, chế độ tập trung, mục lục, tiến độ, chia sẻ, in hoặc lưu PDF qua trình duyệt.
+- Nghe bài bằng giọng có sẵn trên thiết bị. Cần trình duyệt hỗ trợ speechSynthesis và có giọng tiếng Việt; nếu thiếu, website thông báo rõ.
+- Ghi chú cá nhân tự lưu trên trình duyệt và nút đánh dấu đọc xong.
+- Thư viện riêng gồm bài đã lưu, đang đọc, đã đọc và ghi chú. Có xuất/khôi phục JSON, tiếp tục đọc và xóa dữ liệu cá nhân.
+- Bàn biên tập có kiểm tra cấu hình, tìm kiếm, lọc, nhân bản, thêm/sửa/xóa bài, chọn minh họa, chọn bài nổi bật và xem trước.
+- Tab Bài từ Facebook để thêm đường dẫn bài thật hoặc Reels, tiêu đề và mô tả. Website không tự lấy video hoặc chỉ số Facebook.
+- **Xuất toàn bộ website ZIP ngay trong bàn biên tập**. Gói có HTML cho từng bài, tài nguyên, sitemap, RSS và công cụ biên tập để sửa tiếp. Không cần dịch vụ biên dịch hoặc chạy lệnh để xuất ZIP.
+- Metadata, Open Graph, JSON-LD, favicon, sitemap.xml, feed.xml, quyền riêng tư, 404, sáng/tối, menu điện thoại và hỗ trợ giảm chuyển động.
 
-Nếu chỉ mở tệp HTML và trình duyệt hạn chế localStorage cho `file:`, dùng `npm start` để có hành vi lưu bản nháp nhất quán. Nội dung vẫn đọc được khi mở trực tiếp.
+## Bổ sung Facebook
 
-## Các chức năng đã có
+Ảnh không có URL/ID trang Facebook chính thức. Website không tự đoán liên kết hoặc gắn một trang trùng tên.
 
-- Trang chủ, 4 chuyên mục, 8 bài đọc đầy đủ và trang tất cả cẩm nang.
-- Tìm kiếm tiếng Việt có dấu hoặc không dấu; lọc chuyên mục, sắp xếp, xem thêm.
-- Lưu/bỏ lưu bài trên trình duyệt, xem riêng bài đã lưu.
-- Trang bài viết có mục lục, tóm tắt, nguồn tham khảo, gợi ý bài khác và chia sẻ/sao chép liên kết.
-- Giao diện sáng/tối, menu điện thoại, nút về đầu trang, chỉ báo tiến độ đọc.
-- Cộng đồng Facebook, liên hệ email tùy chọn và công cụ soạn gợi ý chủ đề. Công cụ không giả vờ gửi tin nhắn hoặc biểu mẫu.
-- Bàn biên tập cục bộ để sửa thông tin, thêm/sửa/xóa bài, chọn bài nổi bật, xem trước, xuất dữ liệu và sao lưu/khôi phục JSON.
-- Trang quyền riêng tư, nút xóa dữ liệu cục bộ và trang 404.
-- Metadata tiếng Việt, Open Graph, favicon, Article/WebSite JSON-LD, robots.txt và sitemap.xml.
-- Tệp nội dung được kiểm tra dữ liệu, xử lý văn bản thành plain text và chặn đường dẫn Facebook giả mạo.
-- Không tải phông chữ, thư viện, bộ theo dõi hoặc hình ảnh phụ thuộc bên ngoài để hiển thị giao diện.
+1. Mở `dist/bien-tap.html`, chọn Thông tin kênh.
+2. Dán link Facebook chính thức và email công khai nếu muốn.
+3. Lưu bản nháp, rồi Xem trước để kiểm tra.
+4. Nhấn Xuất toàn bộ website ZIP.
+5. Giải nén gói mới, mở `Tech_Horizon_Website/index.html`. Để xuất bản, tải nội dung thư mục website trong ZIP lên hosting web tĩnh.
 
-## Những giới hạn được trình bày rõ
+Tải ZIP xuống không tự cập nhật website đang chạy online. Khi đổi tên miền, cập nhật trường Địa chỉ website trước khi xuất để liên kết chia sẻ và metadata trỏ đúng nơi.
 
-Bộ cẩm nang là nội dung khởi đầu được biên soạn cho website, không phải dữ liệu đã lấy từ Facebook. Không bịa lượt theo dõi, lượt xem hoặc đánh giá của kênh. Website không tự đăng bài, đồng bộ Facebook, gửi email, cung cấp tài khoản người đọc hoặc lưu dữ liệu dùng chung trên máy chủ.
+## Sửa và thêm nội dung
 
-Bàn biên tập là công cụ cục bộ, không phải hệ thống quản trị có đăng nhập. Người truy cập không thể dùng công cụ này để thay đổi bản website trên máy chủ. Đừng đặt mật khẩu hoặc thông tin bí mật trong `site-data.js`. Bản nháp chỉ cập nhật cho chính trình duyệt cho tới khi bạn thay tệp và triển khai lại.
+Trong tab Cẩm nang, chọn bài hoặc nhấn Viết cẩm nang mới. Mỗi phần gồm một dòng tiêu đề và các dòng nội dung; ngăn hai phần bằng dòng `---`. Nguồn đọc thêm có dạng `Tên nguồn | https://địa-chỉ`.
 
-Các bài mới thêm bằng dữ liệu vẫn đọc được qua `doc-bai.html?id=ma-bai`. Chạy lại bước dựng trang để tạo HTML riêng và bổ sung bài vào sitemap. Nếu đổi mã bài cũ, hãy cân nhắc giữ đường dẫn cũ hoặc cấu hình chuyển hướng tại dịch vụ lưu trữ.
+Lưu, xem trước rồi xuất ZIP. Bộ dựng dùng chung giữa Node.js và trình duyệt tạo HTML mới, cập nhật chuyên mục, sitemap và feed. Đổi mã bài sẽ đổi đường dẫn; nếu đã chia sẻ đường dẫn cũ, cân nhắc chuyển hướng ở hosting.
+
+Tab Bài từ Facebook cho phép thêm liên kết thật. Khu này không xuất hiện ở trang chủ khi danh sách trống. Chỉ liên kết HTTPS đúng miền Facebook được chấp nhận; không có iframe, Facebook SDK hoặc video mẫu giả làm nội dung thật.
+
+## Bản nháp và dữ liệu cá nhân
+
+Bàn biên tập là công cụ cục bộ, không phải quản trị có đăng nhập. Nó không cho người khác sửa website trên máy chủ. Bản nháp ở trong trình duyệt cho tới khi bạn xuất và triển khai lại.
+
+`site-data.js` chứa nội dung công khai: không nhập mật khẩu, khóa API hoặc thông tin bí mật. Tệp JSON sao lưu thư viện có thể chứa ghi chú riêng; giữ tệp ở nơi riêng tư. Website không tự đồng bộ dữ liệu đọc giữa thiết bị và không tự gửi email hoặc tin nhắn.
+
+localStorage có thể bị chặn, đầy hoặc mất khi xóa dữ liệu trình duyệt. Nếu mở bằng `file:` và việc lưu không nhất quán, dùng `npm start`. Các tài nguyên xuất vẫn tự chứa trong gói.
+
+Bản nháp phiên bản 1 được giữ thay đổi đã có và bổ sung nội dung khởi đầu mới khi bàn biên tập phiên bản 2 mở lại. Hãy xuất JSON trước khi nâng cấp hoặc chỉnh sửa tiếp nếu muốn giữ một bản độc lập.
 
 ## Dựng và kiểm tra
 
+Không cần `npm install`.
+
 ```bash
-node scripts/illustrations.mjs
 node scripts/build.mjs
 npm test
 python3 scripts/check-pages.py
 ```
 
-Bước dựng chỉ dùng thư viện chuẩn Node.js. Tạo lại 8 SVG minh họa là tùy chọn; các tệp đã có sẵn. Dự án không cần `npm install`.
+`scripts/check-export.mjs` mô phỏng xuất website bằng chính bộ dựng và bộ ghi ZIP dùng ở bàn biên tập. Chương trình nhận đường dẫn ZIP tạm, thêm một bài kiểm tra rồi xuất để kiểm tra độc lập. Không dùng tệp kiểm tra này làm website chính thức.
 
-## Đưa lên GitHub Pages hoặc dịch vụ web tĩnh
+Bản 2 đã đạt 14 kiểm thử Node; 29 HTML của bản giao được kiểm tra tài nguyên, đường dẫn, mục lục, JSON-LD và SVG. ZIP mô phỏng thêm bài mới đã giải nén và kiểm tra độc lập thành công. Chưa kiểm tra trực quan hoặc thao tác thực tế bằng trình duyệt vì môi trường không có công cụ browser QA được hỗ trợ.
 
-Nguồn mã nằm trong thư mục `tech-horizon/` khi bàn giao qua kho `RPGVN/wedsite-github`. Để dùng làm website riêng, tải thư mục này hoặc lấy bản ZIP hoàn chỉnh. Dùng nội dung `dist/` làm thư mục công khai của dịch vụ. Không đăng toàn bộ kho cũ nếu bạn chỉ muốn website Tech Horizon.
+## Triển khai
 
-GitHub Pages: đưa nội dung `dist/` vào thư mục được chọn làm nguồn Pages trong một kho bạn muốn dùng, rồi bật xuất bản trong Settings → Pages theo quyền của tài khoản. Hướng dẫn chính thức: https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages.
+Tải nội dung `dist/` lên hosting web tĩnh, hoặc dùng thư mục website xuất từ bàn biên tập. Liên kết tương đối hỗ trợ triển khai trong thư mục con. Trong `RPGVN/wedsite-github`, mã này nằm ở `tech-horizon/`.
 
-Khi đổi địa chỉ website, cập nhật `config.siteUrl` bằng bàn biên tập và dựng lại. Bản Sites bàn giao ban đầu là bản riêng tư. Nếu muốn người khác truy cập, cần chọn chế độ công khai tại dịch vụ xuất bản hoặc triển khai lên hosting công khai của bạn.
+GitHub Pages: chọn đúng nguồn xuất bản theo https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages. Bản Sites bàn giao giữ riêng tư; muốn mọi người truy cập, chọn hosting công khai hoặc thay đổi quyền truy cập Site theo lựa chọn của chủ kênh.
 
-## Hình ảnh và thương hiệu
+## Nội dung, hình ảnh và nguồn
 
-Tên kênh và thông điệp được lấy từ ảnh người dùng cung cấp. Biểu trưng TH và 8 minh họa là SVG/CSS được xây dựng cho website; không đưa ảnh chụp màn hình quản lý Facebook hoặc thông tin giao diện tài khoản vào bản xuất.
+Cẩm nang là nội dung khởi đầu biên soạn cho website, không phải bài tự lấy từ Facebook. Không bịa lượt theo dõi, lượt xem, khách hàng hoặc đánh giá. Lộ trình là gợi ý đọc, không phải chứng chỉ hoặc khóa học được cấp phép.
 
-Ảnh nền `dist/assets/horizon-globe.webp` được tạo bằng công cụ imagegen tích hợp, từ tham khảo tông màu của ảnh, rồi tối ưu WebP. Prompt: “A sophisticated cinematic 3D technology illustration, a luminous cyan glass and machined silver globe with fine illuminated latitude and longitude lines and orbital rings, floating over a dark navy microchip platform; globe on right, dark negative space on left; restrained cyan, indigo and small warm yellow accents; no text, logos or UI.”
+Nguồn được liên kết từng bài/thuật ngữ: NIST, Microsoft, CISA/US-CERT, MDN, Cloudflare, Kingston, Crucial và GitHub Docs. Hướng dẫn vận hành cụ thể có thể cần đối chiếu theo phiên bản phần mềm hoặc thiết bị.
 
-Nội dung tham khảo chính: tài liệu NIST về AI tạo sinh; Microsoft về Storage Sense; Cloudflare về DNS; CISA về tài khoản và phishing; Crucial về bộ nhớ; GitHub Docs về Pages. Mỗi cẩm nang có liên kết đọc thêm.
+Biểu trưng TH và 8 SVG được xây dựng cho website. Ảnh `dist/assets/horizon-globe.webp` tạo bằng imagegen tích hợp, tối ưu WebP. Prompt: “A sophisticated cinematic 3D technology illustration, a luminous cyan glass and machined silver globe with fine illuminated latitude and longitude lines and orbital rings, floating over a dark navy microchip platform; globe on right, dark negative space on left; restrained cyan, indigo and small warm yellow accents; no text, logos or UI.” Không đưa ảnh chụp màn hình quản lý Facebook của người dùng vào bản xuất.
 
-## Sắp xếp mã nguồn
+## Cấu trúc chính
 
-`dist/` là website chạy ngay. `site-data.js` giữ thông tin và bài viết. `assets/style.css` giữ thiết kế; `app.js` xử lý tương tác; `editor.js` là bàn biên tập; `core.js` xử lý lọc, URL, dữ liệu và bộ nhớ. `scripts/build.mjs` tạo HTML/SEO từ dữ liệu; `tests/` kiểm tra hành vi quan trọng.
+`dist/site-data.js` giữ nội dung. `assets/renderer.js` dựng trang dùng chung; `core.js` xử lý tìm kiếm và dữ liệu; `app.js` giữ tương tác nền; `premium.js` bổ sung góc đọc, thư viện và từ điển; `editor.js` là bàn biên tập; `zip.js` ghi ZIP theo chuẩn. `style.css` và `premium.css` giữ thiết kế.
+
+`assets/package-assets.js` giữ tài nguyên xuất ZIP, chỉ tải trong bàn biên tập. Bộ tài nguyên không chứa bản sao chính nó; khi xuất, công cụ thêm tệp này trở lại để website tải về vẫn sửa và xuất tiếp được. Sau khi sửa mã nguồn, chạy `node scripts/build.mjs` để cập nhật bộ tài nguyên.

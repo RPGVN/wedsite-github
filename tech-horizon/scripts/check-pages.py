@@ -3,8 +3,9 @@ from urllib.parse import urlparse, unquote
 from html.parser import HTMLParser
 import json
 import xml.etree.ElementTree as ET
+import sys
 
-ROOT=Path(__file__).resolve().parents[1]/'dist'
+ROOT=Path(sys.argv[1]).resolve() if len(sys.argv)>1 else Path(__file__).resolve().parents[1]/'dist'
 errors=[]
 class Page(HTMLParser):
     def __init__(self,file):

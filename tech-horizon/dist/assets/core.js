@@ -65,9 +65,31 @@
       if(!Array.isArray(a.sources))errors.push(label+'nguồn tham khảo cần là danh sách.');
       else a.sources.forEach(s=>{if(!s || typeof s.label!=='string' || !url(s.url)) errors.push(label+'nguồn phải dùng đường dẫn HTTPS.');});
     });
+    if(data.glossary!==undefined){
+      if(!Array.isArray(data.glossary)||data.glossary.length>120)errors.push('Từ điển cần là danh sách tối đa 120 mục.');
+      else data.glossary.forEach(t=>{if(!t||!/^[a-z0-9-]+$/.test(t.id||'')||typeof t.term!=='string'||!t.term.trim()||typeof t.definition!=='string'||t.definition.length>1600||(t.url&&!url(t.url)))errors.push('Một thuật ngữ có nội dung hoặc liên kết không hợp lệ.');});
+    }
+    if(data.journeys!==undefined){
+      if(!Array.isArray(data.journeys)||data.journeys.length>12)errors.push('Tối đa 12 lộ trình đọc.');
+      else data.journeys.forEach(j=>{if(!j||!/^[a-z0-9-]+$/.test(j.id||'')||typeof j.title!=='string'||typeof j.description!=='string'||!Array.isArray(j.articles)||!j.articles.length||j.articles.some(id=>!ids.has(id)))errors.push('Lộ trình có bài viết không tồn tại hoặc thiếu thông tin.');});
+    }
+    if(data.socialPosts!==undefined){
+      if(!Array.isArray(data.socialPosts)||data.socialPosts.length>30)errors.push('Tối đa 30 liên kết bài Facebook.');
+      else data.socialPosts.forEach(p=>{if(!p||typeof p.title!=='string'||!p.title.trim()||p.title.length>200||typeof p.caption!=='string'||p.caption.length>1000||!url(p.url,true))errors.push('Bài Facebook cần tiêu đề và link HTTPS đúng miền Facebook.');});
+    }
     return [...new Set(errors)];
   }
-  const core={escape,normalize,url,storage,filter,validate};
+  function readerBackup(data,allowedIds){
+    if(!data||data.type!=='tech-horizon-reader'||data.version!==1||!Array.isArray(data.saved)||data.saved.length>1000||!data.progress||typeof data.progress!=='object'||Array.isArray(data.progress))throw Error('Tệp không phải bản sao lưu thư viện Tech Horizon.');
+    const allowed=new Set(allowedIds),saved=[...new Set(data.saved.filter(id=>typeof id==='string'&&allowed.has(id)))],progress={};
+    for(const [id,item] of Object.entries(data.progress)){
+      if(!allowed.has(id))continue;
+      if(!item||typeof item.percent!=='number'||!Number.isFinite(item.percent)||item.percent<0||item.percent>100||typeof item.updated!=='string'||!Number.isFinite(Date.parse(item.updated))||typeof(item.note??'')!=='string'||(item.note||'').length>3000)throw Error('Dữ liệu tiến độ hoặc ghi chú không hợp lệ.');
+      progress[id]={percent:Math.round(item.percent),updated:item.updated,note:item.note||''};
+    }
+    return {saved,progress};
+  }
+  const core={escape,normalize,url,storage,filter,validate,readerBackup};
   if(typeof module==='object' && module.exports)module.exports=core;
   else root.THCore=core;
 })(typeof window!=='undefined'?window:globalThis);

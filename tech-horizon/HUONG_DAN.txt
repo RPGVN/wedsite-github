@@ -1,15 +1,16 @@
-TECH HORIZON — MỞ WEBSITE
+TECH HORIZON 2.0 — MỞ WEBSITE
 
 1. Giải nén toàn bộ thư mục Tech_Horizon, không mở trực tiếp trong tệp ZIP.
 2. Mở index.html hoặc nhấp đúp MO_WEBSITE.bat trên Windows.
-3. Website đã có sẵn giao diện, bài viết, ảnh và toàn bộ mã nguồn.
+3. Website có 16 cẩm nang, 4 lộ trình, 20 thuật ngữ, thư viện cá nhân và toàn bộ mã nguồn.
 
 GẮN ĐÚNG TRANG FACEBOOK
 
 Ảnh tham khảo không có đường dẫn Facebook chính thức.
 Mở dist/bien-tap.html → Thông tin kênh → dán link Facebook của bạn.
-Lưu bản nháp → Xem trước → Tải site-data.js.
-Thay tệp dist/site-data.js bằng tệp vừa tải.
+Lưu bản nháp → Xem trước → Xuất toàn bộ website ZIP.
+Giải nén gói mới và mở index.html trong thư mục website vừa xuất để chạy.
+Gói xuất có đủ bài HTML, ảnh, sitemap và bàn biên tập để sửa tiếp.
 Không nhập mật khẩu Facebook hoặc mã OTP vào website.
 
 ĐƯA WEBSITE LÊN INTERNET
@@ -21,4 +22,6 @@ GIỚI HẠN RÕ RÀNG
 
 Nội dung khởi đầu được biên soạn cho website, không tự lấy từ Facebook.
 Bản nháp biên tập và bài đã lưu nằm trên chính trình duyệt của bạn.
+Thư viện có thể sao lưu bài đã lưu, tiến độ và ghi chú ra JSON.
+Nghe bài chỉ hoạt động khi trình duyệt có giọng đọc tiếng Việt.
 Công cụ gợi ý chỉ soạn nội dung; bạn chủ động gửi tin cho kênh.

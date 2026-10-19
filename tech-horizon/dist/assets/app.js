@@ -131,7 +131,7 @@
  });
  $('#clear-local-data')?.addEventListener('click',()=>{
    info('Xóa dữ liệu trên thiết bị','<h3>Xóa dữ liệu Tech Horizon?</h3><p>Thao tác này xóa bài đã lưu, lựa chọn giao diện và bản nháp biên tập trên trình duyệt này. Hãy xuất bản nháp trước nếu bạn muốn giữ lại.</p><button class="button button-outline" id="confirm-clear">Xóa dữ liệu trên trình duyệt này</button>');
-   $('#confirm-clear')?.addEventListener('click',()=>{['th-saved','th-theme','th-draft','th-preview','th-show-saved'].forEach(C.storage.remove);location.reload();});
+   $('#confirm-clear')?.addEventListener('click',()=>{['th-saved','th-theme','th-draft','th-preview','th-show-saved','th-progress','th-reader-size'].forEach(C.storage.remove);location.reload();});
  });
  const backTop=$('.back-top');
  function onScroll(){backTop?.classList.toggle('visible',scrollY>650);const bar=$('#reading-progress');if(bar){const total=document.documentElement.scrollHeight-innerHeight;bar.style.width=(total>0?Math.min(100,scrollY/total*100):0)+'%';}}

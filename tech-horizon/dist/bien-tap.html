@@ -4,25 +4,29 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark light">
   <title>Bàn biên tập — Tech Horizon</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css">
-  <script src="site-data.js" defer></script><script src="assets/core.js" defer></script><script src="assets/editor.js" defer></script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/premium.css">
+  <script src="site-data.js" defer></script><script src="assets/core.js" defer></script><script src="assets/renderer.js" defer></script><script src="assets/zip.js" defer></script><script src="assets/package-assets.js" defer></script><script src="assets/editor.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Đến bàn biên tập</a>
   <header class="editor-header"><div class="container"><div><small>TECH HORIZON / DÀNH CHO CHỦ KÊNH</small><h1>Bàn biên tập của bạn.</h1></div><a class="button button-outline" href="index.html">← Về website</a></div></header>
   <main class="container editor-page" id="main">
-    <div class="editor-notice"><strong>Chỉnh sửa ở đây, xuất bản khi sẵn sàng.</strong><br>Bản nháp được lưu trên trình duyệt này. Để cập nhật cho mọi người, tải <b>site-data.js</b>, thay tệp cùng tên trong thư mục website rồi tải website lên nơi lưu trữ. Đây là công cụ biên tập cục bộ; không phải khu quản trị máy chủ. Không nhập mật khẩu, mã truy cập hoặc thông tin bí mật.</div>
+    <div class="editor-notice"><strong>Phiên bản 2 — chỉnh sửa và tải cả website trong một lần.</strong><br>Lưu bản nháp, xem trước rồi nhấn <b>Xuất toàn bộ website ZIP</b>. Gói tải về đã có các trang bài viết và tài nguyên để mở ngay hoặc tải lên hosting. Công cụ lưu bản nháp trên trình duyệt, không tự cập nhật website đang chạy. Không nhập mật khẩu, mã truy cập hoặc thông tin bí mật.</div>
+    <div class="editor-summary"><div><strong id="editor-stat-articles">0</strong><small>Cẩm nang trong bản nháp</small></div><div><strong id="editor-stat-categories">0</strong><small>Chuyên mục</small></div><div><strong id="editor-stat-terms">0</strong><small>Thuật ngữ</small></div><div><strong id="editor-stat-posts">0</strong><small>Liên kết Facebook</small></div></div>
     <div class="editor-layout">
       <aside class="editor-sidebar">
         <div class="editor-nav" role="tablist" aria-label="Các phần biên tập">
           <button role="tab" aria-selected="true" aria-controls="panel-config" id="tab-config" data-tab="config">01. Thông tin kênh</button>
           <button role="tab" aria-selected="false" aria-controls="panel-articles" id="tab-articles" data-tab="articles" tabindex="-1">02. Cẩm nang</button>
-          <button role="tab" aria-selected="false" aria-controls="panel-help" id="tab-help" data-tab="help" tabindex="-1">03. Cách sử dụng</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-social" id="tab-social" data-tab="social" tabindex="-1">03. Bài từ Facebook</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-help" id="tab-help" data-tab="help" tabindex="-1">04. Cách sử dụng</button>
         </div>
         <div class="editor-export">
-          <button class="button button-blue" id="export-js">Tải site-data.js ↗</button>
+          <button class="button button-blue export-full" id="export-full-site">Xuất toàn bộ website ZIP ↗</button>
           <button class="button button-outline" id="preview-site">Xem trước bản nháp</button>
           <button class="button button-outline" id="export-backup">Sao lưu JSON</button>
+          <button class="secondary-export" id="export-js">Chỉ tải tệp site-data.js</button>
+          <span class="editor-export-progress" id="export-progress" role="status" aria-live="polite"></span>
           <p>Tệp xuất chứa nội dung công khai của website. Bản nháp chỉ được giữ trên thiết bị này; hãy sao lưu trước khi xóa dữ liệu trình duyệt.</p>
           <span class="editor-status" id="global-status" role="status" aria-live="polite"></span>
         </div>
@@ -31,6 +35,7 @@
         <div id="editor-error" class="editor-error" role="alert" hidden></div>
         <section class="editor-panel" role="tabpanel" aria-labelledby="tab-config" id="panel-config">
           <h2>Đặt đúng dấu ấn của kênh.</h2><p>Đường dẫn Facebook chưa có trong ảnh tham khảo. Dán link trang chính thức tại đây để kích hoạt các nút Theo dõi trên website.</p>
+          <div class="editor-health"><h3>Trước khi bạn xuất website</h3><ul id="editor-health-list"></ul></div>
           <form class="editor-form" id="config-form">
             <div class="field"><label for="config-name">Tên kênh</label><input id="config-name" name="name" required maxlength="80"></div>
             <div class="field"><label for="config-tagline">Thông điệp chính</label><input id="config-tagline" name="tagline" required maxlength="160"></div>
@@ -45,28 +50,34 @@
         </section>
         <section class="editor-panel" role="tabpanel" aria-labelledby="tab-articles" id="panel-articles" hidden>
           <h2>Cẩm nang bạn muốn chia sẻ.</h2><p>Sửa nội dung sẵn có hoặc viết bài mới. Nội dung được nhập dưới dạng văn bản để trình bày nhất quán và an toàn.</p>
+          <div class="editor-view-tools"><input id="editor-search" type="search" maxlength="100" placeholder="Tìm nhanh cẩm nang…" aria-label="Tìm cẩm nang để chỉnh sửa"><select id="editor-category-filter" aria-label="Lọc danh sách biên tập theo chuyên mục"><option value="all">Mọi chuyên mục</option></select></div>
           <div id="editor-article-list" class="editor-article-list"></div>
           <button class="button button-outline" id="new-article">+ Viết cẩm nang mới</button>
-          <h3 class="article-edit-title" id="article-edit-title">Chỉnh sửa cẩm nang</h3><p>Các bài mới có thể đọc qua đường dẫn doc-bai.html. Chạy lại bước dựng trang để tạo thêm HTML riêng và cập nhật sitemap khi cần.</p>
+          <h3 class="article-edit-title" id="article-edit-title">Chỉnh sửa cẩm nang</h3><p>Bản ZIP toàn bộ website tự tạo trang HTML riêng cho mỗi bài, cập nhật mục lục và sitemap theo nội dung đã lưu.</p>
           <form class="editor-form" id="article-form">
             <div class="field full"><label for="article-title">Tiêu đề</label><input id="article-title" name="title" required maxlength="200"></div>
             <div class="field"><label for="article-id">Mã đường dẫn</label><input id="article-id" name="id" pattern="[a-z0-9]+(-[a-z0-9]+)*" required maxlength="120"><small>Chữ thường không dấu, số và dấu gạch ngang. Mã phải duy nhất.</small></div>
             <div class="field"><label for="article-category">Chuyên mục</label><select id="article-category" name="category"></select></div>
             <div class="field"><label for="article-date">Ngày xuất bản</label><input id="article-date" name="date" type="date" required></div>
             <div class="field"><label for="article-minutes">Số phút đọc</label><input id="article-minutes" name="minutes" type="number" required min="1" max="120"></div>
-            <div class="field"><label for="article-image">Ảnh minh họa</label><select id="article-image" name="image"><option value="ai">Bộ xử lý AI — xanh lam</option><option value="chip">Bộ nhớ — xanh tím</option><option value="shield">Khiên bảo vệ — xanh ngọc</option><option value="storage">Ổ lưu trữ — tím</option><option value="network">Kết nối — xanh sáng</option><option value="lock">Khóa bảo vệ — vàng</option><option value="ai-check">Kiểm chứng — tím xanh</option><option value="browser">Cửa sổ web — xanh lục</option></select></div>
+            <div class="field"><label for="article-image">Ảnh minh họa</label><select id="article-image" name="image"><option value="ai">Bộ xử lý AI — xanh lam</option><option value="chip">Bộ nhớ — xanh tím</option><option value="shield">Khiên bảo vệ — xanh ngọc</option><option value="storage">Ổ lưu trữ — tím</option><option value="network">Kết nối — xanh sáng</option><option value="lock">Khóa bảo vệ — vàng</option><option value="ai-check">Kiểm chứng — tím xanh</option><option value="browser">Cửa sổ web — xanh lục</option></select><span class="inline-preview"><img id="editor-image-preview" src="assets/ai.svg" width="640" height="400" alt="Ảnh minh họa đang chọn"></span></div>
             <div class="field"><label for="article-featured">Gợi ý nổi bật ở trang chủ</label><select id="article-featured" name="featured"><option value="false">Không</option><option value="true">Chọn bài này</option></select></div>
             <div class="field full"><label for="article-excerpt">Mô tả ngắn</label><textarea id="article-excerpt" name="excerpt" required maxlength="600" rows="3"></textarea></div>
             <div class="field full"><label for="article-takeaway">Điều người đọc nên nhớ</label><textarea id="article-takeaway" name="takeaway" required rows="2" maxlength="1500"></textarea></div>
             <div class="field full"><label for="article-sections">Các phần nội dung</label><textarea id="article-sections" name="sections" required rows="16" maxlength="100000"></textarea><small>Mỗi phần: dòng đầu là tiêu đề, các dòng sau là nội dung. Ngăn cách hai phần bằng một dòng chỉ có ba dấu gạch ngang: ---</small></div>
             <div class="field full"><label for="article-sources">Nguồn tham khảo (tùy chọn)</label><textarea id="article-sources" name="sources" rows="4" placeholder="Tên nguồn | https://duong-dan-nguon"></textarea><small>Mỗi dòng một nguồn, theo dạng Tên nguồn | đường dẫn HTTPS.</small></div>
-            <div class="form-actions"><button class="button button-blue" type="submit">Lưu bản nháp cẩm nang</button><button class="danger-button" type="button" id="delete-article">Xóa bài khỏi bản nháp</button><span class="editor-status" id="article-status" role="status"></span></div>
+            <div class="form-actions"><button class="button button-blue" type="submit">Lưu bản nháp cẩm nang</button><button class="button button-outline" type="button" id="preview-article">Xem trước bài</button><button class="danger-button" type="button" id="delete-article">Xóa bài khỏi bản nháp</button><span class="editor-status" id="article-status" role="status"></span></div>
           </form>
+        </section>
+        <section class="editor-panel" role="tabpanel" aria-labelledby="tab-social" id="panel-social" hidden>
+          <h2>Mang bài thật từ Facebook vào website.</h2><p>Thêm đường dẫn bài viết hoặc Reels mà bạn muốn giới thiệu. Website hiển thị tiêu đề, mô tả và nút mở Facebook; không yêu cầu đăng nhập hoặc truy cập tài khoản của bạn.</p>
+          <form id="social-form"><div id="social-editor-list"></div><button class="button button-outline" id="add-social-post" type="button">+ Thêm liên kết Facebook</button><div class="form-actions" style="margin-top:24px"><button class="button button-blue" type="submit">Lưu danh sách liên kết</button><span id="social-status" class="editor-status" role="status"></span></div></form>
+          <div class="editor-section-hint"><strong>Chỉ giới thiệu nội dung bạn muốn công khai.</strong><p>Khi danh sách trống, khu bài Facebook được ẩn khỏi trang chủ. Không có video, lượt xem hoặc lượt theo dõi giả. Liên kết mở Facebook khi người đọc chủ động nhấn vào.</p></div>
         </section>
         <section class="editor-panel" role="tabpanel" aria-labelledby="tab-help" id="panel-help" hidden>
           <h2>Từ bản nháp đến website.</h2><p>Bạn có thể mở website ngay bằng tệp index.html. Các bước dưới đây dành cho khi muốn thay nội dung hoặc xuất bản lên Internet.</p>
           <details open><summary>1. Bổ sung link Facebook</summary><p>Mở trang Facebook bạn quản lý, sao chép đường dẫn trang. Dán vào mục Thông tin kênh, nhấn Lưu bản nháp rồi Xem trước. Kiểm tra nút Theo dõi mở đúng trang của bạn.</p></details>
-          <details><summary>2. Cập nhật nội dung cho người đọc</summary><p>Sau khi lưu bản nháp, nhấn Tải site-data.js. Thay tệp cùng tên trong thư mục <code>dist</code> của bộ mã nguồn hoặc thư mục gốc của bản website chạy ngay. Tải lại website lên dịch vụ lưu trữ. Tải tệp xuống không đồng nghĩa đã cập nhật website đang chạy trên Internet.</p><p>Với thay đổi đường dẫn, tên miền, bài mới hoặc thông tin chia sẻ, nên dựng lại trang: trong thư mục mã nguồn chạy <code>node scripts/build.mjs</code>, rồi tải toàn bộ thư mục <code>dist</code>. Không cần cài thư viện.</p></details>
+          <details><summary>2. Xuất website đã chỉnh sửa</summary><p>Lưu bản nháp, nhấn <b>Xuất toàn bộ website ZIP</b>, giải nén rồi mở <code>index.html</code>. Toàn bộ trang bài, metadata, sitemap, từ điển, ảnh và bàn biên tập được đóng gói cùng nhau. Không cần cài thư viện hoặc chạy lệnh để xuất ZIP.</p><p>Để mọi người thấy thay đổi, tải nội dung thư mục website trong ZIP lên dịch vụ lưu trữ của bạn. Việc tải ZIP về không tự thay đổi bản website đang chạy trên Internet.</p></details>
           <details><summary>3. Chạy trên máy tính hoặc đưa lên mạng</summary><p>Bản chạy ngay: mở <code>index.html</code>. Nếu máy đã có Node.js, bản mã nguồn có thể chạy bằng <code>npm start</code> và mở địa chỉ được in ra. Để đưa lên dịch vụ hỗ trợ web tĩnh, tải nội dung của <code>dist</code>. Nếu dùng GitHub Pages, hãy chọn đúng nguồn xuất bản theo hướng dẫn của GitHub.</p></details>
           <details><summary>4. Bản nháp và dữ liệu cá nhân</summary><p>Bàn biên tập chỉ thay đổi dữ liệu trong trình duyệt của bạn. Người khác mở trang này không thể dùng nó để sửa website của bạn trên máy chủ. Đây không phải cơ chế đăng nhập hay bảo vệ dữ liệu bí mật. Không đặt mật khẩu hoặc mã truy cập trong tệp nội dung.</p></details>
           <details><summary>5. Nội dung có tự lấy từ Facebook không?</summary><p>Không. Ảnh tham khảo chỉ cung cấp tên kênh, thông điệp và phong cách. Bộ cẩm nang khởi đầu được biên soạn riêng cho website, kèm nguồn. Muốn hiện bài từ Facebook, bổ sung thủ công nội dung mà bạn có quyền sử dụng.</p></details>

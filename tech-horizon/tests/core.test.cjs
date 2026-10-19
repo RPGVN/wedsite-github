@@ -6,8 +6,8 @@ const C=require('../dist/assets/core.js');
 const sandbox={window:{}};
 vm.runInNewContext(fs.readFileSync(require.resolve('../dist/site-data.js'),'utf8'),sandbox);
 const D=JSON.parse(JSON.stringify(sandbox.window.TECH_HORIZON));
-test('Supplied content is valid, contains eight complete articles and no invented Facebook URL',()=>{
- assert.deepEqual(C.validate(D),[]);assert.equal(D.articles.length,8);assert.equal(D.config.facebookUrl,'');
+test('Supplied content is valid, contains sixteen complete articles and no invented Facebook URL',()=>{
+ assert.deepEqual(C.validate(D),[]);assert.equal(D.articles.length,16);assert.equal(D.config.facebookUrl,'');
  for(const a of D.articles){assert.ok(a.sections.length>=4);assert.ok(a.sections.every(s=>s.text.length>100));assert.ok(a.sources.length>0);}
 });
 test('Vietnamese search works with or without diacritics and returns the intended guide',()=>{
@@ -20,7 +20,7 @@ test('Combined category, saved and search filters preserve the expected result',
  const saved=['bat-dau-voi-ai','dns-la-gi'];
  assert.deepEqual(C.filter(D.articles,{savedOnly:true,saved,category:'devices'}).map(a=>a.id),['dns-la-gi']);
  assert.equal(C.filter(D.articles,{savedOnly:true,saved:[]}).length,0);
- assert.equal(C.filter(D.articles,{category:'safety'}).length,2);
+ assert.equal(C.filter(D.articles,{category:'safety'}).length,4);
 });
 test('Sort orders reflect reader choice without changing original content order',()=>{
  const input=[{id:'new',date:'2026-10-19',minutes:8},{id:'old',date:'2025-01-01',minutes:3}];

@@ -10,7 +10,8 @@ const category=a=>D.categories.find(c=>c.id===a.category)?.short||'Cẩm nang';
 const image=a=>C.image(a.customImage,250000)||base+'assets/'+a.image+'.svg';
 if(preview&&window.THEditorial){
  const M=window.THEditorial;
- if(page==='glossary'){const grid=$('#terms-grid');if(grid)grid.innerHTML=M.terms(D,C);const select=$('#term-category');if(select)select.innerHTML='<option value="all">Mọi chủ đề</option>'+D.categories.map(c=>'<option value="'+E(c.id)+'">'+E(c.name)+'</option>').join('');if($('.page-count'))$('.page-count').textContent=(D.glossary||[]).length+' thuật ngữ';}
+ if(page==='directory'){const main=$('#main');if(main)main.innerHTML=M.directory(D,C);}
+ if(page==='glossary'){const grid=$('#terms-grid');if(grid)grid.innerHTML=M.terms(D,C,articleUrl);const select=$('#term-category');if(select)select.innerHTML='<option value="all">Mọi chủ đề</option>'+D.categories.map(c=>'<option value="'+E(c.id)+'">'+E(c.name)+'</option>').join('');if($('.page-count'))$('.page-count').textContent=(D.glossary||[]).length+' thuật ngữ';}
  if(page==='journeys'||page==='home'){const grid=page==='journeys'?$('.all-journeys'):$('#lo-trinh .journey-grid'),list=page==='journeys'?D.journeys||[]:(D.journeys||[]).slice(0,2);if(grid)grid.innerHTML=list.map((j,i)=>M.journeyCard(j,i,D,C,base,articleUrl)).join('');if(page==='journeys'&&$('.page-count'))$('.page-count').textContent=list.length+' lộ trình · '+D.articles.length+' cẩm nang';if(page==='home'&&$('#lo-trinh'))$('#lo-trinh').hidden=!list.length;}
 }
 let saved=[],savedBlocked=false,progress={},readerRaw=null,readerBlocked=false;
@@ -41,12 +42,6 @@ if(page==='home'){
 if(page==='category'){
  const input=$('#category-query'),cards=$$('[data-article-id]',$('#category-page-grid'));
  input?.addEventListener('input',()=>{const matching=new Set(C.filter(A,{category:document.body.dataset.category,query:input.value}).map(a=>a.id));cards.forEach(c=>c.hidden=!matching.has(c.dataset.articleId));$('#category-count').textContent=matching.size+' kết quả';$('#category-empty').hidden=matching.size>0;});
-}
-if(page==='glossary'){
- const query=$('#term-query'),select=$('#term-category'),terms=D.glossary||[];
- if(params.get('q'))query.value=params.get('q').slice(0,100);
- function render(){const text=C.normalize(query.value),cat=select.value;let count=0;for(const t of terms){const element=$('[data-term="'+t.id+'"]');if(!element)continue;const match=(cat==='all'||t.category===cat)&&C.normalize(t.term+' '+t.definition).includes(text);element.hidden=!match;if(match)count++;}$('#term-count').textContent=count+' thuật ngữ';$('#term-empty').hidden=count>0;}
- query.addEventListener('input',render);select.addEventListener('change',render);render();
 }
 const L=window.THReading;
 let libraryState=L?L.options(D,{tab:params.get('tab'),category:params.get('category'),sort:params.get('sort')}):{tab:'saved',category:'all',sort:'recent',query:''},libraryView;

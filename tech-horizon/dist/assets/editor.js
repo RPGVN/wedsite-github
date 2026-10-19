@@ -9,13 +9,13 @@
  let D=stored&&C.validate(stored).length===0?stored:clone(original);
  if((D.version||1)<2){const existing=new Set(D.articles.map(a=>a.id));D.articles.push(...original.articles.filter(a=>!existing.has(a.id)));const known=new Set(D.articles.map(a=>a.id));D.glossary=D.glossary||clone(original.glossary||[]);D.journeys=(D.journeys||clone(original.journeys||[])).map(j=>({...j,articles:j.articles.filter(id=>known.has(id))})).filter(j=>j.articles.length);D.version=2;}
  D.socialPosts=D.socialPosts||[];
- D.version=9;
+ D.version=10;
  let configImages={logoImage:D.config.logoImage||'',heroImage:D.config.heroImage||''},articleImageData='',historyFailed=false;
  let postsDraft=clone(D.socialPosts),postsDirty=false;
  let currentId='',active='config',configDirty=false,articleDirty=false,collections=null;
  try{const theme=C.storage.get('th-theme','dark');if(theme==='light')document.documentElement.dataset.theme='light';}catch{}
  function error(messages){const box=$('#editor-error');box.textContent=Array.isArray(messages)?messages.join('\n'):messages;box.hidden=!box.textContent;if(!box.hidden)box.scrollIntoView({behavior:'smooth',block:'center'});}
- function persist(candidate=D){if(editorBlocked){error(blockedReason);return false;}candidate.version=9;const errors=C.validate(candidate);if(errors.length){error(errors);return false;}const previous=clone(D),changed=JSON.stringify(D)!==JSON.stringify(candidate);try{draftRaw=C.guardedSet(localStorage,'th-draft',candidate,draftRaw);}catch(err){blockEditor(err.message);error(err.message);return false;}D=candidate;if(changed){let snapshots=[{id:String(Date.now()),when:new Date().toISOString(),data:previous},...historyItems()].slice(0,3);while(snapshots.length&&JSON.stringify(snapshots).length>700000)snapshots.pop();historyFailed=!C.storage.set('th-editor-history',snapshots);}error('');updateDashboard();renderHistory();return true;}
+ function persist(candidate=D){if(editorBlocked){error(blockedReason);return false;}candidate.version=10;const errors=C.validate(candidate);if(errors.length){error(errors);return false;}const previous=clone(D),changed=JSON.stringify(D)!==JSON.stringify(candidate);try{draftRaw=C.guardedSet(localStorage,'th-draft',candidate,draftRaw);}catch(err){blockEditor(err.message);error(err.message);return false;}D=candidate;if(changed){let snapshots=[{id:String(Date.now()),when:new Date().toISOString(),data:previous},...historyItems()].slice(0,3);while(snapshots.length&&JSON.stringify(snapshots).length>700000)snapshots.pop();historyFailed=!C.storage.set('th-editor-history',snapshots);}error('');updateDashboard();renderHistory();return true;}
  function status(message){$('#global-status').textContent=message;}
  function updateDashboard(){
   $('#editor-stat-articles').textContent=D.articles.length;$('#editor-stat-categories').textContent=D.categories.length;$('#editor-stat-terms').textContent=D.glossary?.length||0;$('#editor-stat-posts').textContent=D.socialPosts?.length||0;
@@ -54,8 +54,10 @@
    if(persist(candidate)){configDirty=false;$('#config-status').textContent='Đã lưu bản nháp trên thiết bị.';status('Bản nháp đã sẵn sàng để xem trước hoặc xuất tệp.');}
  });
  function renderList(){
-   const query=$('#editor-search')?.value||'',category=$('#editor-category-filter')?.value||'all';
-   $('#editor-article-list').innerHTML=C.filter(D.articles,{query,category}).map(a=>'<div class="editor-article-row"><div><strong>'+C.escape(a.title)+'</strong><small>'+C.escape(D.categories.find(c=>c.id===a.category)?.name||a.category)+' · '+C.escape(a.id)+'</small></div><div class="editor-article-row-actions"><button data-edit="'+C.escape(a.id)+'" type="button">Chỉnh sửa</button><button data-duplicate="'+C.escape(a.id)+'" type="button">Nhân bản</button></div></div>').join('')||'<p>Chưa có bài phù hợp.</p>';
+   const query=$('#editor-search')?.value||'',category=$('#editor-category-filter')?.value||'all',state=$('#editor-state-filter')?.value||'all',sort=$('#editor-sort-filter')?.value||'newest',Q=window.THQuality;
+   const rows=Q?Q.queue(D,original,{query,category,state,sort}):C.filter(D.articles,{query,category,sort}).map(article=>({article,warnings:[],change:'same'}));
+   $('#editor-list-status').textContent=rows.length+' / '+D.articles.length+' cẩm nang trong bản nháp đã lưu';
+   $('#editor-article-list').innerHTML=rows.map(({article:a,warnings,change})=>'<div class="editor-article-row"><div><div class="editor-queue-tags">'+(a.featured?'<span>Nổi bật</span>':'')+(change!=='same'?'<span class="queue-changed">'+(change==='added'?'Bài thêm':'Đã sửa')+'</span>':'')+(warnings.length?'<span class="queue-warning">'+warnings.length+' mục cần xem</span>':'')+'</div><strong>'+C.escape(a.title)+'</strong><small>'+C.escape(D.categories.find(c=>c.id===a.category)?.name||a.category)+' · '+C.escape(a.date)+' · '+a.minutes+' phút · '+a.sources.length+' nguồn</small><small>'+C.escape(a.id)+'</small>'+(warnings.length?'<p class="queue-detail">'+C.escape(warnings.map(w=>w.label).join(' · '))+'</p>':'')+'</div><div class="editor-article-row-actions"><button data-edit="'+C.escape(a.id)+'" type="button">Chỉnh sửa</button><button data-duplicate="'+C.escape(a.id)+'" type="button">Nhân bản</button></div></div>').join('')||'<p class="section-empty">Chưa có bài vừa bộ lọc. Thử chọn Tất cả bài hoặc mở rộng từ khóa.</p>';
    const previous=$('#article-category').value;
    $('#article-category').innerHTML=D.categories.map(c=>'<option value="'+C.escape(c.id)+'">'+C.escape(c.name)+'</option>').join('');
    if(previous)$('#article-category').value=previous;
@@ -139,6 +141,7 @@
    if(persist(clone(original))){C.storage.remove('th-preview');collections?.reset();postsDraft=clone(D.socialPosts||[]);postsDirty=false;renderPosts();fillConfig();renderList();fillArticle(D.articles[0]);status('Đã trở về dữ liệu đang xuất bản.');}
  });
  $('#editor-search').addEventListener('input',renderList);
+ for(const id of ['editor-state-filter','editor-sort-filter'])$('#'+id).addEventListener('change',renderList);
  $('#editor-category-filter').innerHTML='<option value="all">Mọi chuyên mục</option>'+D.categories.map(c=>'<option value="'+C.escape(c.id)+'">'+C.escape(c.name)+'</option>').join('');
  $('#editor-category-filter').addEventListener('change',renderList);
  $('#article-image').addEventListener('change',e=>$('#editor-image-preview').src=C.image(articleImageData,250000)||'assets/'+e.target.value+'.svg');

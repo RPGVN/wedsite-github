@@ -12,6 +12,7 @@ if(document.body.dataset.page==='catalog'){
 }
 const articleId=document.body.dataset.page==='article'?document.body.dataset.article:document.body.dataset.page==='dynamic-article'?new URLSearchParams(location.search).get('id'):null,article=D.articles.find(a=>a.id===articleId),Editorial=window.THEditorial;
 if(article&&Editorial){
+ if(document.body.dataset.page==='dynamic-article'){const main=document.querySelector('#main');if(main){main.querySelector('.breadcrumb')?.remove();main.insertAdjacentHTML('beforebegin',Editorial.pageChrome('bai-viet/'+article.id+'.html',D,C,''));}}
  const old=document.querySelector('.article-sources');if(old&&!old.classList.contains('source-panel'))old.outerHTML=Editorial.sources(article,D,C);
  const tools=document.querySelector('.reader-tools>div:last-child');if(tools&&!tools.querySelector('a[href="#nguon-tham-khao"]'))tools.insertAdjacentHTML('beforeend','<a class="reader-control" href="#nguon-tham-khao">Xem nguồn ↘</a>');
  document.querySelectorAll('[data-download-reading]').forEach(button=>{button.hidden=false;button.addEventListener('click',()=>{const blob=new Blob([Editorial.readingText(article,D,C)],{type:'text/plain;charset=utf-8'}),link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='Tech_Horizon_'+article.id+'.txt';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(link.href),10000);});});

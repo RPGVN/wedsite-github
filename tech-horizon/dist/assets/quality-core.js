@@ -36,5 +36,11 @@ function report(current,baseline){
  lines.push('','CÁC BỘ NỘI DUNG',...diff.collections.map(item=>'- '+item.label+': '+item.count+' mục'+(item.changed?' · đã đổi':'')),'','RÀ SOÁT CẤU TRÚC',...review.warnings.map(item=>'- '+item.label+(item.id?' ['+item.id+']':'')+': '+item.detail),'','Chủ kênh tự mở nguồn và đối chiếu thông tin. Đổi/xóa mã bài có thể làm đường dẫn cũ không còn dùng được. Tải ZIP không tự cập nhật hosting.','Gói website chỉ xuất các trường nội dung được hỗ trợ. Ghi chú đọc, phiếu thực hành, lịch và dữ liệu khôi phục thiết bị không được đưa vào gói công khai.');
  return lines.join('\n')+'\n';
 }
-const api={audit,changes,report};if(typeof module==='object'&&module.exports)module.exports=api;else root.THQuality=api;
+function queue(data,baseline,options={}){
+ const review=audit(data),diff=changes(data,baseline),added=new Set(diff.added.map(a=>a.id)),updated=new Set(diff.updated.map(a=>a.id)),warnings=new Map();
+ for(const item of review.warnings)if(item.id){if(!warnings.has(item.id))warnings.set(item.id,[]);warnings.get(item.id).push(item);}
+ const rows=C.filter(data.articles,{query:options.query||'',category:options.category||'all',sort:options.sort||'newest'}).map(article=>({article,warnings:warnings.get(article.id)||[],change:added.has(article.id)?'added':updated.has(article.id)?'updated':'same'}));
+ return rows.filter(r=>!options.state||options.state==='all'||options.state==='review'&&r.warnings.length||options.state==='featured'&&r.article.featured||options.state==='changed'&&r.change!=='same');
+}
+const api={audit,changes,report,queue};if(typeof module==='object'&&module.exports)module.exports=api;else root.THQuality=api;
 })(typeof window!=='undefined'?window:globalThis);

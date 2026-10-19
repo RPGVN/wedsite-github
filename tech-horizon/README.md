@@ -1,8 +1,18 @@
-# Tech Horizon 9.0
+# Tech Horizon 10.0
 
 Website tiếng Việt của kênh Tech Horizon, dựa trên tên và thông điệp chủ kênh cung cấp. HTML/CSS/JavaScript chạy cục bộ hoặc trên hosting tĩnh; không cần cài thư viện hay khóa API.
 
-## Nâng cấp 9.0
+## Nâng cấp 10.0
+
+- **Bản đồ toàn website** (`dist/ban-do.html`) kết nối bốn khu: đọc, thực hành, làm nội dung và hỗ trợ. Trang chủ có ba lối vào theo nhu cầu; thanh đầu và chân trang đều dẫn tới bản đồ. Các trang con có vị trí trang, điều hướng cùng khu và điểm đến tiếp theo. Bài viết dẫn ngược về đúng chuyên mục.
+- **Lộ trình** có tìm kiếm không dấu, lọc chuyên mục, tổng phút đọc và trạng thái trên thiết bị. Một bài đang đọc dở cũng được tính là lộ trình đang đi theo. Từ khóa, chuyên mục và giới hạn phút có trên URL; trạng thái đọc cá nhân không được thêm vào URL. Phút đọc chưa gồm thời gian thực hành.
+- **Từ điển** có lọc chủ đề, thứ tự A–Z, nút bỏ bộ lọc và đường dẫn trực tiếp tới từng thuật ngữ. Nếu liên kết trỏ tới một mục đang bị bộ lọc che, trang mở rộng bộ lọc để hiện đúng mục. Mỗi thẻ gợi ý cẩm nang cùng chủ đề và vẫn giữ nguồn gốc để đọc thêm.
+- **Studio** có ô chọn việc cần làm, ba bước sử dụng và bài đọc/phiếu liên quan dưới cả sáu công cụ. Danh sách tab và phím điều hướng được giữ. Trang chuyên mục nối sang lộ trình và thuật ngữ cùng chủ đề.
+- **Bàn biên tập** có hàng đợi theo bài cần bổ sung, bài thêm/sửa và bài nổi bật; đổi thứ tự theo ngày hoặc thời lượng. Mỗi dòng có ngày, phút đọc, số nguồn và mục cần xem lại. Các số liệu dựa trên bản nháp đã lưu; bảng không tự xác minh dữ kiện hoặc phiên bản hosting.
+- **Trang phụ** được làm rõ lối đi và phần trợ giúp: Dữ liệu & hiển thị có mục lục, Giới thiệu dẫn vào chuyên mục, Quyền riêng tư có phần tóm tắt phạm vi, 404 có tìm kiếm và điểm đến thay thế. Hướng dẫn có sáu tình huống gỡ vướng mắc về xuất bản, đổi máy, ảnh, tab cũ, Facebook và quyền trình duyệt.
+- Bộ lọc mới chỉ đọc dữ liệu tiến độ; không ghi đè ghi chú hay bản nháp. Khi chưa đọc được tiến độ, lọc theo tiến độ bị vô hiệu và trang hướng dẫn giữ dữ liệu thô để phục hồi. Mã bộ lọc trang con chỉ tải trên trang lộ trình và từ điển.
+
+## Nội dung và công cụ có sẵn
 
 - Bản đồ khám phá có bốn ảnh chuyên mục đồng bộ (tổng 63.762 byte), giữ hình quỹ đạo và nhận diện TH. Trang chuyên mục có ảnh, số cẩm nang/thuật ngữ thực tế và một điểm bắt đầu từ bài đang có. Chuyên mục tự thêm dùng ảnh dự phòng.
 - Cẩm nang có chế độ Thẻ hoặc Danh sách; lựa chọn đi cùng bộ lọc trên URL. Mọi bài vẫn có HTML riêng để đọc khi JavaScript tắt.
@@ -118,6 +128,6 @@ python3 scripts/check-pages.py
 node scripts/check-export.mjs ./website-kiem-tra.zip
 ```
 
-85 kiểm thử Node đã đạt, gồm mô phỏng bộ điều khiển thư viện trong VM, bộ lọc ghi chú, phục hồi lỗi bộ nhớ và dữ liệu thay đổi giữa các tab. 35 HTML được kiểm tra tài nguyên, liên kết, neo, nhãn điều khiển, JSON-LD và SVG. ZIP kiểm tra xuất thêm một bài giả chỉ phục vụ QA, không dùng để xuất bản website chính thức. Chưa kiểm chứng trực quan hoặc thao tác thực tế trên trình duyệt vì môi trường hiện tại thiếu công cụ browser QA được hỗ trợ.
+94 kiểm thử Node đã đạt, gồm mô phỏng bộ điều khiển thư viện trong VM, bộ lọc ghi chú, phục hồi lỗi bộ nhớ và dữ liệu thay đổi giữa các tab. 36 HTML được kiểm tra tài nguyên, liên kết, neo, nhãn điều khiển, JSON-LD và SVG. ZIP kiểm tra xuất thêm một bài giả chỉ phục vụ QA, không dùng để xuất bản website chính thức. Chưa kiểm chứng trực quan hoặc thao tác thực tế trên trình duyệt vì môi trường hiện tại thiếu công cụ browser QA được hỗ trợ.
 
 Nguồn trong GitHub nằm ở `tech-horizon/`. Giữ bộ dựng dùng chung và thêm mọi phụ thuộc xuất vào trang biên tập/bundle nếu mở rộng tiếp. Bản này chưa có máy chủ đăng nhập, đồng bộ dữ liệu chung hoặc tự đăng Facebook.

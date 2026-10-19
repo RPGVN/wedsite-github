@@ -1,0 +1,44 @@
+TECH HORIZON 10.0 — GIẢI NÉN VÀ MỞ WEBSITE
+
+1. Giải nén toàn bộ thư mục Tech_Horizon.
+2. Mở index.html hoặc nhấp đúp MO_WEBSITE.bat trên Windows.
+3. Giữ nguyên cấu trúc thư mục. Website nằm trong dist/.
+4. Có Node.js thì chạy npm start và mở http://localhost:8080.
+
+PHẦN MỚI 10.0
+- Mở dist/ban-do.html để đi tới mọi khu đọc, thực hành, làm nội dung và hỗ trợ.
+- Trang chủ có lối vào theo nhu cầu. Trang con có điều hướng cùng khu, đường quay lại và bước tiếp theo.
+- Lộ trình: tìm, lọc chủ đề, tổng phút đọc và tiến độ cá nhân. Trạng thái đọc không được thêm vào URL chia sẻ.
+- Từ điển: lọc chủ đề, sắp xếp A–Z, liên kết trực tiếp từng thuật ngữ và gợi ý bài cùng chủ đề.
+- Studio: chọn việc cần làm, làm theo ba bước, mở bài/phiếu liên quan dưới mỗi công cụ.
+- Biên tập: lọc bài cần bổ sung, bài thêm/sửa, bài nổi bật; xem ngày, thời lượng và số nguồn trong danh sách.
+- Hướng dẫn → Gỡ vướng mắc: sáu tình huống thường gặp, có đường dẫn tới đúng công cụ.
+- Dữ liệu, giới thiệu, quyền riêng tư và trang 404 có bố cục và đường dẫn hỗ trợ rõ hơn.
+
+CÁC PHẦN ĐƯỢC GIỮ
+- Bản đồ khám phá và trang chuyên mục có ảnh đồng bộ, số nội dung thực tế và bài nên đọc trước.
+- Cẩm nang có chế độ Thẻ / Danh sách; tìm kiếm tổng hợp tìm trong nội dung bài và tô sáng từ khóa tiếng Việt.
+- Thanh đọc có Xem nguồn; cuối bài hiển thị tên miền nguồn và cho tải bản đọc TXT.
+- Khôi phục / xóa nhóm dữ liệu kiểm tra thay đổi giữa các tab; giữ bản sao lưu trước khi thao tác.
+- Bàn biên tập → Lộ trình & thuật ngữ: tạo/sửa/xóa, sắp xếp thứ tự bài và thêm nguồn thuật ngữ.
+- Giữ góc đọc, ghi chú, thực hành, đủ 6 công cụ Studio, lịch nội dung, rà soát và đối chiếu biên tập.
+
+GẮN ĐÚNG KÊNH FACEBOOK
+Mở dist/bien-tap.html → Thông tin kênh → dán URL Facebook chính thức.
+Lưu bản nháp → Xem trước → Xuất toàn bộ website ZIP.
+Tải ZIP xuống không tự cập nhật website online. Đưa toàn bộ nội dung thư mục website trong ZIP lên hosting tĩnh để xuất bản.
+Không nhập mật khẩu Facebook, OTP hoặc khóa API vào website.
+
+GIỮ DỮ LIỆU CỦA BẠN
+Dữ liệu & hiển thị: dist/du-lieu.html — sao lưu và khôi phục 6 nhóm dữ liệu.
+Phiếu thực hành được lưu trên trình duyệt và có trong bản sao lưu thiết bị.
+Nếu trang báo dữ liệu đã thay đổi từ tab khác, tải phiếu TXT hoặc tệp phục hồi trước khi đọc lại/tải lại trang.
+Sao lưu JSON, phiếu TXT và tệp phục hồi có thể chứa thông tin riêng. Không đưa các tệp đó lên thư mục web công khai.
+Dữ liệu không tự đồng bộ giữa thiết bị. Trình duyệt có thể chặn hoặc xóa bộ nhớ.
+
+VẬN HÀNH
+- Studio: dist/studio.html — prompt, tải tệp, UTM, rà soát, ảnh và kịch bản.
+- Kế hoạch: dist/dieu-hanh.html — bảng/lịch, giờ Việt Nam, xuất ICS/CSV; không tự đăng Facebook.
+- Bàn biên tập: dist/bien-tap.html — đổi thương hiệu, ảnh, cẩm nang, nguồn và liên kết bài Facebook.
+- Hướng dẫn đầy đủ: dist/huong-dan.html và README.md.
+- Nội dung khởi đầu là nội dung biên soạn cho website, không tự lấy từ Facebook.

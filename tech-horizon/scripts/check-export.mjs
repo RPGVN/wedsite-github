@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url),Renderer=require('../dist/assets/renderer.js'),Zip=require('../dist/assets/zip.js');
+const root=path.resolve(import.meta.dirname,'..'),context={window:{}};
+vm.runInNewContext(fs.readFileSync(path.join(root,'dist/site-data.js'),'utf8'),context);
+vm.runInNewContext(fs.readFileSync(path.join(root,'dist/assets/package-assets.js'),'utf8'),context);
+const D=JSON.parse(JSON.stringify(context.window.TECH_HORIZON)),pack=context.window.TH_PACKAGE;
+const a=structuredClone(D.articles[0]);a.id='bai-moi-kiem-tra-xuat';a.title='Bài mới để kiểm tra xuất trọn website';D.articles.push(a);
+const files=[...Object.entries(pack.files).map(([name,encoded])=>({name,content:new Uint8Array(Buffer.from(encoded,'base64'))})),...Object.entries(Renderer.build(D)).map(([name,content])=>({name,content})),{name:'assets/package-assets.js',content:'window.TH_PACKAGE = '+JSON.stringify(pack)+';\n'}];
+const target=process.argv[2];if(!target)throw Error('Provide a scratch ZIP output path.');
+fs.writeFileSync(target,new Uint8Array(await Zip.create(files).arrayBuffer()));
+console.log('Simulated complete browser export with a newly added guide: '+files.length+' files.');

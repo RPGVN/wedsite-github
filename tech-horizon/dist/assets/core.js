@@ -111,7 +111,40 @@ function image(value,maxBytes=400000){
     if(current!==expectedRaw)throw Error('Dữ liệu đã thay đổi ở tab khác. Tải bản đang nhập trước khi đọc lại dữ liệu đã lưu.');
     const raw=JSON.stringify(value);try{storage.setItem(key,raw);}catch{throw Error('Trình duyệt chặn lưu hoặc đã hết dung lượng. Thay đổi vẫn ở trên trang để bạn tải về.');}return raw;
   }
-  const core={escape,normalize,url,storage,filter,validate,readerBackup,image,guardedSet};
+  function savedList(raw){
+    if(raw===null)return [];
+    let value;try{value=JSON.parse(raw);}catch{throw Error('Danh sách bài đã lưu chưa đọc được. Giữ bản dữ liệu thô trong Dữ liệu & hiển thị trước khi khôi phục.');}
+    if(!Array.isArray(value)||value.length>1000||value.some(id=>typeof id!=='string'||id.length>120||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)))throw Error('Danh sách bài đã lưu chưa hợp lệ. Mở Dữ liệu & hiển thị để giữ bản phục hồi.');
+    return [...new Set(value)];
+  }
+  function changeSaved(storage,id,on){
+    if(typeof id!=='string'||id.length>120||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id))throw Error('Mã bài chưa hợp lệ.');
+    let raw;try{raw=storage.getItem('th-saved');}catch{throw Error('Trình duyệt chưa cho đọc danh sách bài đã lưu.');}
+    const current=savedList(raw),keep=typeof on==='boolean'?on:!current.includes(id),next=current.filter(value=>value!==id);if(keep)next.push(id);
+    if(next.length>1000)throw Error('Danh sách đã có 1.000 bài. Bỏ lưu một bài trước khi thêm.');
+    return {saved:next,raw:guardedSet(storage,'th-saved',next,raw)};
+  }
+  function replaceReader(storage,reader,expected){
+    const keys=['th-saved','th-progress'],written=[];
+    for(const key of keys)if(storage.getItem(key)!==expected[key])throw Error('Thư viện đã thay đổi ở tab khác. Mở lại bản sao lưu để xem và xác nhận với dữ liệu mới.');
+    try{
+      for(const [key,value] of [['th-saved',reader.saved],['th-progress',reader.progress]])written.push([key,guardedSet(storage,key,value,expected[key])]);
+    }catch(error){
+      let complete=true;for(const [key,raw] of written.reverse())try{if(storage.getItem(key)!==raw){complete=false;continue;}if(expected[key]===null)storage.removeItem(key);else storage.setItem(key,expected[key]);}catch{complete=false;}
+      throw Error('Chưa khôi phục được thư viện. '+(complete?'Dữ liệu đã ghi trong lần thử này đã được hoàn lại.':'Có dữ liệu chưa hoàn lại được; giữ bản sao và kiểm tra Dữ liệu & hiển thị.')+' '+error.message);
+    }
+    return {'th-saved':JSON.stringify(reader.saved),'th-progress':JSON.stringify(reader.progress)};
+  }
+  function publicData(data){
+    const errors=validate(data);if(errors.length)throw Error(errors.join('\n'));
+    const pick=(value,keys)=>Object.fromEntries(keys.filter(key=>value[key]!==undefined).map(key=>[key,value[key]]));
+    const result={version:Number.isInteger(data.version)&&data.version>0?data.version:8,config:pick(data.config,['name','tagline','description','facebookUrl','email','siteUrl','accent','contentNote','logoImage','heroImage']),categories:data.categories.map(c=>pick(c,['id','name','short','icon','description'])),articles:data.articles.map(a=>({...pick(a,['id','title','category','date','minutes','image','featured','excerpt','takeaway','customImage','imageAlt']),sections:a.sections.map(s=>pick(s,['heading','text'])),sources:a.sources.map(s=>pick(s,['label','url']))}))};
+    if(data.socialPosts)result.socialPosts=data.socialPosts.map(p=>pick(p,['title','caption','url']));
+    if(data.journeys)result.journeys=data.journeys.map(j=>({...pick(j,['id','title','description','category']),articles:[...j.articles]}));
+    if(data.glossary)result.glossary=data.glossary.map(t=>pick(t,['id','term','category','definition','url']));
+    return JSON.parse(JSON.stringify(result));
+  }
+  const core={escape,normalize,url,storage,filter,validate,readerBackup,image,guardedSet,savedList,changeSaved,replaceReader,publicData};
   if(typeof module==='object' && module.exports)module.exports=core;
   else root.THCore=core;
 })(typeof window!=='undefined'?window:globalThis);

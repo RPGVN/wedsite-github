@@ -1,5 +1,6 @@
 /* Nội dung công khai của Tech Horizon. */
 window.TECH_HORIZON = {
+  "version": 5,
   "config": {
     "name": "Tech Horizon",
     "tagline": "Nơi công nghệ không còn khó khăn.",
@@ -322,6 +323,8 @@ window.TECH_HORIZON = {
       "id": "tu-ghi-chu-den-ke-hoach-voi-ai",
       "title": "Từ ghi chú lộn xộn đến một kế hoạch rõ ràng với AI",
       "category": "ai",
+      "date": "2026-10-19",
+      "minutes": 4,
       "image": "ai",
       "excerpt": "Một ví dụ nhỏ để biến danh sách việc thành kế hoạch có bước tiếp theo, người phụ trách và những chỗ còn thiếu thông tin.",
       "takeaway": "Hãy yêu cầu AI sắp xếp dữ liệu bạn có; đừng để nó tự bịa thời hạn, người thực hiện hoặc quyết định thay bạn.",
@@ -348,14 +351,14 @@ window.TECH_HORIZON = {
           "label": "NIST — Hồ sơ quản lý rủi ro AI tạo sinh",
           "url": "https://www.nist.gov/itl/ai-risk-management-framework"
         }
-      ],
-      "date": "2026-10-19",
-      "minutes": 4
+      ]
     },
     {
       "id": "kiem-tra-tin-cong-nghe",
       "title": "Đọc một tin công nghệ: tách công bố, trình diễn và sản phẩm thật",
       "category": "ai",
+      "date": "2026-10-19",
+      "minutes": 4,
       "image": "ai-check",
       "excerpt": "Một video ấn tượng chưa nói hết cách một công nghệ hoạt động. Hãy đặt vài câu hỏi trước khi chia sẻ.",
       "takeaway": "Phân biệt điều nguồn gốc đã chứng minh với điều người xem đang suy đoán.",
@@ -382,14 +385,14 @@ window.TECH_HORIZON = {
           "label": "NIST — AI và rủi ro thông tin không chính xác",
           "url": "https://www.nist.gov/itl/ai-risk-management-framework"
         }
-      ],
-      "date": "2026-10-19",
-      "minutes": 4
+      ]
     },
     {
       "id": "du-lieu-trinh-duyet-la-gi",
       "title": "Bài đã lưu ở đâu? Hiểu dữ liệu trong trình duyệt",
       "category": "tips",
+      "date": "2026-10-19",
+      "minutes": 4,
       "image": "browser",
       "excerpt": "Vì sao đổi máy hoặc xóa dữ liệu duyệt web có thể khiến danh sách bài đã lưu biến mất?",
       "takeaway": "Lưu trong trình duyệt khác với lưu vào một tài khoản có đồng bộ.",
@@ -416,14 +419,14 @@ window.TECH_HORIZON = {
           "label": "MDN — localStorage",
           "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage"
         }
-      ],
-      "date": "2026-10-19",
-      "minutes": 4
+      ]
     },
     {
       "id": "quy-trinh-lam-noi-dung-cong-nghe",
       "title": "Một quy trình gọn để làm nội dung công nghệ",
       "category": "tips",
+      "date": "2026-10-19",
+      "minutes": 4,
       "image": "storage",
       "excerpt": "Từ ý tưởng, kiểm chứng đến một bản đăng dễ đọc: một mẫu quy trình để bạn điều chỉnh theo cách làm của mình.",
       "takeaway": "Tách việc tìm dữ kiện khỏi việc trình bày. Mỗi bản đăng nên có một điều chính muốn người đọc mang theo.",
@@ -450,14 +453,14 @@ window.TECH_HORIZON = {
           "label": "NIST — Rủi ro cần xem xét khi dùng AI tạo sinh",
           "url": "https://www.nist.gov/itl/ai-risk-management-framework"
         }
-      ],
-      "date": "2026-10-19",
-      "minutes": 4
+      ]
     },
     {
       "id": "ssd-hdd-khac-nhau",
       "title": "SSD và HDD: hiểu cơ chế trước khi nhìn dung lượng",
       "category": "devices",
+      "date": "2026-10-19",
+      "minutes": 4,
       "image": "chip",
       "excerpt": "Cùng lưu dữ liệu lâu dài, nhưng cách hoạt động khác nhau tạo nên những điểm mạnh và giới hạn riêng.",
       "takeaway": "Chọn ổ theo tác vụ, kết nối và khả năng tương thích; không chỉ nhìn dung lượng hoặc một con số tốc độ.",
@@ -484,14 +487,14 @@ window.TECH_HORIZON = {
           "label": "Kingston — Sự khác biệt giữa SSD và HDD",
           "url": "https://www.kingston.com/vn/blog/personal-storage/ssd-vs-hdd-differences"
         }
-      ],
-      "date": "2026-10-19",
-      "minutes": 4
+      ]
     },
     {
       "id": "kiem-tra-ket-noi-tung-buoc",
       "title": "Mạng chậm? Ghi lại triệu chứng trước khi đổi cài đặt",
       "category": "devices",
+      "date": "2026-10-19",
+      "minutes": 4,
       "image": "network",
       "excerpt": "Một quy trình loại trừ đơn giản giúp bạn biết cần kiểm tra thiết bị, mạng hay riêng website đang mở.",
       "takeaway": "Mỗi lần chỉ thay đổi một yếu tố, ghi lại kết quả và giữ cách trở về cài đặt ban đầu.",
@@ -518,14 +521,14 @@ window.TECH_HORIZON = {
           "label": "Cloudflare — DNS và quá trình tìm địa chỉ website",
           "url": "https://www.cloudflare.com/learning/dns/what-is-dns/"
         }
-      ],
-      "date": "2026-10-19",
-      "minutes": 4
+      ]
     },
     {
       "id": "sao-luu-du-lieu-321",
       "title": "Sao lưu 3–2–1: đừng để mọi bản sao ở cùng một chỗ",
       "category": "safety",
+      "date": "2026-10-19",
+      "minutes": 4,
       "image": "lock",
       "excerpt": "Một nguyên tắc dễ nhớ để xây thói quen giữ lại những tệp mà bạn không muốn mất.",
       "takeaway": "Có bản sao là bước đầu. Biết khôi phục và tránh để mọi bản sao cùng chịu một sự cố mới là mục tiêu.",
@@ -552,14 +555,14 @@ window.TECH_HORIZON = {
           "label": "CISA / US-CERT — Data Backup Options",
           "url": "https://www.cisa.gov/sites/default/files/publications/data_backup_options.pdf"
         }
-      ],
-      "date": "2026-10-19",
-      "minutes": 4
+      ]
     },
     {
       "id": "https-khong-du-de-tin-tuong",
       "title": "Có HTTPS rồi, vì sao vẫn phải kiểm tra đường link?",
       "category": "safety",
+      "date": "2026-10-19",
+      "minutes": 4,
       "image": "shield",
       "excerpt": "Kết nối được bảo vệ là điều cần thiết, nhưng bạn vẫn phải biết mình đang kết nối tới ai.",
       "takeaway": "HTTPS bảo vệ đường truyền; nó không tự xác nhận mọi lời hứa hoặc nội dung trên website là đáng tin.",
@@ -590,12 +593,9 @@ window.TECH_HORIZON = {
           "label": "CISA — Nhận diện phishing",
           "url": "https://www.cisa.gov/secure-our-world/recognize-and-report-phishing"
         }
-      ],
-      "date": "2026-10-19",
-      "minutes": 4
+      ]
     }
   ],
-  "version": 5,
   "socialPosts": [],
   "journeys": [
     {

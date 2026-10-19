@@ -1,4 +1,4 @@
-# Tech Horizon 7.0
+# Tech Horizon 8.0
 
 Website tiếng Việt của kênh Tech Horizon, dựa trên tên và thông điệp chủ kênh cung cấp. HTML/CSS/JavaScript chạy cục bộ hoặc trên hosting tĩnh; không cần cài thư viện hay khóa API.
 
@@ -19,6 +19,14 @@ Nếu có Node.js 20.11 trở lên, chạy `npm start`, mở `http://localhost:8
 - **Góc đọc** gồm mục lục, cỡ chữ, chế độ tập trung, tiến độ, ghi chú, chia sẻ, in/PDF và các thuật ngữ liên quan. Giọng đọc dùng speechSynthesis của thiết bị; cần có giọng tiếng Việt. Website thông báo nếu giọng đọc chưa có. Ghi chú có tải TXT; khi tab khác thay đổi ghi chú đang sửa, trang giữ phần đang nhập và chặn ghi đè để bạn tải về trước khi tải lại.
 - Giữ 4 chuyên mục, 4 lộ trình, 20 thuật ngữ có nguồn. Tiến độ lộ trình dựa vào bài đã đọc trên trình duyệt này.
 - **Giải mã nhanh** có ba tình huống tương tác, lời giải và liên kết tới cẩm nang. Đây là hoạt động tự tìm hiểu trong lượt mở trang.
+
+## Thư viện cá nhân 8.0
+
+`dist/thu-vien.html` là góc đọc riêng: năm nhóm Đã lưu, Đang đọc, Đã đọc, Ghi chú và Tất cả. Có thẻ tiếp tục bài vừa đọc dở, tìm kiếm tiếng Việt cả trong ghi chú, lọc chuyên mục và sắp xếp theo tương tác, tiêu đề, bài ngắn hoặc ít phút còn lại. Thời gian còn lại là ước lượng theo số phút của bài và tiến độ, không đo tốc độ đọc thật.
+
+Ghi chú giữ xuống dòng, có tải TXT từng bài hoặc các ghi chú trong danh sách đang lọc. Từ khóa ghi chú không được thêm vào URL. JSON sao lưu vẫn chứa toàn bộ thư viện dù bạn đang dùng bộ lọc.
+
+Lưu/bỏ lưu đọc lại danh sách hiện tại trước khi ghi để tránh thay cả danh sách bằng trạng thái cũ của tab. Khi khôi phục hoặc xóa, trang kiểm tra dữ liệu có thay đổi kể từ lúc mở hộp xác nhận. Khôi phục hai nhóm bài lưu/tiến độ có hoàn lại phần đã ghi nếu lưu tiếp bị lỗi; không hoàn lại đè lên thay đổi mới do tab khác vừa tạo. Đây là kiểm tra phía trình duyệt, không phải cơ chế đồng bộ máy chủ.
 
 ## Trạm thực hành
 
@@ -51,6 +59,8 @@ Bàn biên tập cho đổi tên, mô tả, màu, logo, ảnh bìa và ảnh t�
 
 Thêm/sửa/nhân bản/xóa cẩm nang; mỗi phần gồm tiêu đề và nội dung, ngăn hai phần bằng dòng `---`. Nguồn có dạng `Tên nguồn | https://địa-chỉ`. Đổi mã bài làm đổi URL; cân nhắc chuyển hướng nếu đường cũ đã được chia sẻ.
 
+Mục **Thay đổi & xuất bản** đối chiếu bản nháp đã lưu với tệp `site-data.js` đang mở: bài thêm, bài sửa và các trường thay đổi, URL bài bỏ, thông tin kênh và các bộ nội dung. Có tải bảng TXT và mở bài cần sửa. Nút Lưu các biểu mẫu & cập nhật giữ các thay đổi đang nhập trước khi đối chiếu. Bảng không truy cập hosting để xác minh bản online; đổi/xóa mã bài cần bạn xem lại đường dẫn cũ.
+
 Bảng rà soát kiểm tra nguồn còn thiếu, tóm tắt, mục lục lặp, đoạn dài và mô tả ảnh. Đây là kiểm tra cấu trúc của bản nháp đã lưu. Chủ kênh vẫn cần mở nguồn và đối chiếu các khẳng định.
 
 Bản nháp giữ tối đa ba trạng thái trước đó khi còn chỗ. Khi một tab khác đã lưu bản mới hoặc bộ nhớ không đọc được, bàn biên tập chặn ghi đè. Nút tải tệp phục hồi giữ dữ liệu đang nhập, kể cả biểu mẫu chưa lưu. Tệp này dùng để giữ nội dung phục hồi thủ công, không nhập trực tiếp như JSON sao lưu chuẩn.
@@ -73,12 +83,14 @@ Cỡ giao diện có ba mức, tùy chọn tăng tương phản và giảm chuy�
 
 ## Xuất và cập nhật online
 
-1. Lưu bản nháp, kiểm tra bằng Xem trước.
+1. Lưu bản nháp, xem Thay đổi & xuất bản và kiểm tra bằng Xem trước.
 2. Điền đúng địa chỉ HTTPS của website trước khi xuất để canonical, sitemap, RSS và chia sẻ trỏ đúng nơi.
 3. Nhấn **Xuất toàn bộ website ZIP**, giải nén và mở `index.html` trong thư mục website vừa xuất.
 4. Tải toàn bộ nội dung website trong ZIP lên hosting tĩnh để cập nhật online. Tải ZIP xuống không tự thay bản đang chạy.
 
 Gói xuất có HTML từng bài/chuyên mục, ảnh, Studio, bàn biên tập và tài nguyên để xuất lại. Không chỉ gửi riêng `index.html`. Metadata, Open Graph, JSON-LD, sitemap, RSS, quyền riêng tư và 404 được dựng theo dữ liệu hiện tại.
+
+Bộ dựng và xuất `site-data.js` chỉ lấy các trường nội dung được hỗ trợ. Các trường bổ sung từ tệp nhập được giữ trong JSON sao lưu nháp nhưng không đưa vào gói website. Nội dung bạn viết trong các trường cẩm nang hoặc thông tin kênh vẫn công khai.
 
 ZIP website là **nội dung công khai**. Sao lưu thiết bị, phiếu TXT và tệp phục hồi biểu mẫu có thể chứa ghi chú hoặc kế hoạch riêng; không tải chúng lên thư mục web. Không đặt mật khẩu, mã OTP hoặc khóa API trong `site-data.js`.
 
@@ -97,6 +109,6 @@ python3 scripts/check-pages.py
 node scripts/check-export.mjs ./website-kiem-tra.zip
 ```
 
-52 kiểm thử Node đã đạt. 35 HTML được kiểm tra tài nguyên, liên kết, neo, nhãn điều khiển, JSON-LD và SVG. ZIP kiểm tra xuất thêm một bài giả chỉ phục vụ QA, không dùng để xuất bản website chính thức. Chưa kiểm chứng trực quan hoặc thao tác thực tế trên trình duyệt vì môi trường hiện tại thiếu công cụ browser QA được hỗ trợ.
+66 kiểm thử Node đã đạt, gồm mô phỏng bộ điều khiển thư viện trong VM, bộ lọc ghi chú, phục hồi lỗi bộ nhớ và dữ liệu thay đổi giữa các tab. 35 HTML được kiểm tra tài nguyên, liên kết, neo, nhãn điều khiển, JSON-LD và SVG. ZIP kiểm tra xuất thêm một bài giả chỉ phục vụ QA, không dùng để xuất bản website chính thức. Chưa kiểm chứng trực quan hoặc thao tác thực tế trên trình duyệt vì môi trường hiện tại thiếu công cụ browser QA được hỗ trợ.
 
 Nguồn trong GitHub nằm ở `tech-horizon/`. Giữ bộ dựng dùng chung và thêm mọi phụ thuộc xuất vào trang biên tập/bundle nếu mở rộng tiếp. Bản này chưa có máy chủ đăng nhập, đồng bộ dữ liệu chung hoặc tự đăng Facebook.

@@ -1,16 +1,16 @@
-TECH HORIZON 7.0 — GIẢI NÉN VÀ MỞ WEBSITE
+TECH HORIZON 8.0 — GIẢI NÉN VÀ MỞ WEBSITE
 
 1. Giải nén toàn bộ thư mục Tech_Horizon.
 2. Mở index.html hoặc nhấp đúp MO_WEBSITE.bat trên Windows.
 3. Giữ nguyên cấu trúc thư mục. Website nằm trong dist/.
 4. Có Node.js thì chạy npm start và mở http://localhost:8080.
 
-PHẦN MỚI
-- Trang Cẩm nang: dist/tat-ca.html — tìm, lọc, sắp xếp và lưu bài.
-- Trạm thực hành: dist/thuc-hanh.html — bốn nhiệm vụ, ghi chép tự lưu, tải phiếu TXT.
-- Cuối bài có hướng thực hành, bài tiếp theo và thuật ngữ liên quan.
-- Bàn biên tập có rà soát nguồn/mô tả ảnh và tránh ghi đè dữ liệu mới từ tab khác.
-- Giao diện được làm rõ hơn trên điện thoại; giữ toàn bộ 6 công cụ Studio và lịch nội dung.
+PHẦN MỚI 8.0
+- Thư viện: dist/thu-vien.html — tìm cả ghi chú không dấu, lọc chuyên mục, sắp xếp theo thời gian còn lại và tải TXT ghi chú.
+- Lưu bài kiểm tra danh sách mới trước khi ghi; khôi phục tránh ghi đè dữ liệu mới từ tab khác, có hoàn lại khi lỗi bộ nhớ.
+- Bàn biên tập → Thay đổi & xuất bản: xem bài thêm/sửa, đường dẫn bỏ và thông tin kênh thay đổi; tải bảng TXT.
+- Gói website chỉ xuất các trường nội dung được hỗ trợ; ghi chú đọc, phiếu và lịch cá nhân được giữ riêng.
+- Giữ đủ 16 cẩm nang, 4 chuyên mục, 4 lộ trình, 20 thuật ngữ, 6 công cụ Studio, thực hành và kế hoạch nội dung.
 
 GẮN ĐÚNG KÊNH FACEBOOK
 Mở dist/bien-tap.html → Thông tin kênh → dán URL Facebook chính thức.

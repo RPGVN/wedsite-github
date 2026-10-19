@@ -11,7 +11,7 @@
   <a class="skip-link" href="#main">Đến bàn biên tập</a>
   <header class="editor-header"><div class="container"><div><small>TECH HORIZON / DÀNH CHO CHỦ KÊNH</small><h1>Bàn biên tập của bạn.</h1></div><a class="button button-outline" href="index.html">← Về website</a></div></header>
   <main class="container editor-page" id="main">
-    <div class="editor-notice"><strong>Phiên bản 5 — định hình thương hiệu, biên tập và xuất cả website.</strong><br>Lưu bản nháp, xem trước rồi nhấn <b>Xuất toàn bộ website ZIP</b>. Gói tải về đã có các trang bài viết và tài nguyên để mở ngay hoặc tải lên hosting. Công cụ lưu bản nháp trên trình duyệt, không tự cập nhật website đang chạy. Không nhập mật khẩu, mã truy cập hoặc thông tin bí mật.</div>
+    <div class="editor-notice"><strong>Tech Horizon 8 — nắm rõ thay đổi trước khi đưa đến người đọc.</strong><br>Biên tập, xem bản nháp và đối chiếu bài thêm/sửa/xóa ở mục <b>Thay đổi & xuất bản</b>. Gói ZIP có đầy đủ trang và tài nguyên để mở hoặc tải lên hosting. Công cụ lưu trên trình duyệt, không tự cập nhật website online.</div>
     <nav class="editor-workspace-links" aria-label="Công cụ cho chủ kênh"><a href="dieu-hanh.html">Kế hoạch nội dung ↗</a><a href="studio.html#media">Chuẩn bị ảnh ↗</a><a href="du-lieu.html">Sao lưu thiết bị ↗</a><a href="huong-dan.html">Hướng dẫn đầy đủ ↗</a></nav><div class="editor-summary"><div><strong id="editor-stat-articles">0</strong><small>Cẩm nang trong bản nháp</small></div><div><strong id="editor-stat-categories">0</strong><small>Chuyên mục</small></div><div><strong id="editor-stat-terms">0</strong><small>Thuật ngữ</small></div><div><strong id="editor-stat-posts">0</strong><small>Liên kết Facebook</small></div></div>
     <div class="editor-layout">
       <aside class="editor-sidebar">
@@ -20,11 +20,13 @@
           <button role="tab" aria-selected="false" aria-controls="panel-articles" id="tab-articles" data-tab="articles" tabindex="-1">02. Cẩm nang</button>
           <button role="tab" aria-selected="false" aria-controls="panel-social" id="tab-social" data-tab="social" tabindex="-1">03. Bài từ Facebook</button>
           <button role="tab" aria-selected="false" aria-controls="panel-history" id="tab-history" data-tab="history" tabindex="-1">04. Lịch sử bản nháp</button>
-          <button role="tab" aria-selected="false" aria-controls="panel-help" id="tab-help" data-tab="help" tabindex="-1">05. Cách sử dụng</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-review" id="tab-review" data-tab="review" tabindex="-1">05. Thay đổi & xuất bản</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-help" id="tab-help" data-tab="help" tabindex="-1">06. Cách sử dụng</button>
         </div>
         <div class="editor-export">
           <button class="button button-blue export-full" id="export-full-site">Xuất toàn bộ website ZIP ↗</button>
           <button class="button button-outline" id="preview-site">Xem trước bản nháp</button>
+          <button class="button button-outline" id="review-site">Xem thay đổi đã lưu</button>
           <button class="button button-outline" id="export-backup">Sao lưu JSON</button>
           <button class="secondary-export" id="export-js">Chỉ tải tệp site-data.js</button>
           <span class="editor-export-progress" id="export-progress" role="status" aria-live="polite"></span>
@@ -34,6 +36,13 @@
       </aside>
       <div>
         <aside id="editor-session-warning" class="editor-session-warning" hidden><strong>Giữ lại thay đổi đang nhập trước khi tiếp tục.</strong><p id="editor-session-description"></p><button class="button button-outline" type="button" id="export-editor-recovery">Tải bản đang nhập để phục hồi</button><a class="text-button" href="du-lieu.html">Mở dữ liệu & sao lưu ↗</a><p class="command-caption">Tệp phục hồi giữ cả biểu mẫu chưa lưu; giữ riêng và không đưa lên thư mục web công khai. Tệp này không nhập trực tiếp như bản sao lưu chuẩn.</p></aside><details class="editor-audit"><summary>Rà soát bản nháp đã lưu <span id="editor-audit-count"></span></summary><p>Kiểm tra cấu trúc và thông tin đang có. Chủ kênh vẫn cần mở nguồn và đối chiếu nội dung.</p><div id="editor-audit-results"></div></details><div id="editor-error" class="editor-error" role="alert" hidden></div>
+        <section class="editor-panel" role="tabpanel" aria-labelledby="tab-review" id="panel-review" hidden>
+          <span class="eyebrow">TỪ BẢN NHÁP TỚI NGƯỜI ĐỌC</span><h2 id="review-heading" tabindex="-1">Xem rõ điều sắp thay đổi.</h2><p>Đối chiếu bản nháp đã lưu với nội dung <code>site-data.js</code> đang mở. Trang không truy cập hosting để kiểm tra bản online.</p>
+          <p class="review-pending" id="review-pending" role="status"></p><div class="review-actions"><button class="button button-outline" type="button" id="refresh-review">Lưu các biểu mẫu & cập nhật</button><button class="text-button" type="button" id="download-change-report">Tải bảng thay đổi TXT ↗</button></div>
+          <div id="editor-change-summary" class="editor-change-summary"></div><div id="editor-change-details"></div>
+          <div class="review-public-scope"><h3>Những gì được đưa lên website.</h3><p>Thông tin kênh, ảnh, cẩm nang, nguồn, chuyên mục, lộ trình, thuật ngữ và liên kết Facebook. Gói xuất chỉ lấy các trường nội dung được hỗ trợ.</p><p>Ghi chú đọc, phiếu thực hành, lịch nội dung, lịch sử bản nháp và tệp khôi phục thiết bị được giữ ngoài gói website. Mọi thông tin bạn viết trong nội dung cẩm nang vẫn là thông tin công khai.</p></div>
+          <ol class="review-publish-steps"><li><strong>Mở bản xem trước.</strong> Đọc lại bài, xem hình, mục lục và mở các nguồn.</li><li><strong>Kiểm tra URL và thông tin kênh.</strong> Đổi mã bài làm đổi đường dẫn; xử lý liên kết cũ khi cần.</li><li><strong>Xuất ZIP và giải nén toàn bộ.</strong> Mở <code>index.html</code> để kiểm tra gói đã tải.</li><li><strong>Cập nhật hosting.</strong> Đưa toàn bộ nội dung thư mục website lên nơi lưu trữ. Tải ZIP chưa thay bản online.</li></ol>
+        </section>
         <section class="editor-panel" role="tabpanel" aria-labelledby="tab-config" id="panel-config">
           <h2>Đặt đúng dấu ấn của kênh.</h2><p>Đường dẫn Facebook chưa có trong ảnh tham khảo. Dán link trang chính thức tại đây để kích hoạt các nút Theo dõi trên website.</p>
           <div class="editor-health"><h3>Trước khi bạn xuất website</h3><ul id="editor-health-list"></ul></div>

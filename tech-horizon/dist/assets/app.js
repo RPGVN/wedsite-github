@@ -11,8 +11,7 @@
  const preview=C.storage.get('th-preview',false)&&draft&&C.validate(draft).length===0;
  if(preview){D=draft;const banner=$('#preview-banner');if(banner)banner.hidden=false;}
  const config=D.config,articles=D.articles,categories=D.categories;
- const rawSaved=C.storage.get('th-saved',[]);
- let saved=Array.isArray(rawSaved)?rawSaved.filter(x=>typeof x==='string'):[];
+ let saved=[];try{saved=C.savedList(localStorage.getItem('th-saved'));}catch{}
  const icon=(type)=>'<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+({bookmark:'M6 3h12v18l-6-4-6 4z',arrow:'M7 17 17 7M7 7h10v10',share:'m9 11 6-4m-6 6 6 4M8 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0m14-8a3 3 0 1 1-6 0 3 3 0 0 1 6 0m0 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0',spark:'m12 2 3 7 7 3-7 3-3 7-3-7-7-3 7-3z',external:'M14 3h7v7m0-7L10 14M10 3H3v18h18v-7'}[type]||'M7 17 17 7M7 7h10v10')+'"/></svg>';
  const cat=a=>categories.find(x=>x.id===a.category)||{name:'Cẩm nang',short:'Cẩm nang'};
  const date=a=>new Date(a.date+'T00:00:00Z').toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'UTC'});
@@ -116,12 +115,14 @@
  }
  document.addEventListener('click',e=>{
    const facebookButton=e.target.closest('[data-facebook]');if(facebookButton){e.preventDefault();openFacebook();return;}
-   const saveButton=e.target.closest('[data-save]');if(saveButton){const id=saveButton.dataset.save;const exists=saved.includes(id);const next=exists?saved.filter(x=>x!==id):[...saved,id];if(C.storage.set('th-saved',next)){saved=next;updateSaved();if(page==='home'&&state.savedOnly)renderArticles();toast(exists?'Đã bỏ lưu cẩm nang.':'Đã lưu cẩm nang trên trình duyệt này.');}else toast('Trình duyệt đang chặn bộ nhớ. Chưa lưu được bài.');return;}
+   const saveButton=e.target.closest('[data-save]');if(saveButton){const id=saveButton.dataset.save;try{saved=C.changeSaved(localStorage,id).saved;updateSaved();if(page==='home'&&state.savedOnly)renderArticles();window.dispatchEvent(new CustomEvent('th-saved-change'));toast(saved.includes(id)?'Đã lưu cẩm nang trên trình duyệt này.':'Đã bỏ lưu cẩm nang.');}catch(error){toast(error.message);}return;}
    const shareButton=e.target.closest('[data-share]');if(shareButton){share(shareButton.dataset.share);return;}
    const filter=e.target.closest('[data-category]');if(filter&&page==='home'){state.category=filter.dataset.category;state.limit=6;renderArticles();return;}
    const category=e.target.closest('[data-select-category]');if(category&&page==='home'){state.category=category.dataset.selectCategory;state.savedOnly=false;state.query='';state.limit=6;if($('#article-search'))$('#article-search').value='';renderArticles();return;}
    const footerSaved=e.target.closest('[data-footer-saved]');if(footerSaved){if(page==='home'){showSaved();}else C.storage.set('th-show-saved',true);}
  });
+ function syncSaved(){try{saved=C.savedList(localStorage.getItem('th-saved'));updateSaved();if(page==='home'&&state.savedOnly)renderArticles();}catch{toast('Chưa đọc được danh sách bài đã lưu. Mở Dữ liệu & hiển thị để giữ bản phục hồi.');}}
+ window.addEventListener('storage',e=>{if(e.key==='th-saved'||e.key===null)syncSaved();});window.addEventListener('th-saved-change',syncSaved);
  $('#exit-preview')?.addEventListener('click',()=>{C.storage.remove('th-preview');params.delete('preview');location.search=params.toString();});
  $('#topic-form')?.addEventListener('submit',e=>{
    e.preventDefault();const topic=$('#topic-name').value.trim();if(topic.length<3){$('#topic-name').focus();return;}

@@ -3,8 +3,8 @@
 const C=typeof module==='object'&&module.exports?require('./core.js'):root.THCore;
 const stages=[['idea','Ý tưởng'],['draft','Đang soạn'],['review','Cần rà soát'],['ready','Sẵn sàng'],['published','Đã đăng']];
 const formats=[['post','Bài Facebook'],['reel','Reels'],['video','Video'],['guide','Cẩm nang website']];
-const groups={content:['th-draft','th-editor-history'],reader:['th-saved','th-progress','th-reader-size'],studio:['th-studio-prompt','th-publish-checks','th-studio-script'],planner:['th-planner'],preferences:['th-theme','th-preferences']};
-const groupNames={content:'Bản nháp & lịch sử biên tập',reader:'Thư viện & ghi chú',studio:'Nội dung nháp Studio',planner:'Kế hoạch nội dung',preferences:'Giao diện & hỗ trợ đọc'};
+const groups={content:['th-draft','th-editor-history'],reader:['th-saved','th-progress','th-reader-size'],studio:['th-studio-prompt','th-publish-checks','th-studio-script'],planner:['th-planner'],practice:['th-practice'],preferences:['th-theme','th-preferences']};
+const groupNames={content:'Bản nháp & lịch sử biên tập',reader:'Thư viện & ghi chú',studio:'Nội dung nháp Studio',planner:'Kế hoạch nội dung',practice:'Phiếu & ghi chép thực hành',preferences:'Giao diện & hỗ trợ đọc'};
 const keys=Object.values(groups).flat();
 const clone=x=>JSON.parse(JSON.stringify(x));
 function localDate(value){
@@ -47,6 +47,7 @@ function validateEntry(key,v,ids){
  if(key==='th-draft'){if(C.validate(v).length)throw Error('Bản nháp nội dung không hợp lệ.');return clone(v);}
  if(key==='th-editor-history'){if(!Array.isArray(v)||v.length>3||JSON.stringify(v).length>700000||v.some(i=>!i||typeof i.id!=='string'||!/^[a-zA-Z0-9-]{1,80}$/.test(i.id)||!Number.isFinite(Date.parse(i.when))||C.validate(i.data).length))throw Error('Lịch sử biên tập chưa hợp lệ.');return clone(v);}
  if(key==='th-planner')return planner(v);
+ if(key==='th-practice')return (typeof module==='object'&&module.exports?require('./experience-core.js'):root.THExperience).practiceState(v);
  if(key==='th-preferences')return preferences(v);
  if(key==='th-theme'){if(!['dark','light'].includes(v))throw Error('Giao diện chưa hợp lệ.');return v;}
  if(key==='th-reader-size'){if(!Number.isInteger(v)||v<14||v>23)throw Error('Cỡ chữ đọc chưa hợp lệ.');return v;}

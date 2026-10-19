@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const X=require('../dist/assets/experience-core.js'),M=require('../dist/assets/experience-markup.js'),C=require('../dist/assets/core.js'),R=require('../dist/assets/renderer.js');
-const sandbox={window:{}};vm.runInNewContext(fs.readFileSync(require.resolve('../dist/site-data.js'),'utf8'),sandbox);const D=JSON.parse(JSON.stringify(sandbox.window.TECH_HORIZON));
+const sandbox={window:{}};vm.runInNewContext(fs.readFileSync(require.resolve('../dist/site-data.js'),'utf8'),sandbox);const D=JSON.parse(JSON.stringify(sandbox.window.TECH_HORIZON));if(!D.config.siteUrl)D.config.siteUrl='https://example.com';
 test('Discovery respects category and time, ranks practice guides, and leaves the public dataset unchanged',()=>{
  const before=JSON.stringify(D);for(const category of ['all',...D.categories.map(c=>c.id)])for(const minutes of [3,5,10,120])for(const goal of ['understand','practice']){const list=X.recommendations(D,{category,minutes,goal});assert.ok(list.length<=3);assert.ok(list.every(a=>a.minutes<=minutes&&(category==='all'||a.category===category)));assert.ok(list.every(a=>D.articles.some(b=>a===b)));}
  assert.equal(JSON.stringify(D),before);assert.deepEqual(X.recommendations({...D,articles:D.articles.map(a=>({...a,minutes:10}))},{minutes:3}),[]);assert.throws(()=>X.recommendations(D,{category:'fake'}));assert.throws(()=>X.recommendations(D,{minutes:0}));assert.throws(()=>X.recommendations(D,{goal:'magic'}));

@@ -1,57 +1,33 @@
-TECH HORIZON 6.0 — MỞ WEBSITE
+TECH HORIZON 7.0 — GIẢI NÉN VÀ MỞ WEBSITE
 
-1. Giải nén toàn bộ thư mục Tech_Horizon, không mở trực tiếp trong tệp ZIP.
+1. Giải nén toàn bộ thư mục Tech_Horizon.
 2. Mở index.html hoặc nhấp đúp MO_WEBSITE.bat trên Windows.
-3. Website có 16 cẩm nang, 4 lộ trình, 20 thuật ngữ, thư viện cá nhân và toàn bộ mã nguồn.
+3. Giữ nguyên cấu trúc thư mục. Website nằm trong dist/.
+4. Có Node.js thì chạy npm start và mở http://localhost:8080.
 
-STUDIO VÀ BIÊN TẬP
+PHẦN MỚI
+- Trang Cẩm nang: dist/tat-ca.html — tìm, lọc, sắp xếp và lưu bài.
+- Trạm thực hành: dist/thuc-hanh.html — bốn nhiệm vụ, ghi chép tự lưu, tải phiếu TXT.
+- Cuối bài có hướng thực hành, bài tiếp theo và thuật ngữ liên quan.
+- Bàn biên tập có rà soát nguồn/mô tả ảnh và tránh ghi đè dữ liệu mới từ tab khác.
+- Giao diện được làm rõ hơn trên điện thoại; giữ toàn bộ 6 công cụ Studio và lịch nội dung.
 
-Mở mục Studio để dùng sáu công cụ thực hành.
-Bàn biên tập cho phép đổi logo, ảnh bìa, ảnh bài và khôi phục bản nháp đã lưu.
-Ảnh cần là PNG/JPEG/WebP trong giới hạn ghi trên biểu mẫu.
-
-GẮN ĐÚNG TRANG FACEBOOK
-
-Ảnh tham khảo không có đường dẫn Facebook chính thức.
-Mở dist/bien-tap.html → Thông tin kênh → dán link Facebook của bạn.
+GẮN ĐÚNG KÊNH FACEBOOK
+Mở dist/bien-tap.html → Thông tin kênh → dán URL Facebook chính thức.
 Lưu bản nháp → Xem trước → Xuất toàn bộ website ZIP.
-Giải nén gói mới và mở index.html trong thư mục website vừa xuất để chạy.
-Gói xuất có đủ bài HTML, ảnh, sitemap và bàn biên tập để sửa tiếp.
-Không nhập mật khẩu Facebook hoặc mã OTP vào website.
+Tải ZIP xuống không tự cập nhật website online. Đưa toàn bộ nội dung thư mục website trong ZIP lên hosting tĩnh để xuất bản.
+Không nhập mật khẩu Facebook, OTP hoặc khóa API vào website.
 
-ĐƯA WEBSITE LÊN INTERNET
+GIỮ DỮ LIỆU CỦA BẠN
+Dữ liệu & hiển thị: dist/du-lieu.html — sao lưu và khôi phục 6 nhóm dữ liệu.
+Phiếu thực hành được lưu trên trình duyệt và có trong bản sao lưu thiết bị.
+Nếu trang báo dữ liệu đã thay đổi từ tab khác, tải phiếu TXT hoặc tệp phục hồi trước khi đọc lại/tải lại trang.
+Sao lưu JSON, phiếu TXT và tệp phục hồi có thể chứa thông tin riêng. Không đưa các tệp đó lên thư mục web công khai.
+Dữ liệu không tự đồng bộ giữa thiết bị. Trình duyệt có thể chặn hoặc xóa bộ nhớ.
 
-Tải nội dung thư mục dist lên dịch vụ lưu trữ web tĩnh bạn sử dụng.
-Xem README.md để biết cách chạy máy chủ cục bộ, sửa bài và cập nhật metadata.
-
-GIỚI HẠN RÕ RÀNG
-
-Nội dung khởi đầu được biên soạn cho website, không tự lấy từ Facebook.
-Bản nháp biên tập và bài đã lưu nằm trên chính trình duyệt của bạn.
-Thư viện có thể sao lưu bài đã lưu, tiến độ và ghi chú ra JSON.
-Nghe bài chỉ hoạt động khi trình duyệt có giọng đọc tiếng Việt.
-Công cụ gợi ý chỉ soạn nội dung; bạn chủ động gửi tin cho kênh.
-
-NÂNG CẤP 4.0
-- Trạm điều hành: dist/dieu-hanh.html — tạo kế hoạch, theo dõi 5 trạng thái, xem lịch tháng, xuất ICS/CSV. Giờ Việt Nam UTC+7, không tự đăng bài Facebook.
-- Studio có 6 công cụ, gồm chuẩn bị ảnh và tính thời lượng kịch bản.
-- Dữ liệu & hiển thị: dist/du-lieu.html — sao lưu/khôi phục 5 nhóm dữ liệu, tăng cỡ chữ giao diện, tương phản và giảm chuyển động.
-- Giới thiệu & hợp tác: dist/gioi-thieu.html — hồ sơ kênh và soạn nội dung liên hệ để bạn tự gửi.
-- Hướng dẫn chi tiết: dist/huong-dan.html.
-- Điền URL Facebook và email công khai chính xác trong Bàn biên tập trước khi xuất bản.
-- ZIP website chứa nội dung công khai. Sao lưu thiết bị JSON có thể chứa ghi chú và kế hoạch riêng, không tải tệp đó lên thư mục web công khai.
-
-TRẢI NGHIỆM 5.0
-- Khám phá theo gu: chọn chủ đề, mục tiêu và thời gian ngay trên trang chủ.
-- Giải mã nhanh: chọn câu trả lời để mở lời giải và đọc cẩm nang liên quan.
-- Nút Giảm chuyển động nằm trong vùng hình chủ đạo; tùy chọn thiết bị và Dữ liệu & hiển thị cũng được tôn trọng.
-- Toàn bộ chức năng Studio, lịch nội dung, sao lưu và bàn biên tập vẫn có sẵn.
-
-TRẢI NGHIỆM 6.0
-- Bạn có 5 phút?: chọn chủ đề ngay ở đầu trang và đọc cẩm nang được gợi ý.
-- Khám phá theo nhu cầu: có bài nên đọc trước, 3 mục tiêu và nút sao chép liên kết lựa chọn.
-- Trạm thực hành: dist/thuc-hanh.html — 4 nhiệm vụ nối bài đọc với công cụ Studio.
-- Mở nhiệm vụ, đọc hướng dẫn, thử công cụ và tự đánh dấu điều đã làm.
-- Cẩm nang và Studio trong phiếu mở ở tab mới để giữ dấu chọn và ghi chép trên trang phiếu hiện tại.
-- Tải phiếu thực hành .txt trước khi đóng hoặc tải lại trang. Phiếu có thể chứa ghi chép cá nhân; giữ tệp riêng.
-- Cuối cẩm nang có đường sang nhiệm vụ thực hành và bài tiếp theo trong mạch đọc.
+VẬN HÀNH
+- Studio: dist/studio.html — prompt, tải tệp, UTM, rà soát, ảnh và kịch bản.
+- Kế hoạch: dist/dieu-hanh.html — bảng/lịch, giờ Việt Nam, xuất ICS/CSV; không tự đăng Facebook.
+- Bàn biên tập: dist/bien-tap.html — đổi thương hiệu, ảnh, cẩm nang, nguồn và liên kết bài Facebook.
+- Hướng dẫn đầy đủ: dist/huong-dan.html và README.md.
+- Nội dung khởi đầu là nội dung biên soạn cho website, không tự lấy từ Facebook.

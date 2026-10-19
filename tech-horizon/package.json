@@ -1,12 +1,13 @@
 {
   "name": "tech-horizon",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "private": true,
   "description": "Website độc lập của Tech Horizon, không cần cài thư viện",
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.cjs",
     "start": "node scripts/serve.mjs",
-    "prestart": "node scripts/build.mjs"
+    "prestart": "node scripts/build.mjs",
+    "pretest": "node scripts/build.mjs"
   }
 }

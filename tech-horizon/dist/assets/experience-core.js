@@ -45,6 +45,14 @@ function worksheet(data,id,{checks=[],note=''}={}){
  const origin=(C.url(data.config.siteUrl)||'').replace(/\/$/,''),prefix=origin?origin+'/':'';
  return 'TECH HORIZON — PHIẾU THỰC HÀNH\n\n'+m.title+'\n\nMỤC TIÊU\n'+m.outcome+'\n\nĐỌC ĐỂ HIỂU\n'+(m.articles.map(a=>'- '+a.title+' ('+a.minutes+' phút)\n  '+prefix+'bai-viet/'+a.id+'.html').join('\n')||'Chưa có cẩm nang phù hợp trong nội dung hiện tại.')+'\n\nVIỆC ĐỂ THỬ\n'+m.task+'\nCông cụ: '+prefix+'studio.html?mission='+m.id+'#'+m.tool+'\n\nTỰ ĐỐI CHIẾU\n'+m.checks.map((text,i)=>(checks.includes(i)?'[x] ':'[ ] ')+text).join('\n')+'\n\nĐIỀU TÔI MANG THEO\n'+note.trim()+'\n\n'+m.limit+'\nDấu chọn do bạn tự đánh giá, không phải kết quả kiểm tra tự động.\n';
 }
+function practiceState(value){
+ if(!value||value.version!==1||!value.entries||typeof value.entries!=='object'||Array.isArray(value.entries)||Object.keys(value.entries).length>missionSpecs.length)throw Error('Phiếu thực hành chưa đúng định dạng.');
+ const entries={};for(const[id,item]of Object.entries(value.entries)){
+  const spec=missionSpecs.find(m=>m.id===id);if(!spec||!item||typeof item.note!=='string'||item.note.length>2000||!Array.isArray(item.checks)||item.checks.length>spec.checks.length||item.checks.some(i=>!Number.isInteger(i)||i<0||i>=spec.checks.length)||typeof item.updated!=='string'||!Number.isFinite(Date.parse(item.updated)))throw Error('Ghi chép hoặc dấu chọn thực hành chưa hợp lệ.');
+  entries[id]={checks:[...new Set(item.checks)],note:item.note,updated:item.updated};
+ }return {version:1,entries};
+}
+function matchingTerms(article,data){const text=C.normalize(article.title+' '+article.takeaway+' '+article.sections.map(s=>s.text).join(' '));return (data.glossary||[]).filter(t=>{const word=C.normalize(t.term).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return word&&new RegExp('(^|[^a-z0-9])'+word+'(?=[^a-z0-9]|$)').test(text);}).slice(0,5);}
 function labs(data){const questions=[
  {id:'https',article:'https-khong-du-de-tin-tuong',topic:'AN TOÀN SỐ',question:'Một website có HTTPS. Bạn đã có thể tin mọi điều trên đó?',answers:['Có, biểu tượng khóa là đủ.','Chưa. Vẫn cần kiểm tra nguồn và nội dung.'],correct:1,explanation:'HTTPS bảo vệ kết nối giữa bạn và website. Nó không chứng minh rằng mọi lời hứa, thông tin hay người bán trên trang đều đáng tin.'},
  {id:'memory',article:'ram-va-bo-nho-luu-tru',topic:'THIẾT BỊ',question:'RAM và dung lượng lưu trữ có phải cùng một thứ?',answers:['Khác nhau: RAM giữ dữ liệu đang làm việc, ổ lưu trữ giữ tệp.','Giống nhau, chỉ là hai cách gọi.'],correct:0,explanation:'RAM là không gian làm việc tạm thời. SSD hoặc HDD giữ các tệp và phần mềm lâu dài. Hai thông số giải quyết những nhu cầu khác nhau.'},
@@ -52,5 +60,5 @@ function labs(data){const questions=[
  ];return questions.filter(q=>data.articles.some(a=>a.id===q.article));}
 function answer(questions,id,index){const q=questions.find(q=>q.id===id);if(!q||!Number.isInteger(index)||index<0||index>=q.answers.length)throw Error('Câu trả lời chưa hợp lệ.');return {correct:index===q.correct,explanation:q.explanation,article:q.article};}
 function pick(articles,index){if(!articles.length)return null;if(!Number.isInteger(index)||index<0)throw Error('Vị trí bài chưa hợp lệ.');return articles[index%articles.length];}
-const api={preferences,recommendations,availableTime,discoveryUrl,missions,missionForArticle,nextArticle,worksheet,labs,answer,pick};if(typeof module==='object'&&module.exports)module.exports=api;else root.THExperience=api;
+const api={preferences,recommendations,availableTime,discoveryUrl,missions,missionForArticle,nextArticle,worksheet,practiceState,matchingTerms,labs,answer,pick};if(typeof module==='object'&&module.exports)module.exports=api;else root.THExperience=api;
 })(typeof window!=='undefined'?window:globalThis);

@@ -57,6 +57,7 @@
       ids.add(a.id);
       if(typeof a.title!=='string' || !a.title.trim() || a.title.length>200) errors.push(label+'tiêu đề cần có 1–200 ký tự.');
       if(typeof a.excerpt!=='string' || a.excerpt.length>600 || typeof a.takeaway!=='string') errors.push(label+'mô tả hoặc tóm tắt không hợp lệ.');
+      if(a.imageAlt!==undefined&&(typeof a.imageAlt!=='string'||a.imageAlt.length>300))errors.push(label+'mô tả ảnh tối đa 300 ký tự.');
       if(!cats.has(a.category)) errors.push(label+'chuyên mục không tồn tại.');
       if(!/^\d{4}-\d{2}-\d{2}$/.test(a.date || '') || !Number.isFinite(Date.parse(a.date+'T00:00:00Z')) || new Date(a.date+'T00:00:00Z').toISOString().slice(0,10)!==a.date) errors.push(label+'ngày không hợp lệ.');
       if(!Number.isInteger(a.minutes) || a.minutes<1 || a.minutes>120) errors.push(label+'thời gian đọc phải từ 1 đến 120 phút.');
@@ -105,7 +106,12 @@ function image(value,maxBytes=400000){
     }
     return {saved,progress};
   }
-  const core={escape,normalize,url,storage,filter,validate,readerBackup,image};
+  function guardedSet(storage,key,value,expectedRaw){
+    let current;try{current=storage.getItem(key);}catch{throw Error('Trình duyệt chưa cho đọc bộ nhớ. Giữ bản sao trước khi rời trang.');}
+    if(current!==expectedRaw)throw Error('Dữ liệu đã thay đổi ở tab khác. Tải bản đang nhập trước khi đọc lại dữ liệu đã lưu.');
+    const raw=JSON.stringify(value);try{storage.setItem(key,raw);}catch{throw Error('Trình duyệt chặn lưu hoặc đã hết dung lượng. Thay đổi vẫn ở trên trang để bạn tải về.');}return raw;
+  }
+  const core={escape,normalize,url,storage,filter,validate,readerBackup,image,guardedSet};
   if(typeof module==='object' && module.exports)module.exports=core;
   else root.THCore=core;
 })(typeof window!=='undefined'?window:globalThis);

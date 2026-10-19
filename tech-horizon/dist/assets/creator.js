@@ -7,7 +7,7 @@ const D=C.storage.get('th-preview',false)&&validDraft?draft:original,base=docume
 if(page==='kit'&&D!==original&&window.THCreatorMarkup)document.querySelector('main.command-page').innerHTML=window.THCreatorMarkup.body(page,D,C,K);
 let toastTimer;function toast(text){const el=$('#toast');if(el){el.textContent=text;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),4500);}}
 function download(name,value,type='application/json;charset=utf-8'){const a=document.createElement('a'),blob=value instanceof Blob?value:new Blob([value],{type});a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),15000);}
-function applyPreferences(value){let p;try{p=K.preferences(value);}catch{p={motion:'system',scale:1,contrast:false};}const html=document.documentElement;html.dataset.motion=p.motion;html.dataset.contrast=String(p.contrast);html.style.setProperty('--ui-scale',p.scale);return p;}
+const applyPreferences=window.THApplyPreferences;
 const pref=applyPreferences(C.storage.get('th-preferences',null));
 document.querySelectorAll('.command-shortcuts a').forEach(a=>{if(a.getAttribute('href')===location.pathname.split('/').pop())a.setAttribute('aria-current','page');});
 const vietnamToday=()=>new Date(Date.now()+7*3600000).toISOString().slice(0,10);

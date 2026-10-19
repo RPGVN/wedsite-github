@@ -13,6 +13,6 @@ for(const directory of ['bai-viet','chuyen-muc']){
 for(const [relative,contents] of Object.entries(files)){const dest=path.join(out,relative);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,contents);}
 // Bundle only reusable files. Generated pages/data are built afresh by the same renderer in the editor.
 const reusable=['bien-tap.html',...fs.readdirSync(path.join(out,'assets')).filter(name=>!['package-assets.js','static-routes.js'].includes(name)).map(name=>'assets/'+name)];
-const bundle={version:6,files:Object.fromEntries(reusable.map(name=>[name,fs.readFileSync(path.join(out,name)).toString('base64')]))};
+const bundle={version:7,files:Object.fromEntries(reusable.map(name=>[name,fs.readFileSync(path.join(out,name)).toString('base64')]))};
 fs.writeFileSync(path.join(out,'assets/package-assets.js'),'window.TH_PACKAGE = '+JSON.stringify(bundle)+';\n');
 console.log('Built '+Object.keys(files).filter(f=>f.endsWith('.html')).length+' pages; '+reusable.length+' offline export assets. No dependencies.');

@@ -55,17 +55,20 @@ function prompt(input){
 function search(data,query,kind='all'){
  const q=C.normalize(query).replace(/[^a-z0-9]+/g,' ').trim(),terms=q.split(/\s+/).filter(Boolean);
  const records=[
-  ...data.articles.map(a=>({id:a.id,kind:'article',title:a.title,description:a.excerpt,category:a.category})),
+  ...data.articles.map(a=>({id:a.id,kind:'article',title:a.title,description:a.excerpt,category:a.category,_text:[a.takeaway,...a.sections.map(s=>s.heading+' '+s.text)].join(' ')})),
   ...(data.glossary||[]).map(t=>({id:t.id,kind:'term',title:t.term,description:t.definition})),
   ...(data.journeys||[]).map(j=>({id:j.id,kind:'journey',title:j.title,description:j.description})),
   ...catalog.map(t=>({...t,kind:'tool'})),
-  ...[{id:'dieu-hanh',title:'Trạm điều hành & kế hoạch nội dung',description:'Lập lịch bài viết, bảng tiến độ, xuất lịch ICS và CSV.'},{id:'du-lieu',title:'Dữ liệu & hiển thị',description:'Sao lưu, khôi phục dữ liệu và tùy chọn đọc.'},{id:'gioi-thieu',title:'Giới thiệu & hợp tác',description:'Hồ sơ kênh Tech Horizon và soạn đề xuất liên hệ.'},{id:'thuc-hanh',kind:'page',title:'Trạm thực hành',description:'Bốn nhiệm vụ: prompt AI, rà soát nguồn, chuẩn bị ảnh và thời gian tải tệp.'},
+  ...[{id:'thu-vien',title:'Thư viện cá nhân',description:'Bài đã lưu, tiến độ đọc, tìm và tải ghi chú trên trình duyệt.'},{id:'dieu-hanh',title:'Trạm điều hành & kế hoạch nội dung',description:'Lập lịch bài viết, bảng tiến độ, xuất lịch ICS và CSV.'},{id:'du-lieu',title:'Dữ liệu & hiển thị',description:'Sao lưu, khôi phục dữ liệu và tùy chọn đọc.'},{id:'gioi-thieu',title:'Giới thiệu & hợp tác',description:'Hồ sơ kênh Tech Horizon và soạn đề xuất liên hệ.'},{id:'thuc-hanh',kind:'page',title:'Trạm thực hành',description:'Bốn nhiệm vụ: prompt AI, rà soát nguồn, chuẩn bị ảnh và thời gian tải tệp.'},
  {id:'huong-dan',title:'Hướng dẫn sử dụng',description:'Thiết lập thương hiệu, biên tập và xuất bản website.'}].map(p=>({...p,kind:'page'}))
  ];
  const clean=s=>C.normalize(s).replace(/[^a-z0-9]+/g,' ');
- const ranked=records.filter(r=>kind==='all'||r.kind===kind).map((r,i)=>{const title=clean(r.title),body=clean(r.description),words=(title+' '+body).split(' ');const match=!q||terms.every(term=>words.some(word=>word.startsWith(term)));return {...r,_match:match,_rank:q?(title===q?1000:title.startsWith(q)?500:title.includes(q)?250:50):0,_index:i};});
- return ranked.filter(r=>r._match).sort((a,b)=>b._rank-a._rank||a._index-b._index).map(({_match,_rank,_index,...r})=>r);
+ const ranked=records.filter(r=>kind==='all'||r.kind===kind).map((r,i)=>{const title=clean(r.title),body=clean(r.description),words=(title+' '+body+' '+clean(r._text||'')).split(' ');const match=!q||terms.every(term=>words.some(word=>word.startsWith(term)));return {...r,_match:match,_rank:q?(title===q?1000:title.startsWith(q)?500:title.includes(q)?250:terms.every(term=>body.includes(term))?100:50):0,_index:i};});
+ return ranked.filter(r=>r._match).sort((a,b)=>b._rank-a._rank||a._index-b._index).map(({_match,_rank,_index,_text,...r})=>({...r,description:excerpt(q&&_rank===50&&_text?_text:r.description,query)}));
 }
+function folded(text){let value='',offset=0;const starts=[],ends=[];for(const char of String(text)){const plain=char.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[đĐ]/g,'d').toLowerCase();for(let i=0;i<plain.length;i++){value+=plain[i];starts.push(offset);ends.push(offset+char.length);}if(!plain&&ends.length)ends[ends.length-1]=offset+char.length;offset+=char.length;}return {value,starts,ends};}
+function highlight(text,query){const original=String(text),map=folded(original),terms=C.normalize(query).match(/[a-z0-9]+/g)||[],ranges=[];for(const term of new Set(terms)){let at=0;while((at=map.value.indexOf(term,at))!==-1){ranges.push([map.starts[at],map.ends[at+term.length-1]]);at+=term.length;}}ranges.sort((a,b)=>a[0]-b[0]);const merged=[];for(const range of ranges){const last=merged.at(-1);if(last&&range[0]<=last[1])last[1]=Math.max(last[1],range[1]);else merged.push([...range]);}let at=0,result='';for(const [start,end]of merged){result+=C.escape(original.slice(at,start))+'<mark>'+C.escape(original.slice(start,end))+'</mark>';at=end;}return result+C.escape(original.slice(at));}
+function excerpt(text,query,max=160){const original=String(text),map=folded(original),terms=C.normalize(query).match(/[a-z0-9]+/g)||[],hits=terms.map(term=>map.value.indexOf(term)).filter(i=>i>=0),match=hits.length?map.starts[Math.min(...hits)]:0,start=Math.max(0,original.lastIndexOf(' ',Math.max(0,match-45))+1),pieces=Array.from(original.slice(start)),cut=pieces.slice(0,max).join('');return (start?'… ':'')+cut+(pieces.length>max?'…':'');}
 const image=(value,maxBytes)=>C.image(value,maxBytes);
-const api={catalog,checks,transfer,duration,utm,prompt,search,image};if(typeof module==='object'&&module.exports)module.exports=api;else root.THWorkbench=api;
+const api={catalog,checks,transfer,duration,utm,prompt,search,image,highlight,excerpt};if(typeof module==='object'&&module.exports)module.exports=api;else root.THWorkbench=api;
 })(typeof window!=='undefined'?window:globalThis);

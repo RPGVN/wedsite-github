@@ -62,15 +62,20 @@ function backup(value,ids=[]){
  if(!value||value.type!=='tech-horizon-device'||value.version!==1||!Number.isFinite(Date.parse(value.exported))||!value.data||typeof value.data!=='object'||Array.isArray(value.data)||JSON.stringify(value).length>6000000)throw Error('Tệp không phải bản sao lưu thiết bị Tech Horizon hợp lệ (tối đa 6 MB văn bản).');
  const data={};for(const[k,v]of Object.entries(value.data)){if(!keys.includes(k))throw Error('Tệp chứa khóa ngoài dữ liệu Tech Horizon.');data[k]=validateEntry(k,v,ids);}return {type:value.type,version:1,exported:value.exported,data};
 }
-function restore(storage,value,selected=Object.keys(groups),ids=[]){
- const valid=backup(value,ids),allowed=new Set(selected.flatMap(g=>groups[g]||[])),entries=Object.entries(valid.data).filter(([k])=>allowed.has(k)),previous=new Map();
+function capture(storage,list=keys){
+ if(list.some(key=>!keys.includes(key)))throw Error('Khóa dữ liệu không được hỗ trợ.');
+ try{return Object.fromEntries([...new Set(list)].map(key=>[key,storage.getItem(key)]));}catch{throw Error('Chưa đọc được bộ nhớ để chuẩn bị thao tác. Giữ bản sao trước khi tiếp tục.');}
+}
+function restore(storage,value,selected=Object.keys(groups),ids=[],expected){
+ const valid=backup(value,ids),allowed=new Set(selected.flatMap(g=>groups[g]||[])),entries=Object.entries(valid.data).filter(([k])=>allowed.has(k));
  if(!entries.length)throw Error('Chọn ít nhất một nhóm có dữ liệu trong tệp.');
- for(const[k]of entries)previous.set(k,storage.getItem(k));
- try{for(const[k,v]of entries){if(v===null)storage.removeItem(k);else storage.setItem(k,JSON.stringify(v));}}
- catch(error){let rolledBack=true;for(const[k,v]of previous){try{if(v===null)storage.removeItem(k);else storage.setItem(k,v);}catch{rolledBack=false;}}throw Error(rolledBack?'Không đủ bộ nhớ hoặc trình duyệt chặn lưu. Đã hoàn lại dữ liệu trước thao tác.':'Không lưu/hoàn lại đầy đủ được dữ liệu. Giữ tệp sao lưu và kiểm tra dung lượng trình duyệt.');}
+ const previous=capture(storage,entries.map(([key])=>key)),written=[];
+ if(expected)for(const [key]of entries)if(!Object.hasOwn(expected,key)||previous[key]!==expected[key])throw Error('Dữ liệu nhóm đã chọn thay đổi sau khi chuẩn bị thao tác. Xem lại dữ liệu và mở lại bước xác nhận. Nếu khôi phục, chọn lại tệp sao lưu.');
+ try{for(const[key,value]of entries){if(storage.getItem(key)!==previous[key])throw Error('Dữ liệu đã thay đổi ở tab khác trong lúc ghi.');const raw=value===null?null:JSON.stringify(value);if(raw===null)storage.removeItem(key);else storage.setItem(key,raw);written.push([key,raw]);}}
+ catch(error){let rolledBack=true;for(const[key,ownRaw]of written.reverse()){try{if(storage.getItem(key)!==ownRaw){rolledBack=false;continue;}if(previous[key]===null)storage.removeItem(key);else storage.setItem(key,previous[key]);}catch{rolledBack=false;}}throw Error(rolledBack?'Chưa lưu được. Đã hoàn lại phần đã ghi trong lần thử này. '+error.message:'Chưa lưu/hoàn lại đầy đủ. Giữ bản sao và kiểm tra dữ liệu; thay đổi mới từ tab khác được giữ lại. '+error.message);}
  return entries.length;
 }
 function health(data){return [{label:'Nội dung website',ok:C.validate(data).length===0,detail:data.articles.length+' cẩm nang · '+data.categories.length+' chuyên mục'},{label:'Facebook chính thức',ok:!!C.url(data.config.facebookUrl,true),detail:data.config.facebookUrl?'Đã cấu hình đường dẫn':'Cần bổ sung URL trang chính xác'},{label:'Email công khai',ok:!!data.config.email,detail:data.config.email?'Đã điền email liên hệ':'Chưa bật liên hệ qua email'},{label:'Địa chỉ website',ok:!!C.url(data.config.siteUrl),detail:data.config.siteUrl||'Cần điền trước khi xuất bản'},{label:'Bài từ Facebook',ok:!!data.socialPosts?.length,detail:(data.socialPosts?.length||0)+' liên kết do bạn tuyển chọn'}];}
 function mediaKit(data){return data.config.name+'\n'+data.config.tagline+'\n\n'+data.config.description+'\n\nNỘI DUNG TRÊN WEBSITE\n'+data.articles.length+' cẩm nang · '+data.categories.length+' chuyên mục · '+(data.journeys?.length||0)+' lộ trình · '+(data.glossary?.length||0)+' thuật ngữ\n\nCHỦ ĐỀ\n'+data.categories.map(c=>'- '+c.name+': '+c.description).join('\n')+'\n\nKẾT NỐI\nWebsite: '+(data.config.siteUrl||'Chưa cấu hình')+'\nFacebook: '+(data.config.facebookUrl||'Chưa cấu hình')+'\nEmail: '+(data.config.email||'Chưa cấu hình')+'\n\nSố lượng trên chỉ phản ánh nội dung website, không phải số người theo dõi hoặc lượt tiếp cận Facebook.\n';}
-const api={stages,formats,groups,groupNames,keys,planner,localDate,monthCells,calendar,csv,metrics,cropGeometry,preferences,backup,restore,health,mediaKit};if(typeof module==='object'&&module.exports)module.exports=api;else root.THCreator=api;
+const api={stages,formats,groups,groupNames,keys,planner,localDate,monthCells,calendar,csv,metrics,cropGeometry,preferences,backup,restore,capture,health,mediaKit};if(typeof module==='object'&&module.exports)module.exports=api;else root.THCreator=api;
 })(typeof window!=='undefined'?window:globalThis);

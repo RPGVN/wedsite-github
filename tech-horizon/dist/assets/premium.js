@@ -8,6 +8,11 @@ const routes=new Set(window.TH_STATIC_ROUTES||[]),ids=new Set(A.map(a=>a.id));
 const articleUrl=a=>routes.has(a.id)?base+'bai-viet/'+a.id+'.html':base+'doc-bai.html?id='+encodeURIComponent(a.id);
 const category=a=>D.categories.find(c=>c.id===a.category)?.short||'Cẩm nang';
 const image=a=>C.image(a.customImage,250000)||base+'assets/'+a.image+'.svg';
+if(preview&&window.THEditorial){
+ const M=window.THEditorial;
+ if(page==='glossary'){const grid=$('#terms-grid');if(grid)grid.innerHTML=M.terms(D,C);const select=$('#term-category');if(select)select.innerHTML='<option value="all">Mọi chủ đề</option>'+D.categories.map(c=>'<option value="'+E(c.id)+'">'+E(c.name)+'</option>').join('');if($('.page-count'))$('.page-count').textContent=(D.glossary||[]).length+' thuật ngữ';}
+ if(page==='journeys'||page==='home'){const grid=page==='journeys'?$('.all-journeys'):$('#lo-trinh .journey-grid'),list=page==='journeys'?D.journeys||[]:(D.journeys||[]).slice(0,2);if(grid)grid.innerHTML=list.map((j,i)=>M.journeyCard(j,i,D,C,base,articleUrl)).join('');if(page==='journeys'&&$('.page-count'))$('.page-count').textContent=list.length+' lộ trình · '+D.articles.length+' cẩm nang';if(page==='home'&&$('#lo-trinh'))$('#lo-trinh').hidden=!list.length;}
+}
 let saved=[],savedBlocked=false,progress={},readerRaw=null,readerBlocked=false;
 try{saved=C.savedList(localStorage.getItem('th-saved')).filter(id=>ids.has(id));}catch{savedBlocked=true;}
 try{readerRaw=localStorage.getItem('th-progress');progress=C.readerBackup({type:'tech-horizon-reader',version:1,saved:[],progress:readerRaw?JSON.parse(readerRaw):{}},[...ids]).progress;}catch{readerBlocked=true;}

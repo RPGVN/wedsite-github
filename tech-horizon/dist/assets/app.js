@@ -102,7 +102,7 @@
    document.documentElement.style.removeProperty('--accent');if(theme==='dark'&&/^#[0-9a-f]{6}$/i.test(config.accent))document.documentElement.style.setProperty('--accent',config.accent);C.storage.set('th-theme',theme);toast(theme==='dark'?'Đã chuyển sang giao diện tối':'Đã chuyển sang giao diện sáng');
  }));
  const searchDialog=$('#search-dialog'),searchInput=$('#global-search');
- function renderSearch(){const results=C.filter(articles,{query:searchInput?.value||''}).slice(0,12);const target=$('#global-results');if(!target)return;target.innerHTML=results.length?results.map(a=>'<a class="search-result" href="'+E(articleUrl(a))+'"><img src="'+imageUrl(a)+'" alt="" width="70" height="48"><span><strong>'+E(a.title)+'</strong><small>'+E(cat(a).name)+' · '+a.minutes+' phút đọc</small></span></a>').join(''):'<p class="search-empty">Chưa có kết quả. Thử một từ khóa khác nhé.</p>';}
+ function renderSearch(){if(typeof window.THSearchRender==='function'){window.THSearchRender();return;}const results=C.filter(articles,{query:searchInput?.value||''}).slice(0,12);const target=$('#global-results');if(!target)return;target.innerHTML=results.length?results.map(a=>'<a class="search-result" href="'+E(articleUrl(a))+'"><img src="'+imageUrl(a)+'" alt="" width="70" height="48"><span><strong>'+E(a.title)+'</strong><small>'+E(cat(a).name)+' · '+a.minutes+' phút đọc</small></span></a>').join(''):'<p class="search-empty">Chưa có kết quả. Thử một từ khóa khác nhé.</p>';}
  function openSearch(){if(!searchDialog)return;renderSearch();if(!searchDialog.open)searchDialog.showModal();searchInput.focus();}
  searchInput?.addEventListener('input',renderSearch);
  $$('[data-open-search]').forEach(button=>button.addEventListener('click',openSearch));

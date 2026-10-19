@@ -1,6 +1,15 @@
-# Tech Horizon 8.0
+# Tech Horizon 9.0
 
 Website tiếng Việt của kênh Tech Horizon, dựa trên tên và thông điệp chủ kênh cung cấp. HTML/CSS/JavaScript chạy cục bộ hoặc trên hosting tĩnh; không cần cài thư viện hay khóa API.
+
+## Nâng cấp 9.0
+
+- Bản đồ khám phá có bốn ảnh chuyên mục đồng bộ (tổng 63.762 byte), giữ hình quỹ đạo và nhận diện TH. Trang chuyên mục có ảnh, số cẩm nang/thuật ngữ thực tế và một điểm bắt đầu từ bài đang có. Chuyên mục tự thêm dùng ảnh dự phòng.
+- Cẩm nang có chế độ Thẻ hoặc Danh sách; lựa chọn đi cùng bộ lọc trên URL. Mọi bài vẫn có HTML riêng để đọc khi JavaScript tắt.
+- Tìm kiếm tổng hợp tìm cả nội dung chính của cẩm nang, hiển thị đoạn liên quan và tô sáng từ khóa có/không dấu. Kết quả chia nhóm; dùng phím mũi tên, Home/End và Esc. Tô sáng vẫn xử lý nội dung nhập như văn bản. Tìm kiếm này chỉ lập chỉ mục nội dung công khai, không tìm trong ghi chú cá nhân.
+- Nguồn cuối bài có tên miền, liên kết gốc và lối tắt từ thanh công cụ đọc. Có tải bản đọc TXT gồm nội dung và nguồn của bài; ghi chú riêng vẫn xuất ở Thư viện. Website không tự xác minh tính chính xác hoặc tình trạng truy cập của nguồn.
+- Bàn biên tập có biểu mẫu tạo/sửa/xóa lộ trình và thuật ngữ. Chọn, đổi thứ tự bài trong lộ trình; thuật ngữ có định nghĩa và nguồn HTTPS. Mã trùng và liên kết bài không tồn tại bị chặn. Lưu bản nháp, xem trước và ZIP dùng cùng nội dung; phần đang nhập được đưa vào tệp phục hồi nếu lưu bị chặn.
+- Khôi phục cả thiết bị giữ ảnh chụp dữ liệu tại lúc xem tệp; nếu dữ liệu trong nhóm được chọn đã đổi, trang yêu cầu xem lại. Xóa nhóm cũng kiểm tra trước khi ghi. Khi lỗi, chỉ hoàn lại phần vẫn thuộc lần ghi đó, giữ thay đổi mới từ tab khác. Sáu nhóm sao lưu và bản sao cũ được giữ tương thích.
 
 ## Mở và chạy
 
@@ -109,6 +118,6 @@ python3 scripts/check-pages.py
 node scripts/check-export.mjs ./website-kiem-tra.zip
 ```
 
-66 kiểm thử Node đã đạt, gồm mô phỏng bộ điều khiển thư viện trong VM, bộ lọc ghi chú, phục hồi lỗi bộ nhớ và dữ liệu thay đổi giữa các tab. 35 HTML được kiểm tra tài nguyên, liên kết, neo, nhãn điều khiển, JSON-LD và SVG. ZIP kiểm tra xuất thêm một bài giả chỉ phục vụ QA, không dùng để xuất bản website chính thức. Chưa kiểm chứng trực quan hoặc thao tác thực tế trên trình duyệt vì môi trường hiện tại thiếu công cụ browser QA được hỗ trợ.
+85 kiểm thử Node đã đạt, gồm mô phỏng bộ điều khiển thư viện trong VM, bộ lọc ghi chú, phục hồi lỗi bộ nhớ và dữ liệu thay đổi giữa các tab. 35 HTML được kiểm tra tài nguyên, liên kết, neo, nhãn điều khiển, JSON-LD và SVG. ZIP kiểm tra xuất thêm một bài giả chỉ phục vụ QA, không dùng để xuất bản website chính thức. Chưa kiểm chứng trực quan hoặc thao tác thực tế trên trình duyệt vì môi trường hiện tại thiếu công cụ browser QA được hỗ trợ.
 
 Nguồn trong GitHub nằm ở `tech-horizon/`. Giữ bộ dựng dùng chung và thêm mọi phụ thuộc xuất vào trang biên tập/bundle nếu mở rộng tiếp. Bản này chưa có máy chủ đăng nhập, đồng bộ dữ liệu chung hoặc tự đăng Facebook.

@@ -49,6 +49,6 @@ test('All new assets and editor dependencies remain in the offline export source
  const files=R.build(D);assert.ok(files['tat-ca.html'].includes('data-page="catalog"'));for(const id of ['catalog-query','catalog-category','catalog-sort','catalog-status','catalog-reset'])assert.ok(files['tat-ca.html'].includes('id="'+id+'"'));
 });
 test('Private worksheets never enter generated public pages or public site data',()=>{
- const local={window:{},localStorage:{getItem:()=>JSON.stringify({version:1,entries:{'ai-ro-rang':{...record,note:'PRIVATE-PRACTICE-8361'}}})},URL,URLSearchParams};for(const file of ['core.js','workbench.js','studio-markup.js','creator-core.js','creator-markup.js','experience-core.js','experience-markup.js','renderer.js'])vm.runInNewContext(fs.readFileSync(require.resolve('../dist/assets/'+file),'utf8'),local);
+ const local={window:{},localStorage:{getItem:()=>JSON.stringify({version:1,entries:{'ai-ro-rang':{...record,note:'PRIVATE-PRACTICE-8361'}}})},URL,URLSearchParams};for(const file of ['core.js','workbench.js','studio-markup.js','creator-core.js','creator-markup.js','experience-core.js','experience-markup.js','editorial-markup.js','renderer.js'])vm.runInNewContext(fs.readFileSync(require.resolve('../dist/assets/'+file),'utf8'),local);
  for(const content of Object.values(local.window.THRenderer.build(D)))assert.ok(!content.includes('PRIVATE-PRACTICE-8361'));
 });

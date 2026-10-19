@@ -33,7 +33,7 @@ test('Reading order uses timestamps and remaining time while completed entries h
 });
 test('Notes TXT exports the current filtered collection, preserving text without adding it to URLs',()=>{
  const result=L.collection(D,[],{[first.id]:record(20,'Dòng riêng <script>\nCó tiếng Việt'),[second.id]:record(22,'không xuất')},{tab:'notes',query:'dong rieng'}),text=L.notesText(result.rows,D.config);
- assert.ok(text.includes('Dòng riêng <script>\nCó tiếng Việt'));assert.ok(!text.includes('không xuất'));assert.ok(text.includes('/bai-viet/'+first.id+'.html'));assert.ok(!text.includes('?query='));
+ assert.ok(text.includes('Dòng riêng <script>\nCó tiếng Việt'));assert.ok(!text.includes('không xuất'));assert.ok(text.includes('bai-viet/'+first.id+'.html'));assert.ok(!text.includes('?query='));
 });
 test('Public projection keeps every supported field, deeply clones and drops extra metadata at every level',()=>{
  const data=structuredClone(D);data.privateNote='PRIVATE-FOREIGN-934';data.config.session='PRIVATE-FOREIGN-934';data.articles[0].draftNote='PRIVATE-FOREIGN-934';data.articles[0].sections[0].note='PRIVATE-FOREIGN-934';data.articles[0].sources[0].token='PRIVATE-FOREIGN-934';data.journeys[0].notes='PRIVATE-FOREIGN-934';data.glossary[0].private='PRIVATE-FOREIGN-934';data.articles[0].imageAlt='Mô tả ảnh tiếng Việt';

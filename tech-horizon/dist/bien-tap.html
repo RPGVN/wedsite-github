@@ -5,13 +5,13 @@
   <meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark light">
   <title>Bàn biên tập — Tech Horizon</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/premium.css"><link rel="stylesheet" href="assets/studio.css"><link rel="stylesheet" href="assets/creator.css"><link rel="stylesheet" href="assets/experience.css"><link rel="stylesheet" href="assets/refinement.css">
-  <script src="site-data.js" defer></script><script src="assets/core.js" defer></script><script src="assets/workbench.js" defer></script><script src="assets/studio-markup.js" defer></script><script src="assets/creator-core.js" defer></script><script src="assets/creator-markup.js" defer></script><script src="assets/preferences.js" defer></script><script src="assets/creator.js" defer></script><script src="assets/quality-core.js" defer></script><script src="assets/experience-core.js" defer></script><script src="assets/experience-markup.js" defer></script><script src="assets/renderer.js" defer></script><script src="assets/zip.js" defer></script><script src="assets/package-assets.js" defer></script><script src="assets/editor.js" defer></script>
+  <script src="site-data.js" defer></script><script src="assets/core.js" defer></script><script src="assets/workbench.js" defer></script><script src="assets/studio-markup.js" defer></script><script src="assets/creator-core.js" defer></script><script src="assets/creator-markup.js" defer></script><script src="assets/preferences.js" defer></script><script src="assets/creator.js" defer></script><script src="assets/quality-core.js" defer></script><script src="assets/experience-core.js" defer></script><script src="assets/experience-markup.js" defer></script><script src="assets/editorial-markup.js" defer></script><script src="assets/renderer.js" defer></script><script src="assets/zip.js" defer></script><script src="assets/package-assets.js" defer></script><script src="assets/collections-editor.js" defer></script><script src="assets/editor.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Đến bàn biên tập</a>
   <header class="editor-header"><div class="container"><div><small>TECH HORIZON / DÀNH CHO CHỦ KÊNH</small><h1>Bàn biên tập của bạn.</h1></div><a class="button button-outline" href="index.html">← Về website</a></div></header>
   <main class="container editor-page" id="main">
-    <div class="editor-notice"><strong>Tech Horizon 8 — nắm rõ thay đổi trước khi đưa đến người đọc.</strong><br>Biên tập, xem bản nháp và đối chiếu bài thêm/sửa/xóa ở mục <b>Thay đổi & xuất bản</b>. Gói ZIP có đầy đủ trang và tài nguyên để mở hoặc tải lên hosting. Công cụ lưu trên trình duyệt, không tự cập nhật website online.</div>
+    <div class="editor-notice"><strong>Tech Horizon 9 — nắm rõ thay đổi trước khi đưa đến người đọc.</strong><br>Biên tập, xem bản nháp và đối chiếu bài thêm/sửa/xóa ở mục <b>Thay đổi & xuất bản</b>. Gói ZIP có đầy đủ trang và tài nguyên để mở hoặc tải lên hosting. Công cụ lưu trên trình duyệt, không tự cập nhật website online.</div>
     <nav class="editor-workspace-links" aria-label="Công cụ cho chủ kênh"><a href="dieu-hanh.html">Kế hoạch nội dung ↗</a><a href="studio.html#media">Chuẩn bị ảnh ↗</a><a href="du-lieu.html">Sao lưu thiết bị ↗</a><a href="huong-dan.html">Hướng dẫn đầy đủ ↗</a></nav><div class="editor-summary"><div><strong id="editor-stat-articles">0</strong><small>Cẩm nang trong bản nháp</small></div><div><strong id="editor-stat-categories">0</strong><small>Chuyên mục</small></div><div><strong id="editor-stat-terms">0</strong><small>Thuật ngữ</small></div><div><strong id="editor-stat-posts">0</strong><small>Liên kết Facebook</small></div></div>
     <div class="editor-layout">
       <aside class="editor-sidebar">
@@ -19,9 +19,10 @@
           <button role="tab" aria-selected="true" aria-controls="panel-config" id="tab-config" data-tab="config">01. Thông tin kênh</button>
           <button role="tab" aria-selected="false" aria-controls="panel-articles" id="tab-articles" data-tab="articles" tabindex="-1">02. Cẩm nang</button>
           <button role="tab" aria-selected="false" aria-controls="panel-social" id="tab-social" data-tab="social" tabindex="-1">03. Bài từ Facebook</button>
-          <button role="tab" aria-selected="false" aria-controls="panel-history" id="tab-history" data-tab="history" tabindex="-1">04. Lịch sử bản nháp</button>
-          <button role="tab" aria-selected="false" aria-controls="panel-review" id="tab-review" data-tab="review" tabindex="-1">05. Thay đổi & xuất bản</button>
-          <button role="tab" aria-selected="false" aria-controls="panel-help" id="tab-help" data-tab="help" tabindex="-1">06. Cách sử dụng</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-collections" id="tab-collections" data-tab="collections" tabindex="-1">04. Lộ trình & thuật ngữ</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-history" id="tab-history" data-tab="history" tabindex="-1">05. Lịch sử bản nháp</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-review" id="tab-review" data-tab="review" tabindex="-1">06. Thay đổi & xuất bản</button>
+          <button role="tab" aria-selected="false" aria-controls="panel-help" id="tab-help" data-tab="help" tabindex="-1">07. Cách sử dụng</button>
         </div>
         <div class="editor-export">
           <button class="button button-blue export-full" id="export-full-site">Xuất toàn bộ website ZIP ↗</button>
@@ -36,6 +37,29 @@
       </aside>
       <div>
         <aside id="editor-session-warning" class="editor-session-warning" hidden><strong>Giữ lại thay đổi đang nhập trước khi tiếp tục.</strong><p id="editor-session-description"></p><button class="button button-outline" type="button" id="export-editor-recovery">Tải bản đang nhập để phục hồi</button><a class="text-button" href="du-lieu.html">Mở dữ liệu & sao lưu ↗</a><p class="command-caption">Tệp phục hồi giữ cả biểu mẫu chưa lưu; giữ riêng và không đưa lên thư mục web công khai. Tệp này không nhập trực tiếp như bản sao lưu chuẩn.</p></aside><details class="editor-audit"><summary>Rà soát bản nháp đã lưu <span id="editor-audit-count"></span></summary><p>Kiểm tra cấu trúc và thông tin đang có. Chủ kênh vẫn cần mở nguồn và đối chiếu nội dung.</p><div id="editor-audit-results"></div></details><div id="editor-error" class="editor-error" role="alert" hidden></div>
+        <section class="editor-panel" role="tabpanel" aria-labelledby="tab-collections" id="panel-collections" hidden>
+          <span class="eyebrow">KẾT NỐI KIẾN THỨC</span><h2>Tạo một mạch đọc rõ ràng.</h2><p>Biên tập lộ trình từ cẩm nang đang có và giải thích thuật ngữ bằng lời của kênh. Đổi mã sẽ đổi neo trong liên kết đã chia sẻ.</p>
+          <section class="collection-editor-section"><div class="collection-section-heading"><h3>Lộ trình đọc</h3><button class="button button-outline" type="button" id="new-journey">+ Tạo lộ trình</button></div><div id="journey-editor-list" class="collection-editor-list"></div>
+            <form id="journey-form" class="editor-form">
+              <div class="field full"><label for="journey-title">Tên lộ trình</label><input id="journey-title" name="title" required maxlength="200"></div>
+              <div class="field"><label for="journey-id">Mã lộ trình</label><input id="journey-id" name="id" required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="120" placeholder="vi-du-lo-trinh"></div>
+              <div class="field"><label for="journey-category">Chuyên mục</label><select id="journey-category" name="category" required></select></div>
+              <div class="field full"><label for="journey-description">Điều người đọc sẽ hiểu</label><textarea id="journey-description" name="description" required maxlength="1000" rows="3"></textarea></div>
+              <div class="field full"><label for="journey-article-picker">Thêm bài vào lộ trình</label><div class="collection-picker"><select id="journey-article-picker"></select><button class="button button-outline" id="journey-add-article" type="button">Thêm bài</button></div><small id="journey-order-count" role="status">0 bài</small><ol id="journey-ordered-articles" class="journey-order-list"></ol></div>
+              <div class="form-actions"><button class="button button-blue" type="submit">Lưu lộ trình</button><button class="text-button" type="button" id="journey-delete" hidden>Xóa lộ trình</button><span class="editor-status" id="journey-status" role="status"></span></div>
+            </form>
+          </section>
+          <section class="collection-editor-section"><div class="collection-section-heading"><h3>Từ điển thuật ngữ</h3><button class="button button-outline" type="button" id="new-term">+ Thêm thuật ngữ</button></div><label class="sr-only" for="term-editor-query">Tìm thuật ngữ để chỉnh sửa</label><input class="collection-query" id="term-editor-query" type="search" maxlength="100" placeholder="Tìm tên hoặc định nghĩa…"><p class="command-caption" id="term-editor-count" role="status"></p><div id="term-editor-list" class="collection-editor-list term-editor-list"></div>
+            <form id="term-form" class="editor-form">
+              <div class="field"><label for="edit-term-name">Thuật ngữ</label><input id="edit-term-name" name="term" required maxlength="120"></div>
+              <div class="field"><label for="edit-term-id">Mã thuật ngữ</label><input id="edit-term-id" name="id" required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="120" placeholder="vi-du-thuat-ngu"></div>
+              <div class="field full"><label for="edit-term-definition">Giải thích ngắn gọn</label><textarea id="edit-term-definition" name="definition" required maxlength="1600" rows="5"></textarea></div>
+              <div class="field"><label for="edit-term-category">Chuyên mục</label><select id="edit-term-category" name="category" required></select></div>
+              <div class="field"><label for="edit-term-url">Nguồn đối chiếu HTTPS</label><input id="edit-term-url" name="url" type="url" required maxlength="2000" placeholder="https://…"><small>Mở tài liệu gốc và kiểm tra định nghĩa trước khi lưu.</small></div>
+              <div class="form-actions"><button class="button button-blue" type="submit">Lưu thuật ngữ</button><button class="text-button" type="button" id="term-delete" hidden>Xóa thuật ngữ</button><span class="editor-status" id="term-edit-status" role="status"></span></div>
+            </form>
+          </section>
+        </section>
         <section class="editor-panel" role="tabpanel" aria-labelledby="tab-review" id="panel-review" hidden>
           <span class="eyebrow">TỪ BẢN NHÁP TỚI NGƯỜI ĐỌC</span><h2 id="review-heading" tabindex="-1">Xem rõ điều sắp thay đổi.</h2><p>Đối chiếu bản nháp đã lưu với nội dung <code>site-data.js</code> đang mở. Trang không truy cập hosting để kiểm tra bản online.</p>
           <p class="review-pending" id="review-pending" role="status"></p><div class="review-actions"><button class="button button-outline" type="button" id="refresh-review">Lưu các biểu mẫu & cập nhật</button><button class="text-button" type="button" id="download-change-report">Tải bảng thay đổi TXT ↗</button></div>

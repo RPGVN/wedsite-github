@@ -46,14 +46,14 @@
     const ids=new Set();
     const cats=new Set();
     data.categories.forEach(cat=>{
-      if(!cat || !/^[a-z0-9-]+$/.test(cat.id || '') || cats.has(cat.id) || typeof cat.name!=='string' || !cat.name.trim()) errors.push('Chuyên mục không hợp lệ hoặc bị trùng.');
+      if(!cat || typeof cat.id!=='string' || cat.id.length>120 || !/^[a-z0-9-]+$/.test(cat.id || '') || cats.has(cat.id) || typeof cat.name!=='string' || !cat.name.trim()) errors.push('Chuyên mục không hợp lệ hoặc bị trùng.');
       if(cat)cats.add(cat.id);
     });
     const images=['ai','ai-check','chip','shield','storage','network','lock','browser'];
     data.articles.forEach((a,i)=>{
       const label='Bài '+(i+1)+': ';
       if(!a || typeof a!=='object') { errors.push(label+'không hợp lệ.'); return; }
-      if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(a.id || '') || ids.has(a.id)) errors.push(label+'mã bài không hợp lệ hoặc trùng.');
+      if(typeof a.id!=='string' || a.id.length>120 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(a.id || '') || ids.has(a.id)) errors.push(label+'mã bài không hợp lệ hoặc trùng.');
       ids.add(a.id);
       if(typeof a.title!=='string' || !a.title.trim() || a.title.length>200) errors.push(label+'tiêu đề cần có 1–200 ký tự.');
       if(typeof a.excerpt!=='string' || a.excerpt.length>600 || typeof a.takeaway!=='string') errors.push(label+'mô tả hoặc tóm tắt không hợp lệ.');
@@ -70,11 +70,11 @@
     });
     if(data.glossary!==undefined){
       if(!Array.isArray(data.glossary)||data.glossary.length>120)errors.push('Từ điển cần là danh sách tối đa 120 mục.');
-      else data.glossary.forEach(t=>{if(!t||!/^[a-z0-9-]+$/.test(t.id||'')||typeof t.term!=='string'||!t.term.trim()||typeof t.definition!=='string'||t.definition.length>1600||(t.url&&!url(t.url)))errors.push('Một thuật ngữ có nội dung hoặc liên kết không hợp lệ.');});
+      else {const termIds=new Set();data.glossary.forEach(t=>{if(!t||typeof t.id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(t.id||'')||t.id.length>120||termIds.has(t.id)||typeof t.term!=='string'||!t.term.trim()||t.term.length>120||typeof t.definition!=='string'||!t.definition.trim()||t.definition.length>1600||(t.category&&!cats.has(t.category))||(t.url&&!url(t.url)))errors.push('Một thuật ngữ có mã trùng, nội dung, chuyên mục hoặc liên kết không hợp lệ.');if(t)termIds.add(t.id);});}
     }
     if(data.journeys!==undefined){
       if(!Array.isArray(data.journeys)||data.journeys.length>12)errors.push('Tối đa 12 lộ trình đọc.');
-      else data.journeys.forEach(j=>{if(!j||!/^[a-z0-9-]+$/.test(j.id||'')||typeof j.title!=='string'||typeof j.description!=='string'||!Array.isArray(j.articles)||!j.articles.length||j.articles.some(id=>!ids.has(id)))errors.push('Lộ trình có bài viết không tồn tại hoặc thiếu thông tin.');});
+      else {const journeyIds=new Set();data.journeys.forEach(j=>{if(!j||typeof j.id!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(j.id||'')||j.id.length>120||journeyIds.has(j.id)||typeof j.title!=='string'||!j.title.trim()||j.title.length>200||typeof j.description!=='string'||j.description.length>1000||(j.category&&!cats.has(j.category))||!Array.isArray(j.articles)||!j.articles.length||j.articles.length>200||new Set(j.articles).size!==j.articles.length||j.articles.some(id=>!ids.has(id)))errors.push('Lộ trình có mã trùng, bài viết không tồn tại hoặc thiếu thông tin.');if(j)journeyIds.add(j.id);});}
     }
     if(data.socialPosts!==undefined){
       if(!Array.isArray(data.socialPosts)||data.socialPosts.length>30)errors.push('Tối đa 30 liên kết bài Facebook.');

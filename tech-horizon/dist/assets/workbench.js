@@ -59,7 +59,8 @@ function search(data,query,kind='all'){
   ...(data.glossary||[]).map(t=>({id:t.id,kind:'term',title:t.term,description:t.definition})),
   ...(data.journeys||[]).map(j=>({id:j.id,kind:'journey',title:j.title,description:j.description})),
   ...catalog.map(t=>({...t,kind:'tool'})),
-  ...[{id:'dieu-hanh',title:'Trạm điều hành & kế hoạch nội dung',description:'Lập lịch bài viết, bảng tiến độ, xuất lịch ICS và CSV.'},{id:'du-lieu',title:'Dữ liệu & hiển thị',description:'Sao lưu, khôi phục dữ liệu và tùy chọn đọc.'},{id:'gioi-thieu',title:'Giới thiệu & hợp tác',description:'Hồ sơ kênh Tech Horizon và soạn đề xuất liên hệ.'},{id:'huong-dan',title:'Hướng dẫn sử dụng',description:'Thiết lập thương hiệu, biên tập và xuất bản website.'}].map(p=>({...p,kind:'page'}))
+  ...[{id:'dieu-hanh',title:'Trạm điều hành & kế hoạch nội dung',description:'Lập lịch bài viết, bảng tiến độ, xuất lịch ICS và CSV.'},{id:'du-lieu',title:'Dữ liệu & hiển thị',description:'Sao lưu, khôi phục dữ liệu và tùy chọn đọc.'},{id:'gioi-thieu',title:'Giới thiệu & hợp tác',description:'Hồ sơ kênh Tech Horizon và soạn đề xuất liên hệ.'},{id:'thuc-hanh',kind:'page',title:'Trạm thực hành',description:'Bốn nhiệm vụ: prompt AI, rà soát nguồn, chuẩn bị ảnh và thời gian tải tệp.'},
+ {id:'huong-dan',title:'Hướng dẫn sử dụng',description:'Thiết lập thương hiệu, biên tập và xuất bản website.'}].map(p=>({...p,kind:'page'}))
  ];
  const clean=s=>C.normalize(s).replace(/[^a-z0-9]+/g,' ');
  const ranked=records.filter(r=>kind==='all'||r.kind===kind).map((r,i)=>{const title=clean(r.title),body=clean(r.description),words=(title+' '+body).split(' ');const match=!q||terms.every(term=>words.some(word=>word.startsWith(term)));return {...r,_match:match,_rank:q?(title===q?1000:title.startsWith(q)?500:title.includes(q)?250:50):0,_index:i};});

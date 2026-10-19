@@ -46,8 +46,4 @@ if(page==='studio'){
  $('#export-checklist').addEventListener('click',()=>download('Tech_Horizon_Ra_Soat_Truoc_Khi_Dang.txt','TECH HORIZON — TỰ RÀ SOÁT TRƯỚC KHI ĐĂNG\n\n'+W.checks.map(item=>(checked.has(item.id)?'[x] ':'[ ] ')+item.group+' — '+item.text).join('\n')+'\n\nDanh sách do bạn tự đánh dấu; không thay thế việc kiểm chứng hoặc đánh giá chuyên môn.\n'));
  renderChecks();
 }
-if(page==='article'||page==='dynamic-article'){
- const id=document.body.dataset.article||new URLSearchParams(location.search).get('id'),article=D.articles.find(a=>a.id===id),notebook=$('.reader-notebook');
- if(article&&notebook){const mapping={ai:'prompt',devices:'transfer',tips:'utm',safety:'publish'},tool=W.catalog.find(t=>t.id===mapping[article.category])||W.catalog[0];notebook.insertAdjacentHTML('beforebegin','<aside class="article-practice"><span class="practice-icon">✳</span><div><small>HIỂU RỒI, THỬ NGAY</small><strong>'+E(tool.title)+'</strong><p>'+E(tool.description)+'</p></div><a class="button button-outline" href="'+base+'studio.html#'+tool.id+'">Mở công cụ ↗</a></aside>');}
-}
 })();

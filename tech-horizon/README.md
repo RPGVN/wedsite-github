@@ -1,6 +1,15 @@
-# Tech Horizon 5.0
+# Tech Horizon 6.0
 
 Website tiếng Việt của kênh Tech Horizon, dựa trên tên, thông điệp và tông màu trong ảnh chủ kênh cung cấp. Chạy bằng HTML/CSS/JavaScript, không cần cài thư viện, cơ sở dữ liệu hoặc khóa API.
+
+## Nâng cấp trải nghiệm 6.0
+
+- **Bạn có 5 phút?** xuất hiện trong phần mở đầu trước ảnh trên điện thoại. Chọn chủ đề để mở ngay cẩm nang thật; nếu có bài đang đọc phù hợp, tiếp tục từ tiến độ trên thiết bị. Nếu không có bài dưới 5 phút, thời gian thực của bài ngắn nhất được ghi rõ.
+- **Gợi ý có thứ tự**: một bài nên đọc trước, hai góc nhìn khác và điều bạn mang theo từ mỗi bài. Ba mục tiêu Hiểu từ đầu / Thử làm ngay / Tránh nhầm lẫn có thứ tự biên tập riêng. Bộ lọc vẫn tôn trọng chủ đề và thời gian. Khi không có bài phù hợp, một nút chuyển sang mốc thời gian có bài thật.
+- **Chia sẻ lựa chọn**: sao chép liên kết mở đúng chủ đề, mục tiêu và thời gian, không kèm ghi chú, tiến độ hoặc bản nháp cá nhân.
+- **Trạm thực hành** (`dist/thuc-hanh.html`): bốn nhiệm vụ nối cẩm nang với Studio. Mỗi nhiệm vụ có mục tiêu, việc cần thử, ba mục tự đối chiếu và phiếu TXT chứa ghi chép của bạn. Dấu chọn/ghi chép chỉ ở lần mở trang hiện tại; cẩm nang và Studio mở ở tab mới để giữ phiếu. Tải TXT để lưu lâu dài. Phiếu không nằm trong bản sao lưu thiết bị.
+- **Mạch đọc và làm**: cuối mỗi bài có hướng thực hành và cẩm nang tiếp theo trong lộ trình nếu có. Studio nhận liên kết nhiệm vụ sẽ hiện lại hướng dẫn và đường trở về phiếu, giữ nguyên thông tin bạn đã nhập trong công cụ.
+- Bố cục mới cho gợi ý đọc, vùng nhiệm vụ, trang thực hành và các trạng thái trống; tăng cỡ chữ và vùng bấm trong các phần mới. Giữ hình chủ đạo, các đường dẫn, sáu công cụ Studio và mọi chức năng biên tập/sao lưu.
 
 ## Nâng cấp trải nghiệm 5.0
 
@@ -93,7 +102,7 @@ python3 scripts/check-pages.py
 
 `scripts/check-export.mjs` mô phỏng xuất website bằng chính bộ dựng và bộ ghi ZIP dùng ở bàn biên tập. Chương trình nhận đường dẫn ZIP tạm, thêm một bài kiểm tra rồi xuất để kiểm tra độc lập. Không dùng tệp kiểm tra này làm website chính thức.
 
-Bản 5 đã đạt 36 kiểm thử Node; 34 HTML của bản giao được kiểm tra tài nguyên, đường dẫn, mục lục, JSON-LD và SVG. ZIP mô phỏng thêm bài mới đã giải nén và kiểm tra độc lập thành công. Chưa kiểm tra trực quan hoặc thao tác thực tế bằng trình duyệt vì môi trường không có công cụ browser QA được hỗ trợ.
+Bản 6 đã đạt 42 kiểm thử Node; 35 HTML của bản giao được kiểm tra tài nguyên, đường dẫn, mục lục, JSON-LD và SVG. ZIP mô phỏng thêm bài mới đã giải nén và kiểm tra độc lập thành công. Chưa kiểm tra trực quan hoặc thao tác thực tế bằng trình duyệt vì môi trường không có công cụ browser QA được hỗ trợ.
 
 ## Triển khai
 

@@ -1,4 +1,4 @@
-TECH HORIZON 5.0 — MỞ WEBSITE
+TECH HORIZON 6.0 — MỞ WEBSITE
 
 1. Giải nén toàn bộ thư mục Tech_Horizon, không mở trực tiếp trong tệp ZIP.
 2. Mở index.html hoặc nhấp đúp MO_WEBSITE.bat trên Windows.
@@ -46,3 +46,12 @@ TRẢI NGHIỆM 5.0
 - Giải mã nhanh: chọn câu trả lời để mở lời giải và đọc cẩm nang liên quan.
 - Nút Giảm chuyển động nằm trong vùng hình chủ đạo; tùy chọn thiết bị và Dữ liệu & hiển thị cũng được tôn trọng.
 - Toàn bộ chức năng Studio, lịch nội dung, sao lưu và bàn biên tập vẫn có sẵn.
+
+TRẢI NGHIỆM 6.0
+- Bạn có 5 phút?: chọn chủ đề ngay ở đầu trang và đọc cẩm nang được gợi ý.
+- Khám phá theo nhu cầu: có bài nên đọc trước, 3 mục tiêu và nút sao chép liên kết lựa chọn.
+- Trạm thực hành: dist/thuc-hanh.html — 4 nhiệm vụ nối bài đọc với công cụ Studio.
+- Mở nhiệm vụ, đọc hướng dẫn, thử công cụ và tự đánh dấu điều đã làm.
+- Cẩm nang và Studio trong phiếu mở ở tab mới để giữ dấu chọn và ghi chép trên trang phiếu hiện tại.
+- Tải phiếu thực hành .txt trước khi đóng hoặc tải lại trang. Phiếu có thể chứa ghi chép cá nhân; giữ tệp riêng.
+- Cuối cẩm nang có đường sang nhiệm vụ thực hành và bài tiếp theo trong mạch đọc.

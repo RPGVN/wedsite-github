@@ -595,7 +595,7 @@ window.TECH_HORIZON = {
       "minutes": 4
     }
   ],
-  "version": 4,
+  "version": 5,
   "socialPosts": [],
   "journeys": [
     {

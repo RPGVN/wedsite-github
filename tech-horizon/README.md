@@ -1,8 +1,18 @@
-# Tech Horizon 4.0
+# Tech Horizon 5.0
 
 Website tiếng Việt của kênh Tech Horizon, dựa trên tên, thông điệp và tông màu trong ảnh chủ kênh cung cấp. Chạy bằng HTML/CSS/JavaScript, không cần cài thư viện, cơ sở dữ liệu hoặc khóa API.
 
+## Nâng cấp trải nghiệm 5.0
+
+- Trang chủ mới theo hướng tạp chí công nghệ: hình chủ đạo vòng kim loại/kính mở ra chân trời ánh sáng, bố cục chữ lớn và các liên kết nổi trên ảnh. Ảnh Runway được tối ưu WebP khoảng 64 KB; ảnh Canva dùng như một minh họa nhỏ trong thẻ góc Lab.
+- **Khám phá theo gu**: chọn chủ đề, mục tiêu tìm hiểu/thực hành và thời gian; gợi ý tối đa ba bài có thật, đúng giới hạn thời gian. Có một lựa chọn bài bất ngờ trong tập đang chọn, không đoán sở thích bằng AI và không ghi thêm dữ liệu cá nhân.
+- **Giải mã nhanh**: ba tình huống HTTPS, RAM/lưu trữ và kiểm chứng AI; bấm chọn để xem giải thích, mở cẩm nang và nguồn. Tiến độ ở trong lượt mở trang, không tạo bảng xếp hạng hay phản hồi cộng đồng giả.
+- Bố cục và chi tiết giao diện được làm mới cho cẩm nang, chuyên mục, lộ trình, Studio, thư viện và các trang quản lý. Điều hướng có hành động Khám phá khi chưa cấu hình Facebook.
+- Chuyển động nhẹ, phản hồi khi rê chuột và hiệu ứng khi nội dung vào màn hình; có nút Giảm chuyển động, tôn trọng tùy chọn của thiết bị và website. Nội dung vẫn nhìn thấy nếu hiệu ứng không chạy.
+- Giữ toàn bộ công cụ phiên bản 4, xuất ZIP và đường dẫn bài viết. Các ảnh/tệp chạy cục bộ trong gói; không thêm thư viện ngoài hoặc trình theo dõi.
+
 ## Nâng cấp 4.0
+
 
 - **Trạm điều hành** (`dist/dieu-hanh.html`): lập kế hoạch có dàn ý, nguồn, định dạng và ngày giờ Việt Nam; bảng 5 trạng thái; lịch tháng; lọc tìm kiếm; sửa, nhân bản, xóa. Xuất ICS tạo sự kiện 30 phút để bạn tự nhập vào ứng dụng lịch; xuất CSV giữ tiếng Việt. Lịch không tự đăng bài Facebook hoặc gửi nhắc việc.
 - **Studio 6 công cụ**: thêm chuẩn bị ảnh (PNG/JPEG/WebP, cắt giữa khung, 4 tỷ lệ, chiều rộng 64–2048 px, chất lượng tùy chọn) và ước tính thời lượng kịch bản. Ảnh đầu vào tối đa 15 MB / 40 megapixel; ảnh không gửi lên dịch vụ xử lý. Giữ trong suốt khi xuất PNG/WebP; nền trắng khi xuất JPEG. Canvas phụ thuộc trình duyệt, không thể tạo thêm chi tiết thật từ ảnh nhỏ.
@@ -83,13 +93,13 @@ python3 scripts/check-pages.py
 
 `scripts/check-export.mjs` mô phỏng xuất website bằng chính bộ dựng và bộ ghi ZIP dùng ở bàn biên tập. Chương trình nhận đường dẫn ZIP tạm, thêm một bài kiểm tra rồi xuất để kiểm tra độc lập. Không dùng tệp kiểm tra này làm website chính thức.
 
-Bản 4 đã đạt 31 kiểm thử Node; 34 HTML của bản giao được kiểm tra tài nguyên, đường dẫn, mục lục, JSON-LD và SVG. ZIP mô phỏng thêm bài mới đã giải nén và kiểm tra độc lập thành công. Chưa kiểm tra trực quan hoặc thao tác thực tế bằng trình duyệt vì môi trường không có công cụ browser QA được hỗ trợ.
+Bản 5 đã đạt 36 kiểm thử Node; 34 HTML của bản giao được kiểm tra tài nguyên, đường dẫn, mục lục, JSON-LD và SVG. ZIP mô phỏng thêm bài mới đã giải nén và kiểm tra độc lập thành công. Chưa kiểm tra trực quan hoặc thao tác thực tế bằng trình duyệt vì môi trường không có công cụ browser QA được hỗ trợ.
 
 ## Triển khai
 
 Tải nội dung `dist/` lên hosting web tĩnh, hoặc dùng thư mục website xuất từ bàn biên tập. Liên kết tương đối hỗ trợ triển khai trong thư mục con. Trong `RPGVN/wedsite-github`, mã này nằm ở `tech-horizon/`.
 
-GitHub Pages: chọn đúng nguồn xuất bản theo https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages. Bản Sites bàn giao giữ riêng tư; muốn mọi người truy cập, chọn hosting công khai hoặc thay đổi quyền truy cập Site theo lựa chọn của chủ kênh.
+GitHub Pages: chọn đúng nguồn xuất bản theo https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages. Quyền truy cập bản Sites do chủ kênh quản lý; bản hiện tại là công khai. Gói ZIP trên máy hoạt động độc lập với thiết lập chia sẻ này.
 
 ## Nội dung, hình ảnh và nguồn
 
@@ -110,3 +120,7 @@ Biểu trưng TH và 8 SVG được xây dựng cho website. Ảnh `dist/assets/
 ## Chạy từ mã nguồn GitHub
 
 Kho mã giữ các tệp nguồn riêng lẻ. Gói lớn `dist/assets/package-assets.js` được dựng tự động khi chạy `npm start`; không cần `npm install`. Có thể chạy `node scripts/build.mjs` rồi mở `index.html`. ZIP bàn giao đã có gói tài nguyên và mở trực tiếp được.
+
+## Tài nguyên trải nghiệm mới
+
+`experience-core.js` giữ gợi ý đọc và tình huống khám phá; `experience-markup.js` dựng khối trang chủ; `experience.js` nối tương tác; `experience.css` giữ hệ thống hình ảnh và chuyển động. Hero tạo qua Runway, từ mô tả vòng titanium/kính trên nền xanh đêm, ánh sáng cyan và một điểm nhấn coral, không chữ hoặc logo. Minh họa AI nhỏ tạo qua Canva: khối kính chứa nút mạng thần kinh bạc cùng một quả cầu kim loại. Canva: https://www.canva.com/M/MAHYa3kWeWw?utm_source=OC-AaBlKrqBJJNF&utm_campaign=agent_connector_create_image_asset_opened .

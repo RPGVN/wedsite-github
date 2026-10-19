@@ -7,13 +7,13 @@
  let D=stored&&C.validate(stored).length===0?stored:clone(original);
  if((D.version||1)<2){const existing=new Set(D.articles.map(a=>a.id));D.articles.push(...original.articles.filter(a=>!existing.has(a.id)));const known=new Set(D.articles.map(a=>a.id));D.glossary=D.glossary||clone(original.glossary||[]);D.journeys=(D.journeys||clone(original.journeys||[])).map(j=>({...j,articles:j.articles.filter(id=>known.has(id))})).filter(j=>j.articles.length);D.version=2;}
  D.socialPosts=D.socialPosts||[];
- D.version=4;
+ D.version=5;
  let configImages={logoImage:D.config.logoImage||'',heroImage:D.config.heroImage||''},articleImageData='',historyFailed=false;
  let postsDraft=clone(D.socialPosts),postsDirty=false;
  let currentId='',active='config',configDirty=false,articleDirty=false;
  try{const theme=C.storage.get('th-theme','dark');if(theme==='light')document.documentElement.dataset.theme='light';}catch{}
  function error(messages){const box=$('#editor-error');box.textContent=Array.isArray(messages)?messages.join('\n'):messages;box.hidden=!box.textContent;if(!box.hidden)box.scrollIntoView({behavior:'smooth',block:'center'});}
- function persist(candidate=D){candidate.version=4;const errors=C.validate(candidate);if(errors.length){error(errors);return false;}const previous=clone(D),changed=JSON.stringify(D)!==JSON.stringify(candidate);if(!C.storage.set('th-draft',candidate)){error('Trình duyệt đang chặn bộ nhớ hoặc đã hết dung lượng. Chưa lưu được bản nháp.');return false;}D=candidate;if(changed){let snapshots=[{id:String(Date.now()),when:new Date().toISOString(),data:previous},...historyItems()].slice(0,3);while(snapshots.length&&JSON.stringify(snapshots).length>700000)snapshots.pop();historyFailed=!C.storage.set('th-editor-history',snapshots);}error('');updateDashboard();renderHistory();return true;}
+ function persist(candidate=D){candidate.version=5;const errors=C.validate(candidate);if(errors.length){error(errors);return false;}const previous=clone(D),changed=JSON.stringify(D)!==JSON.stringify(candidate);if(!C.storage.set('th-draft',candidate)){error('Trình duyệt đang chặn bộ nhớ hoặc đã hết dung lượng. Chưa lưu được bản nháp.');return false;}D=candidate;if(changed){let snapshots=[{id:String(Date.now()),when:new Date().toISOString(),data:previous},...historyItems()].slice(0,3);while(snapshots.length&&JSON.stringify(snapshots).length>700000)snapshots.pop();historyFailed=!C.storage.set('th-editor-history',snapshots);}error('');updateDashboard();renderHistory();return true;}
  function status(message){$('#global-status').textContent=message;}
  function updateDashboard(){
   $('#editor-stat-articles').textContent=D.articles.length;$('#editor-stat-categories').textContent=D.categories.length;$('#editor-stat-terms').textContent=D.glossary?.length||0;$('#editor-stat-posts').textContent=D.socialPosts?.length||0;
@@ -150,5 +150,5 @@
  $('#upload-article-image').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{articleImageData=await readImage(file,250000);articleDirty=true;$('#editor-image-preview').src=articleImageData;$('#article-status').textContent='Đã chọn ảnh riêng. Nhấn Lưu bản nháp.';error('');}catch(err){error(err.message);}finally{e.target.value='';}});
  $('#clear-article-image').addEventListener('click',()=>{articleImageData='';articleDirty=true;$('#editor-image-preview').src='assets/'+$('#article-image').value+'.svg';$('#article-status').textContent='Đã chọn minh họa có sẵn. Nhấn Lưu bản nháp.';});
  $$('[data-accent]').forEach(button=>button.addEventListener('click',()=>{$('#config-accent').value=button.dataset.accent;configDirty=true;$('#config-status').textContent='Đã chọn màu nhấn. Nhấn Lưu bản nháp.';}));
- fillConfig();renderList();fillArticle(D.articles[0]);renderPosts();updateDashboard();renderHistory();status(stored?'Đã mở bản nháp lưu trên trình duyệt.':'Đã mở dữ liệu website phiên bản 4.');
+ fillConfig();renderList();fillArticle(D.articles[0]);renderPosts();updateDashboard();renderHistory();status(stored?'Đã mở bản nháp lưu trên trình duyệt.':'Đã mở dữ liệu website phiên bản 5.');
 })();

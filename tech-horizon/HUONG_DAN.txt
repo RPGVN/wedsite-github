@@ -1,4 +1,4 @@
-TECH HORIZON 4.0 — MỞ WEBSITE
+TECH HORIZON 5.0 — MỞ WEBSITE
 
 1. Giải nén toàn bộ thư mục Tech_Horizon, không mở trực tiếp trong tệp ZIP.
 2. Mở index.html hoặc nhấp đúp MO_WEBSITE.bat trên Windows.
@@ -6,7 +6,7 @@ TECH HORIZON 4.0 — MỞ WEBSITE
 
 STUDIO VÀ BIÊN TẬP
 
-Mở mục Studio để dùng bốn công cụ thực hành.
+Mở mục Studio để dùng sáu công cụ thực hành.
 Bàn biên tập cho phép đổi logo, ảnh bìa, ảnh bài và khôi phục bản nháp đã lưu.
 Ảnh cần là PNG/JPEG/WebP trong giới hạn ghi trên biểu mẫu.
 
@@ -40,3 +40,9 @@ NÂNG CẤP 4.0
 - Hướng dẫn chi tiết: dist/huong-dan.html.
 - Điền URL Facebook và email công khai chính xác trong Bàn biên tập trước khi xuất bản.
 - ZIP website chứa nội dung công khai. Sao lưu thiết bị JSON có thể chứa ghi chú và kế hoạch riêng, không tải tệp đó lên thư mục web công khai.
+
+TRẢI NGHIỆM 5.0
+- Khám phá theo gu: chọn chủ đề, mục tiêu và thời gian ngay trên trang chủ.
+- Giải mã nhanh: chọn câu trả lời để mở lời giải và đọc cẩm nang liên quan.
+- Nút Giảm chuyển động nằm trong vùng hình chủ đạo; tùy chọn thiết bị và Dữ liệu & hiển thị cũng được tôn trọng.
+- Toàn bộ chức năng Studio, lịch nội dung, sao lưu và bàn biên tập vẫn có sẵn.
